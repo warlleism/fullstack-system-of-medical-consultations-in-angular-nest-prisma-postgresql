@@ -1,0 +1,2 @@
+DATABASE_URL="postgresql://postgres:root@localhost:5432/drs_consultas"
+JWT_PASS=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9

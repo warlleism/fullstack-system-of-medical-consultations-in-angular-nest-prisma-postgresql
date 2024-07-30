@@ -1,0 +1,29 @@
+<div class="auth-main-form-container">
+    <div class="auth-container-form-container">
+
+        <div class="image-container"></div>
+
+        <form class="auth-form-container" #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+            <div class="auth-title">Bem-vindo!</div>
+            <div class="auth-inputs-container">
+                <div class="auth-input-full-width">
+                    <input matInput type="email" name="email" ngModel matInput />
+                    <div class="label">E-mail</div>
+                </div>
+
+                <div class="auth-input-full-width">
+                    <input type="password" name="password" ngModel matInput />
+                    <div class="label">Senha</div>
+                </div>
+
+                <div style="color: rgba(0, 0, 0, 0.473); cursor: pointer;">Esqueceu sua senha?</div>
+
+                <button class="auth-btn-login" type="submit" mat-fab extended>
+                    <mat-icon>login</mat-icon>
+                    Entrar
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
