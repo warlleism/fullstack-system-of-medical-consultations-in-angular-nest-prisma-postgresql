@@ -1,29 +1,30 @@
 <div class="auth-main-form-container">
     <div class="auth-container-form-container">
-
         <div class="image-container"></div>
-
         <form class="auth-form-container" #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
             <div class="auth-title">Bem-vindo!</div>
             <div class="auth-inputs-container">
-                <div class="auth-input-full-width">
-                    <input matInput type="email" name="email" ngModel matInput />
-                    <div class="label">E-mail</div>
+                <div class="auth-second-title">
+                    conexte-se com o <div>Consultify</div>
                 </div>
-
                 <div class="auth-input-full-width">
-                    <input type="password" name="password" ngModel matInput />
-                    <div class="label">Senha</div>
+                    <input (ngModelChange)="onInputChange($event, 'email')" matInput type="email" name="email" ngModel
+                        matInput />
+                    <div class="label" id="email">E-mail</div>
                 </div>
-
+                <div class="auth-input-full-width">
+                    <input (ngModelChange)="onInputChange($event, 'password')" type="password" name="password" ngModel
+                        matInput />
+                    <div class="label" id="password">Senha</div>
+                </div>
                 <div style="color: rgba(0, 0, 0, 0.473); cursor: pointer;">Esqueceu sua senha?</div>
-
                 <button class="auth-btn-login" type="submit" mat-fab extended>
-                    <mat-icon>login</mat-icon>
-                    Entrar
+                    <mat-icon *ngIf="!isLoading">login</mat-icon>
+                    <p-progressSpinner *ngIf="isLoading" [style]="{  'width': '30px', 'height': '30px'}"
+                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s" ariaLabel="loading" />
+                    <div *ngIf="!isLoading">Entrar</div>
                 </button>
             </div>
         </form>
-
     </div>
 </div>

@@ -10,7 +10,19 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string) {
-    return this.http.post(this.url, { email, password })
+  login(form: any) {
+    this.http.post('http://localhost:3000/auth/login', form.value).subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 201) {
+          alert('Usuário autorizado com sucesso!');
+        }
+      },
+      error: (err: any) => {
+        console.log(err)
+        const errorMessage = err.error?.error || 'Usuário não autorizado!';
+        alert(errorMessage);
+      }
+    });
   }
+
 }

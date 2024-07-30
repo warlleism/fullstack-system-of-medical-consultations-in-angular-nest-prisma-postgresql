@@ -33,8 +33,9 @@
             background-color: #ffffff;
 
             .auth-title {
+                letter-spacing: -.7px;
                 font-size: 1.6rem;
-                color: rgba(0, 0, 0, 0.76);
+                color: rgba(0, 0, 0, 0.74);
                 font-weight: 900;
                 font-family: "Playwrite AR", cursive;
             }
@@ -47,7 +48,21 @@
                 flex-direction: column;
                 border-radius: 5px;
                 justify-content: center;
-                gap: 30px;
+                gap: 20px;
+
+                .auth-second-title {
+                    display: flex;
+                    gap: 4px;
+                    color: rgba(0, 0, 0, 0.466);
+                    font-size: 1.2rem;
+                    letter-spacing: -1px;
+                    font-weight: 500;
+
+                    div {
+                        font-weight: 700;
+                        color: #FF007B;
+                    }
+                }
 
 
                 .auth-input-full-width {
@@ -83,23 +98,23 @@
                         pointer-events: none;
                         position: absolute;
                         transition: .1s ease-in-out;
-                        border: solid 1px transparent;
+                    }
 
+                    .active {
+                        position: absolute;
+                        top: -17px;
+                        color: #161616b9;
+                        background-color: #ffffff;
                     }
                 }
 
-                .auth-input-full-width input:focus+.label {
-                    top: -26px;
-                    color: #16161665;
-                    background-color: #fff;
-                    border: solid 1px #0000003f;
-                    border-bottom: solid 1px #fff;
-                }
-
                 .auth-btn-login {
-                    color: #ffffff;
                     width: 60%;
+                    display: flex;
+                    color: #ffffff;
+                    align-items: center;
                     border-radius: 100px;
+                    justify-content: center;
                     background-color: #84a9b3;
                 }
             }
@@ -108,3 +123,4 @@
         }
     }
 }
+
