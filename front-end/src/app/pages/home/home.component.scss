@@ -1,0 +1,204 @@
+.container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  background-color: #84a9b3;
+  justify-content: space-between;
+}
+
+.header {
+  background-color: #0d1214;
+  color: #fff;
+  padding: 1rem;
+  height: 9%;
+
+  h1 {
+    margin: 0 auto;
+    width: 140px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 800;
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: "Playwrite AR", cursive;
+  }
+
+}
+
+.main-content {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  height: 85%;
+
+  .sidebar {
+    display: flex;
+    width: 370px;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: space-between;
+    border-top-right-radius: 20px;
+    box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.171);
+
+    .profile-container {
+      display: flex;
+      padding: 20px;
+      height: 20%;
+      align-items: center;
+      box-sizing: border-box;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #0d1214;
+      border-top-right-radius: 20px;
+
+      .name {
+        font-size: .7rem;
+        color: #fff;
+      }
+
+      .email {
+        font-size: .8rem;
+        color: #ffffffa5;
+        letter-spacing: -.8px;
+      }
+
+      .user-active {
+        font-size: .8rem;
+        color: #ffffffa5;
+        letter-spacing: -.8px;
+      }
+
+      .mat-icon {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        color: #fff;
+        font-size: 3rem;
+
+      }
+    }
+
+    .list-links-container {
+      height: 75%;
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: column;
+
+      .cdk-virtual-scroll-viewport::-webkit-scrollbar {
+        width: 5px;
+        background-color: transparent; 
+      }
+      
+      .cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb {
+        background-color: #888; 
+        border-radius: 10px; 
+      }
+      
+      .cdk-virtual-scroll-viewport::-webkit-scrollbar-track {
+        background-color: #f1f1f1; 
+      }
+     
+
+    }
+
+    ::ng-deep .mat-expansion-indicator svg {
+      fill: #0d1214;
+      background-color: #014b5828;
+      border-radius: 100px;
+    }
+
+
+    .custom-list {
+      margin-bottom: 15px;
+      background-color: transparent;
+
+      .title-container {
+        color: #0d1214;
+        font-size: 1.2rem;
+      }
+    }
+
+    .custom-list:hover {
+      background-color: #e3e9eb;
+
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      box-sizing: border-box;
+      padding: 10px;
+      border-radius: 5px;
+      transition: .5s ease-in-out;
+    }
+
+    a {
+      display: flex;
+      font-size: 1rem;
+      margin-left: 5px;
+      font-weight: 500;
+      color: #001f27ad;
+      align-items: center;
+      text-decoration: none;
+      transition: .2s ease-in-out;
+      justify-content: space-between;
+    }
+
+    a:hover {
+      color: #001f27;
+    }
+
+    .active {
+      color: #0d1214;
+    }
+
+    .logout {
+      display: flex;
+      box-sizing: border-box;
+      padding: 30px;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 7%;
+      z-index: 999;
+      background-color: #0d1214;
+
+      div {
+        letter-spacing: 2px;
+        font-weight: 800;
+        color: #fff;
+        font-family: "Playwrite AR", cursive;
+      }
+
+      mat-icon {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        font-size: 2rem;
+        color: #fff;
+      }
+    }
+  }
+
+  .content {
+    width: 50vw;
+    padding: 1rem;
+    height: 90%;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.171);
+  }
+}

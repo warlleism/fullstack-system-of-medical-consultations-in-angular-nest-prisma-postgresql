@@ -1,1 +1,125 @@
-<p>home works!</p>
+<div class="container">
+  <header class="header">
+    <h1>Consultify</h1>
+  </header>
+
+  <div class="main-content">
+
+    <nav class="sidebar">
+
+      <div class="profile-container">
+        <mat-icon>account_circle</mat-icon>
+        <div class="name">Warllei Martins</div>
+        <div class="email">warllei.s.martins&#64;hotmail.com</div>
+        <div class="user-active">usuário ativo</div>
+      </div>
+
+      <div class="list-links-container">
+        <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
+          <mat-accordion>
+            <mat-expansion-panel style="transition: .1s ease-in-out; box-shadow: none; margin-top: 20px;"
+              class="custom-list" [ngStyle]="{'border-radius': getBorderRadius('doctors')}"
+              (opened)="panelStates.doctors.set(true)" (closed)="panelStates.doctors.set(false)">
+              <mat-expansion-panel-header>
+                <mat-panel-description class="title-container">
+                  Doutores(a)
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ul>
+                <li>
+                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === 'cadastro-especialista'}"
+                    (click)="setLink('cadastro-especialista')">
+                    Cadastro de doutor(a)
+                    <mat-icon style="font-size: 1.3rem; color: #008889;"
+                      *ngIf="link === 'cadastro-especialista'">radio_button_checked</mat-icon>
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === 'cadastro-doutores'}"
+                    (click)="setLink('cadastro-doutores')">
+                    Visualizar doutores(a)
+                    <mat-icon style="font-size: 1.3rem; color: #008889;"
+                      *ngIf="link === 'cadastro-doutores'">radio_button_checked</mat-icon>
+                  </a>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+
+          <mat-accordion>
+            <mat-expansion-panel style="transition: .1s ease-in-out; box-shadow: none;" class="custom-list"
+              [ngStyle]="{'border-radius': getBorderRadius('patients')}" (opened)="panelStates.patients.set(true)"
+              (closed)="panelStates.patients.set(false)">
+              <mat-expansion-panel-header>
+                <mat-panel-description class="title-container">
+                  Pacientes
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ul>
+                <li>
+                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === 'cadastro-paciente'}"
+                    (click)="setLink('cadastro-paciente')">
+                    Cadastro de paciente
+                    <mat-icon style="font-size: 1.3rem; color: #008889;"
+                      *ngIf="link === 'cadastro-paciente'">radio_button_checked</mat-icon>
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === 'visualizar-paciente'}"
+                    (click)="setLink('visualizar-paciente')">
+                    Visualizar pacientes
+                    <mat-icon style="font-size: 1.3rem; color: #008889;"
+                      *ngIf="link === 'visualizar-paciente'">radio_button_checked</mat-icon>
+
+                  </a>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+
+          <mat-accordion>
+            <mat-expansion-panel style="transition: .1s ease-in-out; box-shadow: none;" class="custom-list"
+              [ngStyle]="{'border-radius': getBorderRadius('appointments')}"
+              (opened)="panelStates.appointments.set(true)" (closed)="panelStates.appointments.set(false)">
+              <mat-expansion-panel-header>
+                <mat-panel-description class="title-container">
+                  Consultas
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ul>
+                <li>
+                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === 'cadastro-consulta'}"
+                    (click)="setLink('cadastro-consulta')">
+                    Cadastro de consulta
+                    <mat-icon style="font-size: 1.3rem; color: #008889;"
+                      *ngIf="link === 'cadastro-consulta'">radio_button_checked</mat-icon>
+
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === 'visualizar-consultas'}"
+                    (click)="setLink('visualizar-consultas')">
+                    Visualizar consultas
+                    <mat-icon style="font-size: 1.3rem; color: #008889;"
+                      *ngIf="link === 'visualizar-consultas'">radio_button_checked</mat-icon>
+                  </a>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </cdk-virtual-scroll-viewport>
+      </div>
+
+      <div class="logout">
+        <mat-icon>account_circle</mat-icon>
+        <div>Consultify</div>
+        <mat-icon>logout</mat-icon>
+      </div>
+    </nav>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>
