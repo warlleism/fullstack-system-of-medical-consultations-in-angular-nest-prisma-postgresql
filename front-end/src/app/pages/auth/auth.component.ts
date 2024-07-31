@@ -28,19 +28,19 @@ export class AuthComponent {
 
   onInputChange(value: string, field: string) {
 
-    const textField = field === 'email' ? this.email = value : this.password = value;
-    const domItem = field === 'email' ? document.getElementById('email') : document.getElementById('password');
+    const setValue = field === 'email' ? this.email = value : this.password = value
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
 
-    if (domItem) {
-      if (this.email.length > 0 || this.password.length > 0) {
-        domItem.classList.add('active');
-      } else {
-        domItem.classList.remove('active');
-      }
+    if (emailInput) {
+      this.email.trim().length > 0 ? emailInput.classList.add('active') : emailInput.classList.remove('active');
     }
 
-    console.log(this.email.length, this.password.length)
+    if (passwordInput) {
+      this.password.trim().length > 0 ? passwordInput.classList.add('active') : passwordInput.classList.remove('active');
+    }
   }
+
 
 
   onSubmit(form: any) {
