@@ -1,27 +1,48 @@
 <div class="auth-main-form-container">
     <div class="auth-container-form-container">
         <div class="image-container"></div>
-        <form class="auth-form-container" #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
             <div class="auth-title">Bem-vindo!</div>
             <div class="auth-inputs-container">
                 <div class="auth-second-title">
-                    conexte-se com o <div>Consultify</div>
+                    Conecte-se com o <div>Consultify</div>
                 </div>
-                <div class="auth-input-full-width">
-                    <input (ngModelChange)="onInputChange($event, 'email')" matInput type="email" name="email" ngModel
-                        matInput />
-                    <div class="label" id="email">E-mail</div>
+                
+                <div style="width: 80%; height: 100px;">
+                    <div class="auth-input-full-width">
+                        <input formControlName="email" type="email" class="form-control"
+                            [ngClass]="{ 'is-invalid': authForm.get('email')?.invalid && (authForm.get('email')?.touched || authForm.get('email')?.dirty) }" />
+                        <div class="label" id="email">E-mail</div>
+                    </div>
+                    <div *ngIf="authForm.get('email')?.invalid && (authForm.get('email')?.touched || authForm.get('email')?.dirty)"
+                        class="invalid-feedback">
+                        <div class="error-container" *ngIf="authForm.get('email')?.errors?.['required']">Email é obrigatório.</div>
+                        <div class="error-container" *ngIf="authForm.get('email')?.errors?.['email']">Por favor, insira um email válido.</div>
+                    </div>
                 </div>
-                <div class="auth-input-full-width">
-                    <input (ngModelChange)="onInputChange($event, 'password')" type="password" name="password" ngModel
-                        matInput />
-                    <div class="label" id="password">Senha</div>
+
+                <div style="width: 80%; height: 100px;">
+                    <div class="auth-input-full-width">
+                        <input formControlName="password" type="password" class="form-control"
+                            [ngClass]="{ 'is-invalid': authForm.get('password')?.invalid && (authForm.get('password')?.touched || authForm.get('password')?.dirty) }" />
+                        <div class="label" id="password">Senha</div>
+                    </div>
+                    <div *ngIf="authForm.get('password')?.invalid && (authForm.get('password')?.touched || authForm.get('password')?.dirty)"
+                        class="invalid-feedback">
+                        <div class="error-container" *ngIf="authForm.get('password')?.errors?.['required']">Senha é obrigatória.</div>
+                        <div class="error-container" *ngIf="authForm.get('password')?.errors?.['minlength']">A senha deve ter pelo menos 6
+                            caracteres.</div>
+                    </div>
                 </div>
+
                 <div style="color: rgba(0, 0, 0, 0.473); cursor: pointer;">Esqueceu sua senha?</div>
-                <button class="auth-btn-login" type="submit" mat-fab extended>
+
+                <button type="submit" class="auth-btn-login" [disabled]="authForm.invalid || isLoading" mat-fab
+                    extended>
                     <mat-icon *ngIf="!isLoading">login</mat-icon>
-                    <p-progressSpinner *ngIf="isLoading" [style]="{  'width': '30px', 'height': '30px'}"
-                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s" ariaLabel="loading" />
+                    <p-progressSpinner *ngIf="isLoading" [style]="{ 'width': '30px', 'height': '30px'}"
+                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
+                        ariaLabel="loading"></p-progressSpinner>
                     <div *ngIf="!isLoading">Entrar</div>
                 </button>
             </div>
