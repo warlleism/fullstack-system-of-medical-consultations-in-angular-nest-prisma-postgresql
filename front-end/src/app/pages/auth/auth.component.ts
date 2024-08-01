@@ -55,8 +55,6 @@ export class AuthComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 800)
-
-
   }
 
 }

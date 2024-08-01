@@ -1,0 +1,79 @@
+.main-doctor-container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+
+    .form-create-doctor-title {
+        display: flex;
+        height: 10%;
+        flex-direction: column;
+
+        .form-create-doctor-title-container {
+            display: flex;
+            color: #48868f;
+            font-size: 1.8rem;
+            font-weight: 600;
+            height: 100%;
+            align-items: center;
+            box-sizing: border-box;
+            justify-content: flex-start;
+        }
+
+    }
+
+    .auth-form-container {
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+
+        .default-button {
+            height: 10%;
+            width: 100%;
+            display: flex;
+            cursor: pointer;
+            color: #ffffff;
+            align-items: center;
+            border-radius: 5px;
+            justify-content: center;
+            background-color: #48868f;
+        }
+
+
+        .form-doctor-container-input {
+            gap: 15px;
+            display: flex;
+            flex-direction: column;
+
+            ::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+                color: rgb(0, 143, 153) !important;
+                font-size: 15px !important;
+                padding: 0 10px !important;
+            }
+
+            ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+                color: rgba(33, 33, 33, 0.637) !important;
+            }
+
+            ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch {
+                border-width: 2px;
+                border-left: none !important;
+                border-color: rgba(0, 143, 153, 0.562) !important;
+            }
+
+            ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+            ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+                border-color: rgba(0, 143, 153, 0.562) !important;
+                border-width: 2px;
+            }
+
+            ::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+            ::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+            ::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+                border-color: #48868f !important;
+                border-width: 2px;
+            }
+        }
+    }
+
+}

@@ -2,47 +2,48 @@
   display: flex;
   height: 100vh;
   flex-direction: column;
-  background-color: #84a9b3;
-  justify-content: space-between;
+  background-color: #f2f2f2;
 }
 
 .header {
-  background-color: #0d1214;
+  height: 6%;
   color: #fff;
-  padding: 1rem;
-  height: 9%;
+  display: flex;
+  padding: 0 30px;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: #003f49;
+  justify-content: space-between;
 
   h1 {
-    margin: 0 auto;
-    width: 140px;
+    height: 20px;
+    display: flex;
     color: #fff;
     cursor: pointer;
-    font-weight: 800;
-    text-align: center;
-    font-size: 1.5rem;
-    font-family: "Playwrite AR", cursive;
+    font-weight: 900;
+    margin-top: 10px;
+    font-size: 1.4rem;
+    align-items: center;
+    justify-content: center;
   }
 
 }
 
 .main-content {
+  height: 94%;
   display: flex;
   flex-direction: row;
-  gap: 40px;
   align-items: flex-start;
-  height: 85%;
 
   .sidebar {
     display: flex;
-    width: 370px;
+    width: 20vw;
     height: 100%;
-    box-sizing: border-box;
     position: relative;
+    box-sizing: border-box;
     flex-direction: column;
     background-color: #ffffff;
     justify-content: space-between;
-    border-top-right-radius: 20px;
-    box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.171);
 
     .profile-container {
       display: flex;
@@ -52,24 +53,27 @@
       box-sizing: border-box;
       flex-direction: column;
       justify-content: center;
-      background-color: #0d1214;
-      border-top-right-radius: 20px;
+      background-color: #48868f;
 
       .name {
-        font-size: .7rem;
-        color: #fff;
+        font-weight: 500;
+        height: 18px;
+        font-size: .9rem;
+        color: #ffffff;
       }
 
       .email {
+        height: 18px;
         font-size: .8rem;
-        color: #ffffffa5;
-        letter-spacing: -.8px;
+        color: #ffffffe3;
+        letter-spacing: -.3px;
       }
 
       .user-active {
+        height: 18px;
         font-size: .8rem;
-        color: #ffffffa5;
-        letter-spacing: -.8px;
+        color: #ffffffc2;
+        letter-spacing: -.3px;
       }
 
       .mat-icon {
@@ -80,7 +84,7 @@
         width: 60px;
         height: 60px;
         color: #fff;
-        font-size: 3rem;
+        font-size: 3.5rem;
 
       }
     }
@@ -93,40 +97,46 @@
 
       .cdk-virtual-scroll-viewport::-webkit-scrollbar {
         width: 5px;
-        background-color: transparent; 
+        background-color: transparent;
       }
-      
+
       .cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb {
-        background-color: #888; 
-        border-radius: 10px; 
+        background-color: #888;
+        border-radius: 10px;
       }
-      
+
       .cdk-virtual-scroll-viewport::-webkit-scrollbar-track {
-        background-color: #f1f1f1; 
+        background-color: #f1f1f1;
       }
-     
+
 
     }
 
     ::ng-deep .mat-expansion-indicator svg {
-      fill: #0d1214;
-      background-color: #014b5828;
+      fill: #48868f;
       border-radius: 100px;
+      background-color: #014b5817;
     }
 
 
     .custom-list {
+      width: 98%;
+      margin: 0 auto;
+      box-shadow: none;
       margin-bottom: 15px;
+      transition: .2s ease-in-out;
       background-color: transparent;
+      border: solid 1px transparent;
 
       .title-container {
-        color: #0d1214;
+        color: #48868f;
         font-size: 1.2rem;
       }
     }
 
     .custom-list:hover {
-      background-color: #e3e9eb;
+      background-color: #f3fffd;
+      border: solid 1px rgba(0, 110, 106, 0.233);
 
     }
 
@@ -136,14 +146,16 @@
     }
 
     li {
-      box-sizing: border-box;
+      width: 100%;
       padding: 10px;
       border-radius: 5px;
+      box-sizing: border-box;
       transition: .5s ease-in-out;
     }
 
     a {
       display: flex;
+      width: 100%;
       font-size: 1rem;
       margin-left: 5px;
       font-weight: 500;
@@ -155,11 +167,12 @@
     }
 
     a:hover {
-      color: #001f27;
+      color: #004556;
+      transform: translateX(10px);
     }
 
     .active {
-      color: #0d1214;
+      color: #004556;
     }
 
     .logout {
@@ -171,7 +184,7 @@
       width: 100%;
       height: 7%;
       z-index: 999;
-      background-color: #0d1214;
+      background-color: #48868f;
 
       div {
         letter-spacing: 2px;
@@ -194,11 +207,33 @@
   }
 
   .content {
-    width: 50vw;
-    padding: 1rem;
-    height: 90%;
-    border-radius: 10px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.171);
+    width: 80vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    .content-route {
+      width: 80%;
+      height: 90%;
+      padding: 30px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      background-color: #fff;
+      box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.096);
+    }
+
+    .footer {
+      height: 5%;
+      width: 100%;
+      display: flex;
+      color: #00000021;
+      font-size: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.055);
+    }
   }
 }

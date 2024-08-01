@@ -1,3 +1,20 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$medical-fullstack-service-theme: mat.define-theme((color: (theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      density: (scale: 0,
+      )));
+
+
+:root {
+  @include mat.all-component-themes($medical-fullstack-service-theme);
+}
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -6,3 +23,4 @@
 body {
   background-color: #f2f2f2;
 }
+
