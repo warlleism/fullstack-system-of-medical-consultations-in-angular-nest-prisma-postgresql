@@ -51,8 +51,15 @@ export class FormDoctorComponent {
     const formattedInput = input.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
     console.log(formattedInput)
     this.authForm.controls['phone'].setValue(formattedInput);
-
   }
+
+  formatCPF(event: any) {
+    const input = event.target.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+    const formattedInput = input.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    console.log(formattedInput);
+    this.authForm.controls['cpf'].setValue(formattedInput);
+  }
+  
 
   onSubmit(): void {
     this.isLoading = true;

@@ -2,7 +2,7 @@
   display: flex;
   height: 100vh;
   flex-direction: column;
-  background-color: #f2f2f2;
+  background-color: #f1f1f1;
 }
 
 .header {
@@ -12,7 +12,7 @@
   padding: 0 30px;
   align-items: center;
   box-sizing: border-box;
-  background-color: #003f49;
+  background-color: #019b93;
   justify-content: space-between;
 
   h1 {
@@ -42,7 +42,7 @@
     position: relative;
     box-sizing: border-box;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: #ffffff8e;
     justify-content: space-between;
 
     .profile-container {
@@ -53,7 +53,13 @@
       box-sizing: border-box;
       flex-direction: column;
       justify-content: center;
-      background-color: #48868f;
+      background-image: linear-gradient(120deg,
+          hsl(188deg 33% 42%) 0%,
+          hsl(181deg 33% 42%) 8%,
+          hsl(179deg 33% 42%) 23%,
+          hsl(179deg 33% 42%) 95%,
+          hsl(181deg 33% 42%) 100%,
+          hsl(188deg 33% 42%) 100%);
 
       .name {
         font-weight: 500;
@@ -108,8 +114,6 @@
       .cdk-virtual-scroll-viewport::-webkit-scrollbar-track {
         background-color: #f1f1f1;
       }
-
-
     }
 
     ::ng-deep .mat-expansion-indicator svg {
@@ -135,7 +139,7 @@
     }
 
     .custom-list:hover {
-      background-color: #f3fffd;
+      background-color: #fff;
       border: solid 1px rgba(0, 110, 106, 0.233);
 
     }
@@ -184,7 +188,13 @@
       width: 100%;
       height: 7%;
       z-index: 999;
-      background-color: #48868f;
+      background-image: linear-gradient(120deg,
+      hsl(188deg 33% 42%) 0%,
+      hsl(181deg 33% 42%) 8%,
+      hsl(179deg 33% 42%) 23%,
+      hsl(179deg 33% 42%) 95%,
+      hsl(181deg 33% 42%) 100%,
+      hsl(188deg 33% 42%) 100%);
 
       div {
         letter-spacing: 2px;
@@ -213,20 +223,17 @@
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    
+    background-color: #fff;
+
     .content-route {
-      width: 80%;
+      width: 100%;
       height: 90%;
-      padding: 30px;
-      margin-top: 20px;
-      border-radius: 10px;
+      padding: 0 30px;
       box-sizing: border-box;
-      background-color: #fff;
-      box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.096);
     }
 
     .footer {
-      height: 5%;
+      height: 7%;
       width: 100%;
       display: flex;
       color: #00000021;
