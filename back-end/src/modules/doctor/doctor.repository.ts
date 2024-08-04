@@ -36,6 +36,35 @@ export class DoctorRepository {
         })
     }
 
+    
+    async getSearch(search: string) {
+        return this.prismaService.doctor.findMany({
+          where: {
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: 'insensitive', 
+                },
+              },
+              {
+                speciality: {
+                  contains: search,
+                  mode: 'insensitive',
+                },
+              },
+            ],
+          },
+        });
+      }
+
+      async getAllSpeciality() {
+        return this.prismaService.doctor.groupBy({
+          by: ['speciality'],
+          _count: true
+        })
+      }
+
     async create(doctor: IDoctor) {
         return this.prismaService.doctor.create({
             data: doctor

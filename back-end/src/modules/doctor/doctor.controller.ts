@@ -150,4 +150,40 @@ export class DoctorController {
         }
     }
 
+    @Get('getSearch/:search')
+    async getSearch(@Param('search') search: string) {
+        try {
+            const doctor = await this.repo.getSearch(search);
+            return {
+                statusCode: HttpStatus.CREATED,
+                message: doctor == null ? 'Doctor not found' : 'Get One doctor successfully',
+                data: doctor == null ? [] : doctor,
+            };
+        } catch (error) {
+            throw new HttpException({
+                statusCode: HttpStatus.BAD_REQUEST,
+                message: 'Get One doctor failed',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Get('getAllSpeciality')
+    async getAllSpeciality() {
+        try {
+            const doctor = await this.repo.getAllSpeciality();
+            return {
+                statusCode: HttpStatus.CREATED,
+                message: doctor == null ? 'Doctor not found' : 'Get One doctor successfully',
+                data: doctor == null ? [] : doctor,
+            };
+        } catch (error) {
+            throw new HttpException({
+                statusCode: HttpStatus.BAD_REQUEST,
+                message: 'Get One doctor failed',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

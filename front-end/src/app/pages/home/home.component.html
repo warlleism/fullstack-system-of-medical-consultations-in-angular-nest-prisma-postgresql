@@ -1,7 +1,7 @@
 <div class="container">
   <header class="header">
     <h1>Consultify</h1>
-    <mat-icon style="font-size: 1.8rem; color: #84a9b3; cursor: pointer;">menu</mat-icon>
+    <mat-icon>menu</mat-icon>
   </header>
   <div class="main-content">
     <nav class="sidebar">
@@ -24,19 +24,19 @@
               </mat-expansion-panel-header>
               <ul>
                 <li>
-                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === 'cadastro-especialista'}"
-                    (click)="setLink('cadastro-especialista')">
+                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === '/home/doctor'}"
+                    (click)="setLink('/home/doctor')">
                     Cadastro de doutor(a)
-                    <mat-icon style="font-size: 1.3rem; color: #84a9b3;"
-                      *ngIf="link === 'cadastro-especialista'">radio_button_checked</mat-icon>
+                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
+                      *ngIf="link === '/home/doctor'">radio_button_checked</mat-icon>
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === 'cadastro-doutores'}"
-                    (click)="setLink('cadastro-doutores')">
+                  <a [routerLink]="['/home/view/doctor']" [ngClass]="{'active': link === '/home/view/doctor'}"
+                    (click)="setLink('/home/view/doctor')">
                     Visualizar doutores(a)
-                    <mat-icon style="font-size: 1.3rem; color: #84a9b3;"
-                      *ngIf="link === 'cadastro-doutores'">radio_button_checked</mat-icon>
+                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
+                      *ngIf="link === '/home/view/doctor'">radio_button_checked</mat-icon>
                   </a>
                 </li>
               </ul>
@@ -52,19 +52,19 @@
               </mat-expansion-panel-header>
               <ul>
                 <li>
-                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === 'cadastro-paciente'}"
-                    (click)="setLink('cadastro-paciente')">
+                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === '/home/patient'}"
+                    (click)="setLink('/home/patient')">
                     Cadastro de paciente
-                    <mat-icon style="font-size: 1.3rem; color: #84a9b3;"
-                      *ngIf="link === 'cadastro-paciente'">radio_button_checked</mat-icon>
+                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
+                      *ngIf="link === '/home/patient'">radio_button_checked</mat-icon>
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === 'visualizar-paciente'}"
-                    (click)="setLink('visualizar-paciente')">
+                  <a [routerLink]="['/home/view/patient']" [ngClass]="{'active': link === '/home/view/patient'}"
+                    (click)="setLink('/home/view/patient')">
                     Visualizar pacientes
-                    <mat-icon style="font-size: 1.3rem; color: #84a9b3;"
-                      *ngIf="link === 'visualizar-paciente'">radio_button_checked</mat-icon>
+                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
+                      *ngIf="link === '/home/view/patient'">radio_button_checked</mat-icon>
                   </a>
                 </li>
               </ul>
@@ -80,19 +80,19 @@
               </mat-expansion-panel-header>
               <ul>
                 <li>
-                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === 'cadastro-consulta'}"
-                    (click)="setLink('cadastro-consulta')">
+                  <a [routerLink]="['/home/appointment']" [ngClass]="{'active': link === '/home/appointment'}"
+                    (click)="setLink('/home/appointment')">
                     Cadastro de consulta
-                    <mat-icon style="font-size: 1.3rem; color: #84a9b3;"
-                      *ngIf="link === 'cadastro-consulta'">radio_button_checked</mat-icon>
+                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
+                      *ngIf="link === '/home/appointment'">radio_button_checked</mat-icon>
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === 'visualizar-consultas'}"
-                    (click)="setLink('visualizar-consultas')">
+                  <a [routerLink]="['/home/view/appointments']" [ngClass]="{'active': link === '/home/view/appointments'}"
+                    (click)="setLink('/home/view/appointments')">
                     Visualizar consultas
-                    <mat-icon style="font-size: 1.3rem; color: #84a9b3;"
-                      *ngIf="link === 'visualizar-consultas'">radio_button_checked</mat-icon>
+                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
+                      *ngIf="link === '/home/view/appointments'">radio_button_checked</mat-icon>
                   </a>
                 </li>
               </ul>

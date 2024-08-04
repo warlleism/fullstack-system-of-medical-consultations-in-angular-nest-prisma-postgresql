@@ -1,0 +1,87 @@
+<div class="main-doctor-container">
+
+    <div class="form-create-doctor-title">
+        <div class="form-create-doctor-title-container">
+            {{ userType === 'doctor' ? 'Cadastrar doutor(a)' : 'Cadastrar paciente' }}
+        </div>
+    </div>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
+        <div class="form-doctor-container-input">
+
+            <mat-form-field class="inputs-container" appearance="outline">
+                <mat-label>Nome:</mat-label>
+                <input matInput type="text" formControlName="name">
+                <mat-error *ngIf="authForm.get('name')?.hasError('required')" style="color: rgba(0, 0, 0, 0.616);">Nome
+                    é obrigatória.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="inputs-container" appearance="outline">
+                <mat-label>CPF:</mat-label>
+                <input matInput placeholder="000.000.000-00" type="text" formControlName="cpf"
+                    (blur)="formatCPF($event)">
+                <mat-error *ngIf="authForm.get('cpf')?.hasError('required')" style="color: rgba(0, 0, 0, 0.616);">CPF é
+                    obrigatório.</mat-error>
+                <mat-error *ngIf="authForm.get('cpf')?.hasError('minlength')" style="color: rgba(0, 0, 0, 0.616);">CPF
+                    deve ter pelo menos 12 caracteres.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="inputs-container" appearance="outline">
+                <mat-label>Gênero:</mat-label>
+                <mat-select formControlName="gender">
+                    <mat-option value="male">Masculino</mat-option>
+                    <mat-option value="female">Feminino</mat-option>
+                    <mat-option value="other">Outro</mat-option>
+                </mat-select>
+                <mat-error *ngIf="authForm.get('gender')?.hasError('required')"
+                    style="color: rgba(0, 0, 0, 0.616);">Gênero é obrigatória.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="inputs-container" appearance="outline">
+                <mat-label>Data de nascimento:</mat-label>
+                <input matInput placeholder="00/00/0000" [matDatepicker]="picker" formControlName="birthdate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="authForm.get('birthdate')?.hasError('required')"
+                    style="color: rgba(0, 0, 0, 0.616);">Data de nascimento é obrigatória.</mat-error>
+            </mat-form-field>
+
+            <ng-container *ngIf="userType === 'doctor'">
+                <mat-form-field class="inputs-container" appearance="outline">
+                    <mat-label>Especialidade:</mat-label>
+                    <p-progressSpinner *ngIf="isLoadingGetDoctors"
+                        [style]="{ 'width': '20px', 'height': '20px', 'position': 'absolute', 'top': '17px', 'right': '15px'}"
+                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
+                        ariaLabel="loading"></p-progressSpinner>
+                    <mat-select formControlName="speciality">
+                        <mat-option *ngFor="let doctor of doctors" [value]="doctor.speciality">
+                            {{ doctor.speciality }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="authForm.get('speciality')?.hasError('required')"
+                        style="color: rgba(0, 0, 0, 0.616);">
+                        Especialidade é obrigatória.
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+
+            <mat-form-field class="inputs-container" appearance="outline">
+                <mat-label>Telefone:</mat-label>
+                <input matInput type="tel" formControlName="phone" placeholder="(DDD) 00000-0000"
+                    (blur)="formatPhone($event)">
+                <mat-error *ngIf="authForm.get('phone')?.hasError('required')"
+                    style="color: rgba(0, 0, 0, 0.616);">Telefone é obrigatória.</mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <button type="submit" class="default-button" mat-fab extended>
+            <p-progressSpinner *ngIf="isLoading" [style]="{ 'width': '30px', 'height': '30px'}"
+                styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
+                ariaLabel="loading"></p-progressSpinner>
+            <mat-icon *ngIf="!isLoading">send</mat-icon>
+            <div *ngIf="!isLoading">Enviar</div>
+        </button>
+    </form>
+
+</div>

@@ -12,7 +12,7 @@
   padding: 0 30px;
   align-items: center;
   box-sizing: border-box;
-  background-color: #019b93;
+  background-color: #376f6e;
   justify-content: space-between;
 
   h1 {
@@ -23,6 +23,17 @@
     font-weight: 900;
     margin-top: 10px;
     font-size: 1.4rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mat-icon {
+    width: 30px;  
+    color: #fff;
+    height: 30px;
+    display: flex;
+    cursor: pointer;
+    font-size: 2rem;
     align-items: center;
     justify-content: center;
   }
@@ -83,15 +94,14 @@
       }
 
       .mat-icon {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
         width: 60px;
         height: 60px;
         color: #fff;
+        display: flex;
         font-size: 3.5rem;
-
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
       }
     }
 
@@ -189,12 +199,12 @@
       height: 7%;
       z-index: 999;
       background-image: linear-gradient(120deg,
-      hsl(188deg 33% 42%) 0%,
-      hsl(181deg 33% 42%) 8%,
-      hsl(179deg 33% 42%) 23%,
-      hsl(179deg 33% 42%) 95%,
-      hsl(181deg 33% 42%) 100%,
-      hsl(188deg 33% 42%) 100%);
+          hsl(188deg 33% 42%) 0%,
+          hsl(181deg 33% 42%) 8%,
+          hsl(179deg 33% 42%) 23%,
+          hsl(179deg 33% 42%) 95%,
+          hsl(181deg 33% 42%) 100%,
+          hsl(188deg 33% 42%) 100%);
 
       div {
         letter-spacing: 2px;
@@ -228,7 +238,7 @@
     .content-route {
       width: 100%;
       height: 90%;
-      padding: 0 30px;
+      padding: 0 60px;
       box-sizing: border-box;
     }
 
