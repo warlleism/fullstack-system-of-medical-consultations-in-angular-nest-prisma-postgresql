@@ -21,6 +21,8 @@ export class DoctorModule {
         { path: 'doctor/getOneById/:id', method: RequestMethod.GET },
         { path: 'doctor/delete/:id', method: RequestMethod.DELETE },
         { path: 'doctor/update', method: RequestMethod.PATCH },
+        { path: 'doctor/getAllSpeciality', method: RequestMethod.GET },
+        { path: 'doctor/getSearch/:search', method: RequestMethod.GET },
       );
   }
 }

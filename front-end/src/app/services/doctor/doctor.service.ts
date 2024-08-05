@@ -8,18 +8,18 @@ import { Observable, tap } from 'rxjs';
 })
 export class DoctorService {
 
-
   constructor(private http: HttpClient, private router: Router) { }
 
   getSearchSpeciality(search: string): Observable<any> {
     const url = `http://localhost:3000/doctor/getSearch/${search}`;
+
     return this.http.get<any>(url).pipe(
       tap({
-        next: (res: any) => {
-        },
+        next: (res: any) => {},
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
           alert(errorMessage);
+          this.router.navigateByUrl("login")
         }
       })
     );
@@ -27,16 +27,16 @@ export class DoctorService {
 
   getSpeciality(): Observable<any> {
     const url = 'http://localhost:3000/doctor/getAllSpeciality';
+
     return this.http.get<any>(url).pipe(
       tap({
-        next: (res: any) => {
-        },
+        next: (res: any) => {},
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
           alert(errorMessage);
+          this.router.navigateByUrl("login")
         }
       })
     );
   }
-
 }
