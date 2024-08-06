@@ -32,11 +32,11 @@
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/home/view/doctor']" [ngClass]="{'active': link === '/home/view/doctor'}"
-                    (click)="setLink('/home/view/doctor')">
+                  <a [routerLink]="['/home/view/all/doctors']" [ngClass]="{'active': link === '/home/view/all/doctors'}"
+                    (click)="setLink('/home/view/all/doctors')">
                     Visualizar doutores(a)
                     <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/view/doctor'">radio_button_checked</mat-icon>
+                      *ngIf="link === '/home/view/all/doctors'">radio_button_checked</mat-icon>
                   </a>
                 </li>
               </ul>

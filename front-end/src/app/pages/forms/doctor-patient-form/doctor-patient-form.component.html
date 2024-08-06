@@ -10,7 +10,7 @@
         <div class="form-doctor-container-input">
 
             <mat-form-field class="inputs-container" appearance="outline">
-                <mat-label>Nome:</mat-label>
+                <mat-label>Nome completo:</mat-label>
                 <input matInput type="text" formControlName="name">
                 <mat-error *ngIf="authForm.get('name')?.hasError('required')" style="color: rgba(0, 0, 0, 0.616);">Nome
                     é obrigatória.</mat-error>
@@ -26,18 +26,18 @@
                     deve ter pelo menos 12 caracteres.</mat-error>
             </mat-form-field>
 
-            <mat-form-field class="inputs-container" appearance="outline">
+             <mat-form-field class="inputs-container" appearance="outline">
                 <mat-label>Gênero:</mat-label>
                 <mat-select formControlName="gender">
-                    <mat-option value="male">Masculino</mat-option>
-                    <mat-option value="female">Feminino</mat-option>
+                    <mat-option value="maculino">Masculino</mat-option>
+                    <mat-option value="feminino">Feminino</mat-option>
                     <mat-option value="other">Outro</mat-option>
                 </mat-select>
                 <mat-error *ngIf="authForm.get('gender')?.hasError('required')"
                     style="color: rgba(0, 0, 0, 0.616);">Gênero é obrigatória.</mat-error>
             </mat-form-field>
 
-            <mat-form-field class="inputs-container" appearance="outline">
+           <mat-form-field class="inputs-container" appearance="outline">
                 <mat-label>Data de nascimento:</mat-label>
                 <input matInput placeholder="00/00/0000" [matDatepicker]="picker" formControlName="birthdate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -49,19 +49,9 @@
             <ng-container *ngIf="userType === 'doctor'">
                 <mat-form-field class="inputs-container" appearance="outline">
                     <mat-label>Especialidade:</mat-label>
-                    <p-progressSpinner *ngIf="isLoadingGetDoctors"
-                        [style]="{ 'width': '20px', 'height': '20px', 'position': 'absolute', 'top': '17px', 'right': '15px'}"
-                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
-                        ariaLabel="loading"></p-progressSpinner>
-                    <mat-select formControlName="speciality">
-                        <mat-option *ngFor="let doctor of doctors" [value]="doctor.speciality">
-                            {{ doctor.speciality }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="authForm.get('speciality')?.hasError('required')"
-                        style="color: rgba(0, 0, 0, 0.616);">
-                        Especialidade é obrigatória.
-                    </mat-error>
+                    <input matInput type="text" formControlName="speciality">
+                    <mat-error *ngIf="authForm.get('speciality')?.hasError('required')" style="color: rgba(0, 0, 0, 0.616);">Especialidade
+                        é obrigatória.</mat-error>
                 </mat-form-field>
             </ng-container>
 
@@ -71,11 +61,11 @@
                     (blur)="formatPhone($event)">
                 <mat-error *ngIf="authForm.get('phone')?.hasError('required')"
                     style="color: rgba(0, 0, 0, 0.616);">Telefone é obrigatória.</mat-error>
-            </mat-form-field>
+            </mat-form-field> 
 
         </div>
 
-        <button type="submit" class="default-button" mat-fab extended>
+        <button type="submit" class="default-button" mat-fab extended [disabled]="authForm.invalid || isLoading">
             <p-progressSpinner *ngIf="isLoading" [style]="{ 'width': '30px', 'height': '30px'}"
                 styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
                 ariaLabel="loading"></p-progressSpinner>

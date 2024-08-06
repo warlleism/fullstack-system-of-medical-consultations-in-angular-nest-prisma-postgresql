@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+AR:wght@100..400&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Zain:wght@200;300;400;700;800;900&display=swap');
 
+
 .main-doctor-container {
     height: 100%;
     width: 100%;
@@ -39,7 +40,9 @@
         border-radius: 5px;
         align-items: center;
         flex-direction: column;
-        justify-content: center;
+        box-sizing: border-box;
+        padding: 20px 0;
+        justify-content: space-between;
         background-color: #f7f7f7;
 
         .default-button {
@@ -113,5 +116,5 @@
             }
         }
     }
-
 }
+

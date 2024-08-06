@@ -1,19 +1,18 @@
 import { isDevMode } from '@angular/core';
 import {
-  ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
 import { conterReducer } from './counter.reducer';
+import { doctorReducer } from './doctor.reducer';
 
 export interface State {
 
 }
 
 export const reducers: ActionReducerMap<State> = {
-  counter: conterReducer
+  counter: conterReducer,
+  doctor: doctorReducer
 };
 
 

@@ -19,7 +19,6 @@ export class AppointmentController {
                     message: 'fields are required',
                 }, HttpStatus.BAD_REQUEST);
             }
-
             const formattedAppointment = { ...appointment, appointmentdate: FormatData(appointment.appointmentdate) };
             const result = await this.repo.create(formattedAppointment);
             return {

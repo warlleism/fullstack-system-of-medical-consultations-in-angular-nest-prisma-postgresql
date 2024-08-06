@@ -1,0 +1,92 @@
+<div class="main-doctor-container">
+
+    <div class="form-create-doctor-title">
+        <div class="form-create-doctor-title-container">
+            Cadastro de consulta
+        </div>
+    </div>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
+        <div class="form-doctor-container-input">
+            <mat-form-field class="inputs-container" appearance="outline">
+                <mat-label>Data da consulta:</mat-label>
+                <input matInput placeholder="00/00/0000" [matDatepicker]="picker" formControlName="appointmentdate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="authForm.get('appointmentdate')?.hasError('required')"
+                    style="color: rgba(0, 0, 0, 0.616);">Data da consulta é obrigatória.</mat-error>
+            </mat-form-field>
+
+            <ng-container>
+                <mat-form-field class="inputs-container" appearance="outline">
+                    <mat-label>Paciente:</mat-label>
+                    <mat-select formControlName="patientid">
+                        <mat-option *ngFor="let patient of patients" [value]="patient.id">
+                            {{ patient.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="authForm.get('patient')?.hasError('required')"
+                        style="color: rgba(0, 0, 0, 0.616);">
+                        Paciente é obrigatório.
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+
+            <ng-container>
+                <mat-form-field class="inputs-container" appearance="outline">
+                    <mat-label>Especialidade:</mat-label>
+                    <mat-select formControlName="speciality" (selectionChange)="loadDoctors()">
+                        <mat-option *ngFor="let speciality of specialitys" [value]="speciality.speciality">
+                            {{ speciality.speciality }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="authForm.get('speciality')?.hasError('required')"
+                        style="color: rgba(0, 0, 0, 0.616);">
+                        Especialidade é obrigatória.
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+
+            <ng-container>
+                <mat-form-field class="inputs-container" appearance="outline">
+                    <mat-label>Especialidade:</mat-label>
+                    <p-progressSpinner *ngIf="isLoadingGetDoctors"
+                        [style]="{ 'width': '20px', 'height': '20px', 'position': 'absolute', 'top': '17px', 'right': '15px'}"
+                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
+                        ariaLabel="loading"></p-progressSpinner>
+                    <mat-select formControlName="doctorid">
+                        <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
+                            {{ doctor.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="authForm.get('doctor')?.hasError('required')"
+                        style="color: rgba(0, 0, 0, 0.616);">
+                        Especialidade é obrigatória.
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+
+            <mat-form-field class="inputs-container" appearance="outline">
+                <mat-label>Descrição:</mat-label>
+                <textarea matInput formControlName="description" rows="5" cols="30"></textarea>
+                <mat-error *ngIf="authForm.get('description')?.hasError('required')"
+                    style="color: rgba(0, 0, 0, 0.616);">
+                    Descrição é obrigatória.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <button type="submit" class="default-button" mat-fab extended>
+            <p-progressSpinner *ngIf="isLoading" [style]="{ 'width': '30px', 'height': '30px'}"
+                styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
+                ariaLabel="loading"></p-progressSpinner>
+            <mat-icon *ngIf="!isLoading">send</mat-icon>
+            <div *ngIf="!isLoading">Enviar</div>
+        </button>
+    </form>
+</div>
+
+<div class="card flex justify-content-center">
+    <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'"
+        [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" />
+</div>
