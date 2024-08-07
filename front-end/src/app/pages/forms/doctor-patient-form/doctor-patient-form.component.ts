@@ -13,7 +13,12 @@ import { ChangeDetectorRef } from '@angular/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DoctorService } from '../../../services/doctor/doctor.service';
 import { PatientService } from '../../../services/patient/patient.service';
-
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 @Component({
   selector: 'app-doctor-patient-form',
   standalone: true,
@@ -29,7 +34,13 @@ import { PatientService } from '../../../services/patient/patient.service';
     ProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
+    ToastModule,
+    DropdownModule,
+    InputMaskModule,
+    InputTextareaModule,
+    InputTextModule
   ],
+  providers: [MessageService],
   templateUrl: './doctor-patient-form.component.html',
   styleUrl: './doctor-patient-form.component.scss'
 })
@@ -53,34 +64,26 @@ export class DoctorPatientFormComponent {
     });
   }
 
-  constructor(private patientService: PatientService, private doctorService: DoctorService, private cdr: ChangeDetectorRef) { }
-
-  formatPhone(event: any) {
-    const input = event.target.value.replace(/\D/g, '');
-    const formattedInput = input.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-    this.authForm.controls['phone'].setValue(formattedInput);
-  }
-
-  formatCPF(event: any) {
-    const input = event.target.value.replace(/\D/g, '');
-    const formattedInput = input.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    this.authForm.controls['cpf'].setValue(formattedInput);
-  }
-
+  constructor(
+    private patientService: PatientService,
+    private doctorService: DoctorService,
+    private cdr: ChangeDetectorRef,
+    private messageService: MessageService
+  ) { }
 
   async onSubmit() {
+    
+    if (this.authForm.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Faltam Campos', detail: 'Preencha todos os campos.' });
+      return
+    }
+
     this.isLoading = true;
 
     try {
-      const birthdate = new Date(this.authForm.value.birthdate);
-      const day = ("0" + birthdate.getDate()).slice(-2);
-      const month = ("0" + (birthdate.getMonth() + 1)).slice(-2);
-      const year = birthdate.getFullYear();
-      const formattedDate = `${day}-${month}-${year}`;
 
       const data = {
         ...this.authForm.value,
-        birthdate: formattedDate,
         name: this.userType === 'doctor' ? `Dr(a) ${this.authForm.value.name}` : this.authForm.value.name,
       };
       if (this.userType === 'doctor') {
@@ -90,15 +93,14 @@ export class DoctorPatientFormComponent {
         const patient = await this.patientService.createDoctor(dataForm).toPromise();
       }
 
-
+      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Cadastro feito com sucesso!' });
     } catch (error) {
-      this.isLoading = false;
-      this.cdr.detectChanges();
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu algum erro!' });
     } finally {
       this.isLoading = false;
       this.cdr.detectChanges();
+      this.authForm.reset();
     }
   }
-
 
 }

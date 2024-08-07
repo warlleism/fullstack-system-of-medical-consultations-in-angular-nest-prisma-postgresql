@@ -28,8 +28,7 @@ export class DoctorsComponent implements OnInit {
   displayedColumns: string[] = ['name', 'speciality', 'cpf', 'gender', 'birthdate', 'phone', 'actions'];
 
   ngOnInit(): void {
-    this.doctorService.getDoctors().subscribe(res => {
-      this.cdr.detectChanges();
-    });
+    this.doctorService.getDoctors().subscribe();
+    this.cdr.detectChanges();
   }
 }

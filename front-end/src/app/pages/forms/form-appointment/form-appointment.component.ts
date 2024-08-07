@@ -16,8 +16,9 @@ import { PatientService } from '../../../services/patient/patient.service';
 import { AppointmentService } from '../../../services/appointment/appointment.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { provideAnimations } from '@angular/platform-browser/animations';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-form-appointment',
@@ -26,6 +27,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
+    DropdownModule,
     MatSelectModule,
     CommonModule,
     ReactiveFormsModule,
@@ -35,13 +37,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     MatIconModule,
     MatButtonModule,
     ToastModule,
+    InputMaskModule,
+    InputTextareaModule
   ],
-  providers: [MessageService, provideAnimations()],
+  providers: [MessageService],
   templateUrl: './form-appointment.component.html',
   styleUrl: './form-appointment.component.scss'
 })
 export class FormAppointmentComponent {
-
 
   authForm!: FormGroup;
   isLoading: boolean = false;
@@ -49,15 +52,28 @@ export class FormAppointmentComponent {
   patients: any[] = [];
   specialitys: any[] = [];
   doctors: any[] = [];
+  countries: any[] | undefined;
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
       patientid: new FormControl('', [Validators.required]),
+      hour: new FormControl('', [Validators.required]),
       speciality: new FormControl('', [Validators.required]),
-      doctorid: new FormControl('', [Validators.required]),
+      doctorid: new FormControl({ value: '', disabled: true }, [Validators.required]),
       description: new FormControl('', [Validators.required]),
       appointmentdate: new FormControl('', [Validators.required]),
     });
+
+    this.authForm.get('speciality')?.valueChanges.subscribe(value => {
+      if (value) {
+        this.loadDoctors();
+        this.authForm.get('doctorid')?.enable();
+      } else {
+        this.authForm.get('doctorid')?.disable();
+        this.authForm.get('doctorid')?.setValue('');
+      }
+    });
+    
 
     this.loadSpecialities();
   }
@@ -69,6 +85,11 @@ export class FormAppointmentComponent {
     private cdr: ChangeDetectorRef,
     private messageService: MessageService
   ) { }
+
+  isDoctorDropdownDisabled(): boolean {
+    const control = this.authForm.get('doctorid');
+    return control ? control.disabled : true;
+  }
 
   async loadSpecialities(): Promise<void> {
     try {
@@ -96,51 +117,24 @@ export class FormAppointmentComponent {
     }
   }
 
-  formatPhone(event: any) {
-    const input = event.target.value.replace(/\D/g, '');
-    const formattedInput = input.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-    this.authForm.controls['phone'].setValue(formattedInput);
-  }
-
-  formatCPF(event: any) {
-    const input = event.target.value.replace(/\D/g, '');
-    const formattedInput = input.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    this.authForm.controls['cpf'].setValue(formattedInput);
-  }
-
-  show() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-  }
-
   async onSubmit() {
 
+    if (this.authForm.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Faltam Campos', detail: 'Preencha todos os campos.' });
+      return
+    }
+    
     this.isLoading = true;
-    this.messageService.add({ severity: 'success', summary: 'Consulta', detail: 'Cadastro feito com sucesso!' });
-
     try {
-      const appointmentdate = new Date(this.authForm.value.appointmentdate);
-      const day = ("0" + appointmentdate.getDate()).slice(-2);
-      const month = ("0" + (appointmentdate.getMonth() + 1)).slice(-2);
-      const year = appointmentdate.getFullYear();
-      const formattedDate = `${day}-${month}-${year}`;
-
-      const appointment = {
-        ...this.authForm.value,
-        appointmentdate: formattedDate,
-      };
-      const { speciality: _, ...dataForm } = appointment;
-      const appointments = await this.appointment.createAppointment(dataForm).toPromise();
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Cadastro feito com sucesso!' });
-
+      const appointment = { ...this.authForm.value };
+      const appointments = await this.appointment.createAppointment(appointment).toPromise();
+      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Cadastro feito com sucesso!' });
     } catch (error) {
-      this.isLoading = false;
-      this.cdr.detectChanges();
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu algum erro!' });
     } finally {
       this.isLoading = false;
       this.cdr.detectChanges();
-
+      this.authForm.reset();
     }
   }
-
-
 }

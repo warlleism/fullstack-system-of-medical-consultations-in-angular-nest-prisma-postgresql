@@ -8,72 +8,62 @@
 
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
         <div class="form-doctor-container-input">
-            <mat-form-field class="inputs-container" appearance="outline">
-                <mat-label>Data da consulta:</mat-label>
-                <input matInput placeholder="00/00/0000" [matDatepicker]="picker" formControlName="appointmentdate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="authForm.get('appointmentdate')?.hasError('required')"
-                    style="color: rgba(0, 0, 0, 0.616);">Data da consulta é obrigatória.</mat-error>
-            </mat-form-field>
 
-            <ng-container>
-                <mat-form-field class="inputs-container" appearance="outline">
-                    <mat-label>Paciente:</mat-label>
-                    <mat-select formControlName="patientid">
-                        <mat-option *ngFor="let patient of patients" [value]="patient.id">
-                            {{ patient.name }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="authForm.get('patient')?.hasError('required')"
-                        style="color: rgba(0, 0, 0, 0.616);">
-                        Paciente é obrigatório.
-                    </mat-error>
-                </mat-form-field>
-            </ng-container>
+            <div style="width: 100%; height: 55px;">
+                <p-dropdown [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}" class="full-width" [options]="patients"
+                    formControlName="patientid" optionLabel="name" optionValue="id" [filter]="true" filterBy="name"
+                    [showClear]="true" placeholder="Paciente: ">
+                    <ng-template pTemplate="selectedItem" let-selectedOption>
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ selectedOption.name }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
 
-            <ng-container>
-                <mat-form-field class="inputs-container" appearance="outline">
-                    <mat-label>Especialidade:</mat-label>
-                    <mat-select formControlName="speciality" (selectionChange)="loadDoctors()">
-                        <mat-option *ngFor="let speciality of specialitys" [value]="speciality.speciality">
-                            {{ speciality.speciality }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="authForm.get('speciality')?.hasError('required')"
-                        style="color: rgba(0, 0, 0, 0.616);">
-                        Especialidade é obrigatória.
-                    </mat-error>
-                </mat-form-field>
-            </ng-container>
+            <div style="width: 100%; height: 55px;">
+                <p-dropdown (onChange)="loadDoctors()" [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}" class="full-width"
+                    [options]="specialitys" formControlName="speciality" optionLabel="speciality"
+                    optionValue="speciality" [filter]="true" filterBy="name" [showClear]="true"
+                    placeholder="Especialidade:">
+                    <ng-template pTemplate="selectedItem" let-selectedOption>
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ selectedOption.speciality }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+              </div>
+              
+              <div style="width: 100%; height: 55px;">
+                <p-dropdown [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}" class="full-width"
+                    [options]="doctors" formControlName="doctorid" optionLabel="name" optionValue="id"
+                    [filter]="true" filterBy="name" [showClear]="true" placeholder="Doutor(a):"
+                    [disabled]="isDoctorDropdownDisabled()">
+                    <ng-template pTemplate="selectedItem" let-selectedOption>
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ selectedOption.name }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+              </div>
+              
 
-            <ng-container>
-                <mat-form-field class="inputs-container" appearance="outline">
-                    <mat-label>Especialidade:</mat-label>
-                    <p-progressSpinner *ngIf="isLoadingGetDoctors"
-                        [style]="{ 'width': '20px', 'height': '20px', 'position': 'absolute', 'top': '17px', 'right': '15px'}"
-                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
-                        ariaLabel="loading"></p-progressSpinner>
-                    <mat-select formControlName="doctorid">
-                        <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
-                            {{ doctor.name }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="authForm.get('doctor')?.hasError('required')"
-                        style="color: rgba(0, 0, 0, 0.616);">
-                        Especialidade é obrigatória.
-                    </mat-error>
-                </mat-form-field>
-            </ng-container>
+            <div style=" width: 100%;  display: flex; justify-content: space-between;">
+                <div style="width: 49%; height: 55px;">
+                    <p-inputMask formControlName="appointmentdate" mask="99/99/9999" placeholder="Data:"
+                        slotChar="dd/mm/yyyy" [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}" />
+                </div>
+                <div style="width: 49%; height: 55px;">
+                    <p-inputMask formControlName="hour" mask="99:99" placeholder="Horário:" slotChar="hh:mm"
+                        [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}" />
+                </div>
+            </div>
 
-            <mat-form-field class="inputs-container" appearance="outline">
-                <mat-label>Descrição:</mat-label>
-                <textarea matInput formControlName="description" rows="5" cols="30"></textarea>
-                <mat-error *ngIf="authForm.get('description')?.hasError('required')"
-                    style="color: rgba(0, 0, 0, 0.616);">
-                    Descrição é obrigatória.
-                </mat-error>
-            </mat-form-field>
+            <div style="width: 100%;">
+                <textarea rows="10" cols="30" pInputTextarea formControlName="description"
+                    [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}"></textarea>
+            </div>
+
         </div>
 
         <button type="submit" class="default-button" mat-fab extended>

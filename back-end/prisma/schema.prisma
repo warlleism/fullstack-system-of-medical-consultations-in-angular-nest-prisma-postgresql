@@ -41,6 +41,7 @@ model Appointment {
   id              Int      @id @default(autoincrement())
   doctorid        Int
   patientid       Int
+  hour            String
   appointmentdate DateTime
   description     String   @db.Text
   doctor          Doctor   @relation(fields: [doctorid], references: [id])
