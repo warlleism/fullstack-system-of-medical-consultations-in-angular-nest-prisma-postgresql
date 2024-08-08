@@ -33,8 +33,22 @@
 
     }
 
+    .cdk-virtual-scroll-viewport::-webkit-scrollbar {
+        width: 5px;
+        background-color: transparent;
+    }
+
+    .cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 10px;
+    }
+
+    .cdk-virtual-scroll-viewport::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+
     .auth-form-container {
-        height: 85%;
+        height: 100%;
         display: flex;
         border-radius: 5px;
         align-items: center;
@@ -45,7 +59,7 @@
         background-color: #f7f7f7;
 
         .default-button {
-            height: 10%;
+            height: 60px;
             width: 100%;
             display: flex;
             cursor: pointer;
@@ -72,6 +86,36 @@
             justify-content: center;
             flex-direction: column;
             box-sizing: border-box;
+
+            .container-dates-hour {
+                width: 100%;
+                background-color: #376f6e;
+                padding: 15px;
+                box-sizing: border-box;
+                border-radius: 5px;
+
+                .list-dates-hour {
+                    flex-wrap: wrap;
+                    margin-top: 5px;
+                    gap: 20px;
+                    border-top: solid 1px #478e8d;
+                    color: #fff;
+                    display: flex;
+                    width: 100%;
+                    padding: 15px;
+                    box-sizing: border-box;
+                    background-color: #376f6e;
+
+                    .item-dates-hour {
+                        border: solid 1px #478e8d;
+                        border-radius: 5px;
+                        padding: 3px 4px;
+                        box-sizing: border-box;
+                        font-size: .8rem;
+                    }
+
+                }
+            }
 
             .inputs-container {
                 width: 100%;

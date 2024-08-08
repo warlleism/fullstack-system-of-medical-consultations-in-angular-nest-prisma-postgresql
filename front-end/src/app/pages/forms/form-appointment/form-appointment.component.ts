@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -19,6 +19,7 @@ import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-form-appointment',
@@ -38,7 +39,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     MatButtonModule,
     ToastModule,
     InputMaskModule,
-    InputTextareaModule
+    InputTextareaModule,
+    ScrollingModule
   ],
   providers: [MessageService],
   templateUrl: './form-appointment.component.html',
@@ -52,7 +54,8 @@ export class FormAppointmentComponent {
   patients: any[] = [];
   specialitys: any[] = [];
   doctors: any[] = [];
-  countries: any[] | undefined;
+  fullDoctors: any[] = [];
+  hour_date: any = {};
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
@@ -73,7 +76,7 @@ export class FormAppointmentComponent {
         this.authForm.get('doctorid')?.setValue('');
       }
     });
-    
+
 
     this.loadSpecialities();
   }
@@ -86,10 +89,6 @@ export class FormAppointmentComponent {
     private messageService: MessageService
   ) { }
 
-  isDoctorDropdownDisabled(): boolean {
-    const control = this.authForm.get('doctorid');
-    return control ? control.disabled : true;
-  }
 
   async loadSpecialities(): Promise<void> {
     try {
@@ -106,14 +105,42 @@ export class FormAppointmentComponent {
   }
 
   async loadDoctors(): Promise<void> {
+    this.hour_date = [];
+
     if (this.authForm.value.speciality) {
       this.isLoadingGetDoctors = true;
       setTimeout(async () => {
         const specialitySearch = await this.doctorService.getSearchSpeciality(this.authForm.value.speciality).toPromise();
-        this.doctors = specialitySearch.data;
+        this.fullDoctors = specialitySearch.data.doctors;
+        const doctors = specialitySearch.data.doctors;
+
+        const uniqueDoctors = doctors.filter((doctor: any, index: any, self: any) =>
+          index === self.findIndex((d: any) => (
+            d.name === doctor.name
+          ))
+        );
+
+        this.doctors = uniqueDoctors;
         this.isLoadingGetDoctors = false;
         this.cdr.detectChanges();
-      }, 700)
+      }, 700);
+    }
+  }
+
+  getHours() {
+    const id = this.authForm.get('doctorid')?.value;
+    const filter = this.fullDoctors.filter((doctor: any) => doctor.doctor_id === id && doctor.date !== null);
+
+    if (filter.length > 0) {
+      this.hour_date = filter.map((doctor: any) => ({
+        date: doctor?.date?.split('T')[0].split('-')?.reverse()?.join('/'),
+        hour: doctor?.hour
+      }));
+
+      console.log(this.hour_date)
+    } else {
+      console.warn('No doctors found with the given id.');
+      this.hour_date = [];
     }
   }
 
@@ -123,7 +150,7 @@ export class FormAppointmentComponent {
       this.messageService.add({ severity: 'error', summary: 'Faltam Campos', detail: 'Preencha todos os campos.' });
       return
     }
-    
+
     this.isLoading = true;
     try {
       const appointment = { ...this.authForm.value };

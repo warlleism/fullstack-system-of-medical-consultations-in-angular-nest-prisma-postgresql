@@ -42,4 +42,10 @@ export class HomeComponent implements OnInit {
   getBorderRadius(panel: keyof typeof this.panelStates) {
     return this.panelStates[panel]() ? '5px' : '100px';
   }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
 }

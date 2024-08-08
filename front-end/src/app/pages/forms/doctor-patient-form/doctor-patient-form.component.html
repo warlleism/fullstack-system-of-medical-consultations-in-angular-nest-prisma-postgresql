@@ -9,16 +9,17 @@
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
         <div class="form-doctor-container-input">
             <div style="width: 100%; height: 55px;">
-                <input formControlName="name" type="text" pInputText placeholder="Nome Completo:"
+                <input class="custom-input" formControlName="name" type="text" pInputText placeholder="Nome Completo:"
                     [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
             </div>
             <div style="width: 100%; height: 55px;">
-                <p-inputMask formControlName="cpf" mask="999.999.999-99" placeholder="CPF:"
+                <p-inputMask class="custom-input" formControlName="cpf" mask="999.999.999-99" placeholder="CPF:"
                     [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
             </div>
             <div style="width: 100%; height: 55px;">
-                <p-dropdown [style]="{'width': '100%','height': '100%', 'display': 'flex', 'align-items': 'center' }" class="full-width" formControlName="gender"
-                    [options]="[
+                <p-dropdown class="custom-input"
+                    [style]="{'width': '100%','height': '100%', 'display': 'flex', 'align-items': 'center' }"
+                     formControlName="gender" [options]="[
                               { label: 'Masculino', value: 'masculino' },
                               { label: 'Feminino', value: 'feminino' },
                               { label: 'Outro', value: 'outro' }
@@ -27,15 +28,17 @@
                 </p-dropdown>
             </div>
             <div style="width: 100%; height: 55px;">
-                <p-inputMask formControlName="birthdate" mask="99-99-9999" placeholder="Data de nascimento:"
-                    slotChar="dd/mm/aaaa" [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
+                <p-inputMask class="custom-input" formControlName="birthdate" mask="99-99-9999"
+                    placeholder="Data de nascimento:" slotChar="dd/mm/aaaa"
+                    [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
             </div>
-            <div style="width: 100%;" *ngIf="userType == 'doctor'">
-                <input formControlName="speciality" type="text" pInputText placeholder="Especialidade:"
+            <div style="width: 100%; height: 55px;" *ngIf="userType == 'doctor'">
+                <input class="custom-input" formControlName="speciality" type="text" pInputText
+                    placeholder="Especialidade:"
                     [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
             </div>
             <div style="width: 100%; height: 55px;">
-                <p-inputMask formControlName="phone" mask="(99) 99999-9999" placeholder="Telefone:"
+                <p-inputMask class="custom-input" formControlName="phone" mask="(99) 99999-9999" placeholder="Telefone:"
                     [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
             </div>
         </div>

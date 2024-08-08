@@ -16,19 +16,19 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DoctorsComponent implements OnInit {
 
-  doctorDataSource = new MatTableDataSource<Doctor>();
   private store = inject(Store);
+  doctorDataSource = new MatTableDataSource<Doctor>();
 
-  constructor(private doctorService: DoctorService, private cdr: ChangeDetectorRef) {
-    this.store.select('doctor').subscribe((doctors) => {
-      this.doctorDataSource.data = doctors[0] ?? [];
-    });
-  }
+  constructor(private doctorService: DoctorService, private cdr: ChangeDetectorRef) { }
 
   displayedColumns: string[] = ['name', 'speciality', 'cpf', 'gender', 'birthdate', 'phone', 'actions'];
 
   ngOnInit(): void {
-    this.doctorService.getDoctors().subscribe();
+    this.doctorService.getDoctors().subscribe()
     this.cdr.detectChanges();
+
+    this.store.select('doctor').subscribe((doctors) => {
+      this.doctorDataSource.data = doctors[0] ?? [];
+    });
   }
 }

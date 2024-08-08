@@ -29,7 +29,7 @@ export class AppointmentRepository {
         FROM "Appointment" a 
         INNER JOIN "Doctor" d ON a.doctorid = d.id 
         INNER JOIN "Patient" p ON a.patientid = p.id
-        LIMIT ${take} OFFSET ${skip};
+        LIMIT ${take} OFFSET ${skip}
         `;
 
         const total = await this.prismaService.appointment.count();

@@ -51,8 +51,6 @@ export class DoctorService {
       tap({
         next: (res: any) => { },
         error: (err: any) => {
-          // const errorMessage = err.error?.error || 'Usuário não autorizado!';
-          // this.router.navigateByUrl("login")
         }
       })
     );
