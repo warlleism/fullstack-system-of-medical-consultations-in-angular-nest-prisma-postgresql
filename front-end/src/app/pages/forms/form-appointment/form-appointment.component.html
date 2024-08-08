@@ -6,8 +6,9 @@
         </div>
     </div>
 
-    <cdk-virtual-scroll-viewport itemSize="50" style="height: 85%;">
+    <cdk-virtual-scroll-viewport itemSize="50" >
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
+            
             <div class="form-doctor-container-input">
                 <div style="width: 100%; height: 55px;">
                     <p-dropdown [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}"
@@ -49,7 +50,7 @@
                 </div>
 
                 <div *ngIf="hour_date.length > 0" class="container-dates-hour">
-                    <div class="title-dates-hour" style="color: #fff; font-weight: 600;">Próximas Consultas</div>
+                    <div class="title-dates-hour" style="color: #fff; font-weight: 600;">Consultas</div>
                     <div class="list-dates-hour">
                         <div *ngFor="let item of hour_date" style="margin-bottom: 5px;" class="item-dates-hour">
                             <div><strong>Data:</strong> {{ item.date }}</div>

@@ -137,7 +137,6 @@ export class FormAppointmentComponent {
         hour: doctor?.hour
       }));
 
-      console.log(this.hour_date)
     } else {
       console.warn('No doctors found with the given id.');
       this.hour_date = [];
@@ -147,20 +146,31 @@ export class FormAppointmentComponent {
   async onSubmit() {
 
     if (this.authForm.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Faltam Campos', detail: 'Preencha todos os campos.' });
+      this.messageService.add({ severity: 'error', summary: 'Faltam Campos', detail: 'Faltam campos a serem preenchidos' });
+      return
+    }
+
+    const dateHourInclude = this.hour_date.find((hour: any) => hour.date === this.authForm.value.appointmentdate && hour.hour === this.authForm.value.hour);
+    
+    if (dateHourInclude) {
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Horário indisponível!' });
       return
     }
 
     this.isLoading = true;
     try {
-      const appointment = { ...this.authForm.value };
-      const appointments = await this.appointment.createAppointment(appointment).toPromise();
+
+      const { speciality: _, ...dataForm } = this.authForm.value;
+      const spliceDate = dataForm.appointmentdate.split('/');
+      dataForm.appointmentdate = `${spliceDate[0]}-${spliceDate[1]}-${spliceDate[2]}`;
+      const appointments = await this.appointment.createAppointment(dataForm).toPromise();
       this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Cadastro feito com sucesso!' });
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu algum erro!' });
     } finally {
       this.isLoading = false;
       this.cdr.detectChanges();
+      this.hour_date = [];
       this.authForm.reset();
     }
   }
