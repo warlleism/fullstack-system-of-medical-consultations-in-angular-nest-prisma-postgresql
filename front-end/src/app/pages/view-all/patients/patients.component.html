@@ -1,0 +1,82 @@
+<div class="main-patient-view-all-container">
+    <div class="form-view-all-patient-title">
+        <div class="form-view-all-patient-title-container">
+            Visualizar todos os pacientes
+        </div>
+    </div>
+    <div class="search-container">
+
+        <div class="pagination-container">
+            <div style="color: rgba(0, 0, 0, 0.623);">página {{currentPage}} de {{totalPages}}</div>
+            <div class="pagination-icons-container">
+                <i class="icons-pagination pi pi-angle-left" (click)="previousPage()"></i>
+                <i class="icons-pagination pi pi-angle-double-left" (click)="firstPage()"></i>
+                <div
+                    style="border-radius: 100px; background-color: rgba(0, 82, 75, 0.24); color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
+                    {{currentPage}}</div>
+                <i class="icons-pagination pi pi-angle-double-right" (click)="lastPage()"></i>
+                <i class="icons-pagination pi pi-angle-right" (click)="nextPage()"></i>
+            </div>
+        </div>
+
+        <input type="text" pInputText [(ngModel)]="searchValue" (ngModelChange)="onSearch($event)"
+            placeholder="Pesquisar pacientes..." />
+    </div>
+    <div class="patient-container">
+        <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
+            <div class="no-patients-container" *ngIf="(filteredPatients$ | async)?.length === 0; else hasPatients">
+                <div class="no-patients-text"> Nenhum paciente encontrado!</div>
+                <div class="no-patients"></div>
+            </div>
+            <ng-template #hasPatients>
+                <p-table class="table" p-table *ngIf="filteredPatients$ | async as patients" [value]="patients"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Data de nascimento</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-patient>
+                        <tr>
+                            <td>{{ patient.id }}</td>
+                            <td>{{ patient.name }}</td>
+                            <td>{{ patient.cpf }}</td>
+                            <td>{{ patient.birthdate | date }}</td>
+                            <td>{{ patient.phone }}</td>
+                            <td>
+                                <i class="pi pi-pen-to-square icons-pi"></i>
+                                <i class="pi pi-trash icons-pi" (click)="showDialog(patient.id)"></i>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </ng-template>
+        </cdk-virtual-scroll-viewport>
+
+    </div>
+</div>
+
+<p-dialog header="Excluir paciente" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+    <div style="margin-top: 10px; margin-bottom: 30px;">
+        <div style="font-weight: 700;">Esta ação é irreversível.</div>
+        <div>Tem certeza que deseja excluir este paciente?</div>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <p-button label="Confirmar" severity="danger" (click)="visible = false; deletePatient()" />
+        <p-button label="Cancelar" severity="secondary" (click)="visible = false" />
+    </div>
+</p-dialog>
+
+<div class="card flex justify-content-center">
+    <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'"
+        [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" />
+</div>

@@ -94,8 +94,9 @@ export class PatientController {
     }
 
     @Get('getAll')
-    async getAll(@Query('page') page: string = '1', @Query('pageSize') pageSize: string = '10') {
+    async getAll(@Query('page') page, @Query('pageSize') pageSize) {
         try {
+
             const pageNumber = parseInt(page);
             const sizeNumber = parseInt(pageSize);
 

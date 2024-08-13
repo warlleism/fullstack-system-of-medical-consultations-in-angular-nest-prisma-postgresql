@@ -6,6 +6,7 @@ import { DoctorsComponent } from './pages/view-all/doctors/doctors.component';
 import { FormPatientComponent } from './pages/forms/form-patient/form-patient.component';
 import { FormDoctorComponent } from './pages/forms/form-doctor/form-doctor.component';
 import { FormAppointmentComponent } from './pages/forms/form-appointment/form-appointment.component';
+import { PatientsComponent } from './pages/view-all/patients/patients.component';
 
 export const routes: Routes = [
     {
@@ -40,6 +41,11 @@ export const routes: Routes = [
                 component: DoctorsComponent,
                 canActivate: [AuthorizationGuard]
             },
+            {
+                path: 'view/all/patients',
+                component: PatientsComponent,
+                canActivate: [AuthorizationGuard]
+            }
         ]
     },
     {

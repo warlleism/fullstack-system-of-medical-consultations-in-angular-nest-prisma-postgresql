@@ -14,11 +14,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  readonly panelStates = {
-    doctors: signal(false),
-    patients: signal(false),
-    appointments: signal(false)
-  };
+ 
 
   link: string = '';
 
@@ -37,10 +33,6 @@ export class HomeComponent implements OnInit {
     const link = localStorage.getItem('link');
     if (link)
       this.link = link;
-  }
-
-  getBorderRadius(panel: keyof typeof this.panelStates) {
-    return this.panelStates[panel]() ? '5px' : '100px';
   }
 
   logout() {

@@ -15,8 +15,7 @@
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
           <mat-accordion>
             <mat-expansion-panel style="margin-top: 20px;" class="custom-list"
-              [ngStyle]="{'border-radius': getBorderRadius('doctors')}" (opened)="panelStates.doctors.set(true)"
-              (closed)="panelStates.doctors.set(false)">
+           >
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
                   Doutores(a)
@@ -43,8 +42,8 @@
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list" [ngStyle]="{'border-radius': getBorderRadius('patients')}"
-              (opened)="panelStates.patients.set(true)" (closed)="panelStates.patients.set(false)">
+            <mat-expansion-panel class="custom-list" 
+             >
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
                   Pacientes
@@ -60,19 +59,19 @@
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/home/view/patient']" [ngClass]="{'active': link === '/home/view/patient'}"
-                    (click)="setLink('/home/view/patient')">
+                  <a [routerLink]="['/home/view/all/patients']" [ngClass]="{'active': link === '/home/view/all/patients'}"
+                    (click)="setLink('/home/view/all/patients')">
                     Visualizar pacientes
                     <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/view/patient'">radio_button_checked</mat-icon>
+                      *ngIf="link === '/home/view/all/patients'">radio_button_checked</mat-icon>
                   </a>
                 </li>
               </ul>
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list" [ngStyle]="{'border-radius': getBorderRadius('appointments')}"
-              (opened)="panelStates.appointments.set(true)" (closed)="panelStates.appointments.set(false)">
+            <mat-expansion-panel class="custom-list" 
+             >
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
                   Consultas

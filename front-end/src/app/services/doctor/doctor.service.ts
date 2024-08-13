@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { createDoctor } from '../../store/actions/counter.actions';
+import { deleteDoctor, getAllDoctors, createDoctor } from '../../store/actions/counter.actions';
 import { Store } from '@ngrx/store';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class DoctorService {
     return this.http.get<any>(url).pipe(
       tap({
         next: (res: any) => {
-          this.store.dispatch(createDoctor({ doctor: res.data.doctors }))
+          this.store.dispatch(getAllDoctors({ doctors: res.data.doctors, pagination: res.data.pagination }))
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
@@ -34,7 +34,7 @@ export class DoctorService {
     return this.http.post<any>(url, doctor).pipe(
       tap({
         next: (res: any) => {
-          console.log(res)
+          this.store.dispatch(createDoctor({ doctor: res.data }))
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
@@ -58,7 +58,6 @@ export class DoctorService {
 
   getSpeciality(): Observable<any> {
     const url = 'http://localhost:3000/doctor/getAllSpeciality';
-
     return this.http.get<any>(url).pipe(
       tap({
         next: (res: any) => { },
@@ -69,4 +68,20 @@ export class DoctorService {
       })
     );
   }
+
+  deleteDoctor(id: number) {
+    const url = `http://localhost:3000/doctor/delete/${id}`;
+    return this.http.delete<any>(url).pipe(
+      tap({
+        next: (res: any) => {
+          this.store.dispatch(deleteDoctor({ id: id }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
+          alert(errorMessage)
+        }
+      })
+    );
+  }
+
 }
