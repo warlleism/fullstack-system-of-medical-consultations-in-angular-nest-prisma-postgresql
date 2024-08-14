@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { PatientState } from "../../interfaces/IPatient";
-import { createPatient, deletePatient, getAllPatients } from "../actions/counter.actions";
+import { createPatient, deletePatient, getAllPatients, updatePatient } from "../actions/counter.actions";
 
 export const initialState: PatientState = {
     patients: [],
@@ -22,6 +22,10 @@ export const patientReducer = createReducer(
     on(createPatient, (state, { patient }) => ({
         ...state,
         patients: [...state.patients, patient]
+    })),
+    on(updatePatient, (state, { patient }) => ({
+        ...state,
+        patients: state.patients.map(d => d.id === patient.id ? patient : d)
     })),
     on(deletePatient, (state, { id }) => ({
         ...state,

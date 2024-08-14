@@ -36,14 +36,41 @@
     .search-container {
         height: 7%;
         display: flex;
+        padding: 0 10px;
         align-items: center;
-        justify-content: flex-end;
+        box-sizing: border-box;
         background-color: #f9fafb;
+        justify-content: space-between;
 
         input {
-            margin-right: 10px;
             height: 70%;
             border-radius: 5px;
+        }
+
+        .pagination-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+
+            .pagination-icons-container {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                .icons-pagination{
+                    padding: 5px;
+                    color: #a2acb9;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    border-radius: 100px;
+                    box-sizing: border-box;
+                    transition: .5s ease-in-out;
+                }
+
+                .icons-pagination:hover{
+                    background-color: rgba(36, 41, 36, 0.055);
+                }
+            }
         }
     }
 
@@ -53,7 +80,7 @@
         display: flex;
         flex-direction: column;
 
-        .no-doctors-container {
+        .no-patients-container {
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -67,7 +94,7 @@
                 color: #333333;
             }
 
-            .no-doctors {
+            .no-patients {
                 width: 200px;
                 height: 200px;
                 background-image: url('../../../assets/images/not-found.png');
@@ -90,8 +117,19 @@
         .icons-pi:hover {
             background-color: rgba(0, 0, 0, 0.068);
         }
-
-
     }
+}
 
+.dialog-form-container{
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bottons{
+    display: flex;
+    align-items: center;
+    height: 10%;
+    gap: 10px;
 }

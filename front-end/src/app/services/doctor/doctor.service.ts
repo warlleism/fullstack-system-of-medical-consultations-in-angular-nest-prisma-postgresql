@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { deleteDoctor, getAllDoctors, createDoctor } from '../../store/actions/counter.actions';
+import { deleteDoctor, getAllDoctors, createDoctor, updateDoctor } from '../../store/actions/counter.actions';
 import { Store } from '@ngrx/store';
+import { Doctor } from '../../interfaces/IDoctos';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,9 @@ export class DoctorService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getDoctors(): Observable<any> {
-    const url = 'http://localhost:3000/doctor/getAll';
+  getDoctors(page?: number, pageSize?: number): Observable<any> {
+    const pagination = page && pageSize ? `page=${page}&pageSize=${pageSize}` : '';
+    const url = `http://localhost:3000/doctor/getAll?${pagination}`;
     return this.http.get<any>(url).pipe(
       tap({
         next: (res: any) => {
@@ -39,6 +41,20 @@ export class DoctorService {
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
           alert(errorMessage)
+        }
+      })
+    );
+  }
+
+  updateDoctor(doctor: Doctor): Observable<any> {
+    const url = 'http://localhost:3000/doctor/update';
+    return this.http.patch<any>(url, doctor).pipe(
+      tap({
+        next: (res: any) => {
+          this.store.dispatch(updateDoctor({ doctor: res.data }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
         }
       })
     );

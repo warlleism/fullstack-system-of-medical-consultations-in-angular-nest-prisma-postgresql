@@ -73,7 +73,7 @@ export class DoctorPatientFormComponent {
   ) { }
 
   async onSubmit() {
-    
+
     if (this.authForm.invalid) {
       this.messageService.add({ severity: 'error', summary: 'Faltam Campos', detail: 'Preencha todos os campos.' });
       return
@@ -85,13 +85,14 @@ export class DoctorPatientFormComponent {
 
       const data = {
         ...this.authForm.value,
-        name: this.userType === 'doctor' ? `Dr(a) ${this.authForm.value.name}` : this.authForm.value.name,
+        name: this.authForm.value.gender === 'masculino' ? `Dr. ${this.authForm.value.name}` : `Dra. ${this.authForm.value.name}`,
       };
+
       if (this.userType === 'doctor') {
         const doctors = await this.doctorService.createDoctor(data).toPromise();
       } else {
         const { speciality: _, ...dataForm } = data;
-        const patient = await this.patientService.createDoctor(dataForm).toPromise();
+        const patient = await this.patientService.createPatient(dataForm).toPromise();
       }
 
       this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Cadastro feito com sucesso!' });

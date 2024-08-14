@@ -1,43 +1,59 @@
 <div class="main-doctor-view-all-container">
     <div class="form-view-all-doctor-title">
         <div class="form-view-all-doctor-title-container">
-            Visualizar todos os Doutores(a)
+            Visualizar todos os doutores(a)
         </div>
     </div>
     <div class="search-container">
+
+        <div class="pagination-container">
+            <div style="color: rgba(0, 0, 0, 0.623);">página {{currentPage}} de {{totalPages}}</div>
+            <div class="pagination-icons-container">
+                <i class="icons-pagination pi pi-angle-left" (click)="previousPage()"></i>
+                <i class="icons-pagination pi pi-angle-double-left" (click)="firstPage()"></i>
+                <div
+                    style="border-radius: 100px; background-color: rgba(0, 82, 75, 0.24); color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
+                    {{currentPage}}</div>
+                <i class="icons-pagination pi pi-angle-double-right" (click)="lastPage()"></i>
+                <i class="icons-pagination pi pi-angle-right" (click)="nextPage()"></i>
+            </div>
+        </div>
+
         <input type="text" pInputText [(ngModel)]="searchValue" (ngModelChange)="onSearch($event)"
             placeholder="Pesquisar pacientes..." />
     </div>
     <div class="doctor-container">
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
             <div class="no-doctors-container" *ngIf="(filteredDoctors$ | async)?.length === 0; else hasDoctors">
-                <div class="no-doctors-text"> Nenhum doutor(a) encontrado!</div>
-                <div class="no-doctors"></div>
+                <div class="no-patients-text"> Nenhum paciente encontrado!</div>
+                <div class="no-patients"></div>
             </div>
             <ng-template #hasDoctors>
-                <p-table class="table" p-table *ngIf="filteredDoctors$ | async as doctors" [value]="doctors"
-                    [tableStyle]="{ 'min-width': '50rem' }">
+                <p-table class="table" p-table *ngIf="filteredDoctors$ | async as patients" [value]="patients"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
-                            <th>Especialidade</th>
                             <th>CPF</th>
+                            <th>Especialidade</th>
                             <th>Data de nascimento</th>
                             <th>Telefone</th>
                             <th>Ações</th>
                         </tr>
                     </ng-template>
+
                     <ng-template pTemplate="body" let-doctor>
                         <tr>
                             <td>{{ doctor.id }}</td>
                             <td>{{ doctor.name }}</td>
-                            <td>{{ doctor.speciality }}</td>
                             <td>{{ doctor.cpf }}</td>
+                            <td>{{ doctor.speciality }}</td>
                             <td>{{ doctor.birthdate | date }}</td>
                             <td>{{ doctor.phone }}</td>
                             <td>
-                                <i class="pi pi-pen-to-square icons-pi"></i>
+                                <i class="pi pi-pen-to-square icons-pi" (click)="showDialogEdit(doctor)"></i>
                                 <i class="pi pi-trash icons-pi" (click)="showDialog(doctor.id)"></i>
                             </td>
                         </tr>
@@ -49,7 +65,49 @@
     </div>
 </div>
 
-<p-dialog header="Excluir paciente" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
+<p-dialog [dismissableMask]="true" header="Editar Doutor(a)" [modal]="true" [(visible)]="visibleEdit" [style]="{ width: '50vw', height: '80vh' }">
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="dialog-form-container">
+        <div style="width: 100%; height: 55px;">
+            <input class="custom-input" formControlName="name" type="text" pInputText placeholder="Nome Completo:"
+                [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
+        </div>
+        <div style="width: 100%; height: 55px;">
+            <p-inputMask class="custom-input" formControlName="cpf" mask="999.999.999-99" placeholder="CPF:"
+                [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
+        </div>
+        <div style="width: 100%; height: 55px;">
+            <p-dropdown class="custom-input"
+                [style]="{'width': '100%','height': '100%', 'display': 'flex', 'align-items': 'center' }"
+                formControlName="gender" [options]="[
+                          { label: 'Masculino', value: 'masculino' },
+                          { label: 'Feminino', value: 'feminino' },
+                          { label: 'Outro', value: 'outro' }
+                        ]" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showClear]="true"
+                placeholder="Gênero:">
+            </p-dropdown>
+        </div>
+        <div style="width: 100%; height: 55px;">
+            <p-inputMask class="custom-input" formControlName="birthdate" mask="99-99-9999"
+                placeholder="Data de nascimento:" slotChar="dd/mm/aaaa"
+                [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
+        </div>
+        <div style="width: 100%; height: 55px;">
+            <input class="custom-input" formControlName="speciality" type="text" pInputText placeholder="Especialidade:"
+                [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
+        </div>
+        <div style="width: 100%; height: 55px;">
+            <p-inputMask class="custom-input" formControlName="phone" mask="(99) 99999-9999" placeholder="Telefone:"
+                [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
+        </div>
+    </form>
+
+    <div class="flex justify-content-end gap-2 bottons">
+        <p-button label="Confirmar" severity="danger" (onClick)="onSubmit()" />
+        <p-button label="Cancelar" severity="secondary" (onClick)="visibleEdit = false" />
+    </div>
+</p-dialog>
+
+<p-dialog [dismissableMask]="true" header="Excluir paciente" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <div style="margin-top: 10px; margin-bottom: 30px;">
         <div style="font-weight: 700;">Esta ação é irreversível.</div>

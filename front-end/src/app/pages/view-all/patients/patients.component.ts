@@ -12,8 +12,11 @@ import { map, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-patients',
@@ -27,8 +30,12 @@ import { InputTextModule } from 'primeng/inputtext';
     TableModule,
     ToastModule,
     ScrollingModule,
+    ReactiveFormsModule,
     FormsModule,
-    InputTextModule
+    InputTextModule,
+    DropdownModule,
+    InputMaskModule,
+    InputTextareaModule,
   ],
   providers: [MessageService],
   templateUrl: './patients.component.html',
@@ -36,9 +43,11 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class PatientsComponent implements OnInit {
 
+  authForm!: FormGroup;
   searchValue: string = '';
   visible: boolean = false;
   selectedPatient: number = 0;
+  visibleEdit: boolean = false;
   emptyPatients: boolean = false;
   patients$: Observable<Patient[]>;
   store = inject(Store<PatientState>);
@@ -56,18 +65,23 @@ export class PatientsComponent implements OnInit {
     private messageService: MessageService) {
     this.patients$ = this.store.select(state => state.patient.patients);
     this.filteredPatients$ = this.patients$;
-
     this.store.subscribe(state => {
-      // this.total = state.patient.pagination?.total
-      // this.pageSize = state.patient.pagination?.pageSize
-      // this.currentPage = state.patient.pagination?.page
       this.totalPages = state.patient.pagination?.totalPages
-      // console.log(state.patient.pagination)
     });
 
   }
 
   ngOnInit(): void {
+
+    this.authForm = new FormGroup({
+      id: new FormControl(''),
+      name: new FormControl('', [Validators.required]),
+      cpf: new FormControl('', [Validators.required, Validators.minLength(14)]),
+      gender: new FormControl('', [Validators.required]),
+      birthdate: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [Validators.required, Validators.minLength(11)]),
+    });
+
     this.patientService.getPatients(1, 20).subscribe();
     this.cdr.detectChanges();
   }
@@ -113,6 +127,38 @@ export class PatientsComponent implements OnInit {
   showDialog(patientId: number) {
     this.selectedPatient = patientId;
     this.visible = true;
+  }
+
+  async showDialogEdit(patient: Patient) {
+
+    const formattedBirthdate = patient.birthdate ? (() => {
+      const [year, month, day] = patient.birthdate.split('T')[0].split('-');
+      return `${day}-${month}-${year}`;
+    })()
+      : '';
+
+    this.authForm.setValue({
+      id: patient.id || '',
+      name: patient.name || '',
+      cpf: patient.cpf || '',
+      gender: patient.gender || '',
+      birthdate: formattedBirthdate || '',
+      phone: patient.phone || '',
+    });
+
+    this.visibleEdit = true;
+
+  }
+
+  async onSubmit() {
+    try {
+      const patient = await this.patientService.updatePatient(this.authForm.value).toPromise();
+      this.visibleEdit = false;
+      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Editado com sucesso!' });
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao editar o médico.' });
+      console.error('Erro ao editar:', error);
+    }
   }
 
   deletePatient() {

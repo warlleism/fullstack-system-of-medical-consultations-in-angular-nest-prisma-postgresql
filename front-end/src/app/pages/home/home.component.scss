@@ -28,7 +28,7 @@
   }
 
   .mat-icon {
-    width: 30px;  
+    width: 30px;
     color: #fff;
     height: 30px;
     display: flex;
@@ -118,6 +118,14 @@
       background-color: #014b5817;
     }
 
+    .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header {
+      transition: .5s ease-in-out;
+    }
+
+    .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
+      background: rgba(0, 0, 0, 0.055);
+      border-radius: 100px;
+    }
 
     .custom-list {
       width: 98%;
@@ -127,6 +135,8 @@
       transition: .2s ease-in-out;
       background-color: transparent;
       border: solid 1px transparent;
+
+
 
       .title-container {
         color: #48868f;
