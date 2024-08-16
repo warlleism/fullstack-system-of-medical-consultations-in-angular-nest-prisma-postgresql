@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-// import { createDoctor } from '../../store/actions/counter.actions';
 import { Store } from '@ngrx/store';
+import { createAppointment, deleteAppointment, getAllAppointments, updateAppointment } from '../../store/actions/counter.actions';
+import { Appointment } from '../../interfaces/IAppointment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,13 @@ export class AppointmentService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getPatients(): Observable<any> {
-    const url = 'http://localhost:3000/appointment/getAll';
+  getAppointments(page?: number, pageSize?: number): Observable<any> {
+    const pagination = page && pageSize ? `page=${page}&pageSize=${pageSize}` : '';
+    const url = `http://localhost:3000/appointment/getAll?${pagination}`;
     return this.http.get<any>(url).pipe(
       tap({
         next: (res: any) => {
-          // this.store.dispatch(createDoctor({ doctor: res.data.doctors }))
+          this.store.dispatch(getAllAppointments({ appointments: res.data.appointments, pagination: res.data.pagination }))
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
@@ -30,11 +32,12 @@ export class AppointmentService {
     );
   }
 
-  createAppointment(doctor: any): Observable<any> {
+  createAppointment(appointment: any): Observable<any> {
     const url = 'http://localhost:3000/appointment/create';
-    return this.http.post<any>(url, doctor).pipe(
+    return this.http.post<any>(url, appointment).pipe(
       tap({
         next: (res: any) => {
+          this.store.dispatch(createAppointment({ appointment: res.data }))
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
@@ -43,4 +46,35 @@ export class AppointmentService {
       })
     );
   }
+
+  updateAppointment(appointment: Appointment): Observable<any> {
+    const url = 'http://localhost:3000/appointment/update';
+    return this.http.patch<any>(url, appointment).pipe(
+      tap({
+        next: (res: any) => {
+          console.log(res.data)
+          this.store.dispatch(updateAppointment({ appointment: res.data[0] }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
+        }
+      })
+    );
+  }
+
+  deleteAppointment(id: number) {
+    const url = `http://localhost:3000/appointment/delete/${id}`;
+    return this.http.delete<any>(url).pipe(
+      tap({
+        next: (res: any) => {
+          this.store.dispatch(deleteAppointment({ id: id }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
+          alert(errorMessage)
+        }
+      })
+    );
+  }
+
 }

@@ -21,11 +21,15 @@ export class AppointmentRepository {
         SELECT 
             a.id as id, 
             d.name AS "doctor", 
-            d.speciality AS "specialty", 
-            a.appointmentdate AS "appointment_date", 
+            d.id as "doctorid",
+            p.name as "patient",
+            p.id as "patientid",
+            d.speciality AS "speciality", 
+            a.appointmentdate AS "appointmentdate", 
+            a.hour AS "hour", 
             p.name AS "patient", 
             p.gender AS "gender",
-            a.description AS "appointment_description"
+            a.description AS "description"
         FROM "Appointment" a 
         INNER JOIN "Doctor" d ON a.doctorid = d.id 
         INNER JOIN "Patient" p ON a.patientid = p.id
@@ -70,7 +74,25 @@ export class AppointmentRepository {
             },
             data: appointment
         });
-        return result;
+        const resultData = await this.prismaService.$queryRaw<IAppointment[]>`
+        SELECT 
+            a.id as id, 
+            d.name AS "doctor", 
+            d.id as "doctorid",
+            p.name as "patient",
+            p.id as "patientid",
+            d.speciality AS "speciality", 
+            a.appointmentdate AS "appointmentdate", 
+            a.hour AS "hour", 
+            p.name AS "patient", 
+            p.gender AS "gender",
+            a.description AS "description"
+        FROM "Appointment" a 
+        INNER JOIN "Doctor" d ON a.doctorid = d.id 
+        INNER JOIN "Patient" p ON a.patientid = p.id
+        `;
+
+        return resultData;
     }
 
     async delete(id: number) {

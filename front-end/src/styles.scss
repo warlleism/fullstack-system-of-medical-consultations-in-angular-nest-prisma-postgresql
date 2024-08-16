@@ -78,3 +78,14 @@ body {
   border-width: 0 0 1px 0;
   padding: 1rem 1rem;
 }
+
+
+
+
+.p-tooltip .p-tooltip-text {
+  width: 80vh;
+
+  @media (max-width: 1000px) {
+    width: 60vh;
+  }
+}

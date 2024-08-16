@@ -1,0 +1,168 @@
+<div class="main-appointment-view-all-container">
+    <div class="form-view-all-appointment-title">
+        <div class="form-view-all-appointment-title-container">
+            Visualizar todas as consultas
+        </div>
+    </div>
+    <div class="search-container">
+
+        <div class="pagination-container">
+            <div style="color: rgba(0, 0, 0, 0.623);">página {{currentPage}} de {{totalPages}}</div>
+            <div class="pagination-icons-container">
+                <i class="icons-pagination pi pi-angle-left" (click)="previousPage()"></i>
+                <i class="icons-pagination pi pi-angle-double-left" (click)="firstPage()"></i>
+                <div
+                    style="border-radius: 100px; background-color: rgba(0, 82, 75, 0.24); color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
+                    {{currentPage}}</div>
+                <i class="icons-pagination pi pi-angle-double-right" (click)="lastPage()"></i>
+                <i class="icons-pagination pi pi-angle-right" (click)="nextPage()"></i>
+            </div>
+        </div>
+
+        <input type="text" pInputText [(ngModel)]="searchValue" (ngModelChange)="onSearch($event)"
+            placeholder="Pesquisar pacientes..." />
+    </div>
+    <div class="appointment-container">
+        <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
+            <div class="no-appointments-container"
+                *ngIf="(filteredAppointments$ | async)?.length === 0; else hasAppointments">
+                <div class="no-appointments-text"> Nenhum paciente encontrado!</div>
+                <div class="no-appointments"></div>
+            </div>
+            <ng-template #hasAppointments>
+                <p-table class="table" p-table *ngIf="filteredAppointments$ | async as appointments"
+                    [value]="appointments" [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>ID</th>
+                            <th>Descrição</th>
+                            <th>Doutor</th>
+                            <th>Especialidade</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Paciente</th>
+                            <th>gênero</th>
+                            <th>Ações</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-appointment>
+                        <tr>
+                            <td>{{ appointment.id }}</td>
+                            <td pTooltip={{appointment.description}} tooltipPosition="bottom">{{
+                                appointment.description | slice:0:20 }}...</td>
+                            <td>{{ appointment.doctor }}</td>
+                            <td>{{ appointment.speciality }}</td>
+                            <td>{{ appointment.appointmentdate | date }}</td>
+                            <td>{{ appointment.hour}}</td>
+                            <td>{{ appointment.patient}}</td>
+                            <td>{{ appointment.gender }}</td>
+                            <td>
+                                <i class="pi pi-pen-to-square icons-pi" (click)="showDialogEdit(appointment)"></i>
+                                <i class="pi pi-trash icons-pi" (click)="showDialog(appointment.id)"></i>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </ng-template>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</div>
+
+<p-dialog [dismissableMask]="true" header="Editar Paciente" [modal]="true" [(visible)]="visibleEdit"
+    [style]="{ width: '50vw', height: '80vh' }">
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="dialog-form-container">
+        <div class="form-appointment-container-input">
+            <div style="width: 100%; height: 55px;">
+                <p-dropdown [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}"
+                    class="full-width" [options]="patients" formControlName="patientid" optionLabel="name"
+                    optionValue="id" [filter]="true" filterBy="name" [showClear]="true" placeholder="Paciente: ">
+                    <ng-template pTemplate="selectedItem" let-selectedOption>
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ selectedOption.name }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div style="width: 100%; height: 55px;">
+                <p-dropdown (onChange)="loadDoctors()"
+                    [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}"
+                    class="full-width" [options]="specialitys" formControlName="speciality" optionLabel="speciality"
+                    optionValue="speciality" [filter]="true" filterBy="name" [showClear]="true"
+                    placeholder="Especialidade:">
+                    <ng-template pTemplate="selectedItem" let-selectedOption>
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ selectedOption.speciality }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div style="width: 100%; height: 55px;">
+                <p-dropdown [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}"
+                    class="full-width" [options]="doctors" formControlName="doctorid" optionLabel="name"
+                    optionValue="doctor_id" [filter]="true" filterBy="name" [showClear]="true" placeholder="Doutor(a):"
+                    (onChange)="getHours()">
+                    <ng-template pTemplate="selectedItem" let-selectedOption>
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ selectedOption.name }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div *ngIf="hour_date.length > 0" class="container-dates-hour">
+                <div class="title-dates-hour" style="color: #fff; font-weight: 600;">Consultas</div>
+                <div class="list-dates-hour">
+                    <div *ngFor="let item of hour_date" style="margin-bottom: 5px;" class="item-dates-hour">
+                        <div><strong>Data:</strong> {{ item.date }}</div>
+                        <div><strong>Hora:</strong> {{ item.hour }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style=" width: 100%;  display: flex; justify-content: space-between;">
+                <div style="width: 49%; height: 55px;">
+                    <p-inputMask formControlName="appointmentdate" mask="99/99/9999" placeholder="Data:"
+                        slotChar="dd/mm/yyyy"
+                        [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}" />
+                </div>
+                <div style="width: 49%; height: 55px;">
+                    <p-inputMask formControlName="hour" mask="99:99" placeholder="Horário:" slotChar="hh:mm"
+                        [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}" />
+                </div>
+            </div>
+
+            <div style="width: 100%;">
+                <textarea rows="10" cols="30" pInputTextarea formControlName="description"
+                    [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}"></textarea>
+            </div>
+        </div>
+    </form>
+
+    <div class="flex justify-content-end gap-2 bottons">
+        <p-button label="Confirmar" severity="danger" (onClick)="onSubmit()" />
+        <p-button label="Cancelar" severity="secondary" (onClick)="visibleEdit = false" />
+    </div>
+</p-dialog>
+
+
+<p-dialog header="Excluir paciente" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+    <div style="margin-top: 10px; margin-bottom: 30px;">
+        <div style="font-weight: 700;">Esta ação é irreversível.</div>
+        <div>Tem certeza que deseja excluir este paciente?</div>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <p-button label="Confirmar" severity="danger" (click)="visible = false; deleteAppointment()" />
+        <p-button label="Cancelar" severity="secondary" (click)="visible = false" />
+    </div>
+</p-dialog>
+
+<div class="card flex justify-content-center">
+    <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'"
+        [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" />
+</div>

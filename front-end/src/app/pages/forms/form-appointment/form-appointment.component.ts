@@ -77,7 +77,6 @@ export class FormAppointmentComponent {
       }
     });
 
-
     this.loadSpecialities();
   }
 
@@ -151,7 +150,7 @@ export class FormAppointmentComponent {
     }
 
     const dateHourInclude = this.hour_date.find((hour: any) => hour.date === this.authForm.value.appointmentdate && hour.hour === this.authForm.value.hour);
-    
+
     if (dateHourInclude) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Horário indisponível!' });
       return

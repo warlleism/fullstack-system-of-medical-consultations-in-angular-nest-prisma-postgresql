@@ -5,6 +5,7 @@ import {
 } from '@ngrx/store';
 import { doctorReducer } from './doctor.reducer';
 import { patientReducer } from './patient.reducer';
+import { appointmentReducer } from './appointment.reducer';
 
 export interface State {
 
@@ -13,7 +14,8 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   doctor: doctorReducer,
   pageSize: doctorReducer,
-  patient: patientReducer
+  patient: patientReducer,
+  appointment: appointmentReducer
 };
 
 
