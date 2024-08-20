@@ -1,0 +1,19 @@
+<div class="dashboad-container">
+
+  <div class="dashboard-title">
+    DASHBOARD
+  </div>
+
+  <div class="chart-container-container">
+    <div class="chart-container-pizza">
+      <p-chart type="pie" [data]="basicData " [options]="basicOptions" />
+    </div>
+    <div class="chart-container">
+      <p-chart type="bar" [data]="basicData" [options]="basicOptions" />
+    </div>
+  </div>
+
+  <div class="chart-line-container-container">
+    <p-chart type="line" [data]="lineData" [options]="lineOptions" />
+  </div>
+</div>

@@ -10,9 +10,7 @@
     .form-view-all-patient-title {
         height: 10%;
         display: flex;
-        margin-top: 20px;
         flex-direction: column;
-
 
         .form-view-all-patient-title-container {
             height: 100%;
@@ -20,10 +18,10 @@
             color: #ffffff;
             padding-left: 10px;
             font-weight: 400;
-            font-size: 2.3rem;
+            font-size: 1.8rem;
             align-items: center;
             letter-spacing: -1px;
-            background: #478e8d;
+            background: #3F51B5;
             box-sizing: border-box;
             justify-content: flex-start;
             border-top-left-radius: 5px;
@@ -34,7 +32,7 @@
     }
 
     .search-container {
-        height: 7%;
+        height: 10%;
         display: flex;
         padding: 0 10px;
         align-items: center;
@@ -43,7 +41,7 @@
         justify-content: space-between;
 
         input {
-            height: 70%;
+            height: 60%;
             border-radius: 5px;
         }
 
@@ -57,7 +55,7 @@
                 gap: 10px;
                 align-items: center;
 
-                .icons-pagination {
+                .icons-pagination{
                     padding: 5px;
                     color: #a2acb9;
                     cursor: pointer;
@@ -67,7 +65,7 @@
                     transition: .5s ease-in-out;
                 }
 
-                .icons-pagination:hover {
+                .icons-pagination:hover{
                     background-color: rgba(36, 41, 36, 0.055);
                 }
             }
@@ -76,7 +74,7 @@
 
     .patient-container {
         width: 100%;
-        height: 78%;
+        height: 80%;
         display: flex;
         flex-direction: column;
 
@@ -120,14 +118,14 @@
     }
 }
 
-.dialog-form-container {
+.dialog-form-container{
     height: 90%;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.bottons {
+.bottons{
     display: flex;
     align-items: center;
     height: 10%;

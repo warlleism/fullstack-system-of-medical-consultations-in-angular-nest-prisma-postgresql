@@ -65,10 +65,7 @@ export class PatientsComponent implements OnInit {
     private messageService: MessageService) {
     this.patients$ = this.store.select(state => state.patient.patients);
     this.filteredPatients$ = this.patients$;
-    this.store.subscribe(state => {
-      this.totalPages = state.patient.pagination?.totalPages
-    });
-
+    this.store.subscribe(state => this.totalPages = state.patient.pagination?.totalPages);
   }
 
   ngOnInit(): void {
@@ -89,8 +86,7 @@ export class PatientsComponent implements OnInit {
   onSearch(value: string): void {
     this.searchValue = value;
     if (value) {
-      this.filteredPatients$ = this.patients$.pipe(
-        map((patients: any) => patients.filter((patient: any) => patient.name.toLowerCase().includes(value.toLowerCase())))
+      this.filteredPatients$ = this.patients$.pipe(map((patients: any) => patients.filter((patient: any) => patient.name.toLowerCase().includes(value.toLowerCase())))
       );
     } else {
       this.filteredPatients$ = this.patients$;

@@ -8,10 +8,11 @@ import { FormDoctorComponent } from './pages/forms/form-doctor/form-doctor.compo
 import { FormAppointmentComponent } from './pages/forms/form-appointment/form-appointment.component';
 import { PatientsComponent } from './pages/view-all/patients/patients.component';
 import { AppointmentsComponent } from './pages/view-all/appointments/appointments.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
-        path: '', redirectTo: 'home', pathMatch: 'full'
+        path: '', redirectTo: 'home/dashboard', pathMatch: 'full'
     },
     {
         path: 'login',
@@ -22,6 +23,11 @@ export const routes: Routes = [
         component: HomeComponent,
         canActivate: [AuthorizationGuard],
         children: [
+            {
+                path: 'dashboard',
+                component: DashboardComponent,
+                canActivate: [AuthorizationGuard]
+            },
             {
                 path: 'appointment',
                 component: FormAppointmentComponent,

@@ -1,97 +1,120 @@
-<div class="container">
-  <header class="header">
-    <h1>Consultify</h1>
-    <mat-icon>menu</mat-icon>
-  </header>
-  <div class="main-content">
+<div class="main-content">
+
+  <div class="sidebar-content-container">
     <nav class="sidebar">
       <div class="profile-container">
-        <mat-icon>account_circle</mat-icon>
-        <div class="name">Warllei Martins</div>
-        <div class="email">warllei.s.martins&#64;hotmail.com</div>
-        <div class="user-active">usuário ativo</div>
+        <div class="profile-icon-container">
+          <i class="pi pi-user icons-pi"></i>
+          <div class="online"></div>
+        </div>
+        <div class="profile-list-itens">
+          <div class="name">
+            Warllei Martins
+          </div>
+          <div class="email">warllei.s.martins&#64;hotmail.com</div>
+        </div>
       </div>
       <div class="list-links-container">
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
           <mat-accordion>
-            <mat-expansion-panel style="margin-top: 20px;" class="custom-list"
-           >
+            <mat-expansion-panel class="custom-list">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
-                  Doutores(a)
+                  <i class="pi pi-home icons-pi" style="font-size: 1.6rem;"></i>
+                  <div style="font-weight: 500;">Início</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
-                <li>
-                  <a [routerLink]="['/home/doctor']" [ngClass]="{'active': link === '/home/doctor'}"
-                    (click)="setLink('/home/doctor')">
-                    Cadastro de doutor(a)
-                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/doctor'">radio_button_checked</mat-icon>
-                  </a>
-                </li>
-                <li>
-                  <a [routerLink]="['/home/view/all/doctors']" [ngClass]="{'active': link === '/home/view/all/doctors'}"
-                    (click)="setLink('/home/view/all/doctors')">
-                    Visualizar doutores(a)
-                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/view/all/doctors'">radio_button_checked</mat-icon>
+                <li [ngClass]="{'active': link === '/home/dashboard'}">
+                  <a [routerLink]="['/home/dashboard']" (click)="setLink('/home/dashboard')">
+                    <i class="pi pi-chart-bar icons-pi" style="font-size: 1rem;"></i>
+                    <div style="font-weight: 500;">
+                      Dashboard
+                    </div>
                   </a>
                 </li>
               </ul>
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list" 
-             >
+            <mat-expansion-panel class="custom-list">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
-                  Pacientes
+                  <i class="pi pi-users icons-pi" style="font-size: 1.6rem;"></i>
+                  <div style="font-weight: 500;">Doutores (a)</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
-                <li>
-                  <a [routerLink]="['/home/patient']" [ngClass]="{'active': link === '/home/patient'}"
-                    (click)="setLink('/home/patient')">
-                    Cadastro de paciente
-                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/patient'">radio_button_checked</mat-icon>
+                <li [ngClass]="{'active': link === '/home/doctor'}">
+                  <a [routerLink]="['/home/doctor']" (click)="setLink('/home/doctor')">
+                    <i class="pi pi-user-plus icons-pi" style="font-size: 1rem;"></i>
+                    <div style="font-weight: 500;">
+                      Cadastro de doutores (a)
+                    </div>
                   </a>
                 </li>
-                <li>
-                  <a [routerLink]="['/home/view/all/patients']" [ngClass]="{'active': link === '/home/view/all/patients'}"
-                    (click)="setLink('/home/view/all/patients')">
-                    Visualizar pacientes
-                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/view/all/patients'">radio_button_checked</mat-icon>
+                <li [ngClass]="{'active': link === '/home/view/all/doctors'}">
+                  <a [routerLink]="['/home/view/all/doctors']" (click)="setLink('/home/view/all/doctors')">
+                    <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
+                    <div style="font-weight: 500;">
+                      Visualizar doutores (a)
+                    </div>
                   </a>
                 </li>
               </ul>
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list" 
-             >
+            <mat-expansion-panel class="custom-list">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
-                  Consultas
+                  <i class="pi pi-users icons-pi" style="font-size: 1.6rem;"></i>
+                  <div style="font-weight: 500;">Pacientes</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
-                <li>
-                  <a [routerLink]="['/home/appointment']" [ngClass]="{'active': link === '/home/appointment'}"
-                    (click)="setLink('/home/appointment')">
-                    Cadastro de consulta
-                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/appointment'">radio_button_checked</mat-icon>
+                <li [ngClass]="{'active': link === '/home/patient'}">
+                  <a [routerLink]="['/home/patient']" (click)="setLink('/home/patient')">
+                    <i class="pi pi-user-plus icons-pi" style="font-size: 1rem;"></i>
+                    <div style="font-weight: 500;">
+                      Cadastro de paciente
+                    </div>
                   </a>
                 </li>
-                <li>
-                  <a [routerLink]="['/home/view/all/appointment']" [ngClass]="{'active': link === '/home/view/all/appointment'}"
-                    (click)="setLink('/home/view/all/appointment')">
-                    Visualizar consultas
-                    <mat-icon style="display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #84a9b3;"
-                      *ngIf="link === '/home/view/appointments'">radio_button_checked</mat-icon>
+                <li [ngClass]="{'active': link === '/home/view/all/patients'}">
+                  <a [routerLink]="['/home/view/all/patients']" (click)="setLink('/home/view/all/patients')">
+                    <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
+                    <div style="font-weight: 500;">
+                      Visualizar pacientes
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel class="custom-list">
+              <mat-expansion-panel-header>
+                <mat-panel-description class="title-container">
+                  <i class="pi pi-calendar-plus icons-pi" style="font-size: 1.6rem;"></i>
+                  <div style="font-weight: 500;">Consultas</div>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ul>
+                <li [ngClass]="{'active': link === '/home/appointment'}">
+                  <a [routerLink]="['/home/appointment']" (click)="setLink('/home/appointment')">
+                    <i class="pi pi-calendar-clock icons-pi" style="font-size: 1rem;"></i>
+                    <div style="font-weight: 500;">
+                      Cadastro de consultas
+                    </div>
+                  </a>
+                </li>
+                <li [ngClass]="{'active': link === '/home/view/all/appointment'}">
+                  <a [routerLink]="['/home/view/all/appointment']" (click)="setLink('/home/view/all/appointment')">
+                    <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
+                    <div style="font-weight: 500;">
+                      Visualizar consultas
+                    </div>
                   </a>
                 </li>
               </ul>
@@ -100,15 +123,33 @@
         </cdk-virtual-scroll-viewport>
       </div>
       <div class="logout">
-        <mat-icon>account_circle</mat-icon>
-        <mat-icon (click)="logout()">logout</mat-icon>
+        <div class="profile-icons-sistem">
+          <i class="pi pi-user icons-pi"></i>
+          <div style="font-size: 1rem; font-weight: 500;">Perfil</div>
+        </div>
+        <div class="profile-icons-sistem" (click)="logout()">
+          <i class="pi pi-sign-out icons-pi"></i>
+          <div style="font-size: 1rem; font-weight: 500;">Logout</div>
+        </div>
+        <div class="line"></div>
+        <div class="profile-icons-sistem" style="gap: 0; justify-content: space-between;">
+          <i class="pi pi-moon icons-pi" style="font-size: 1.5rem;"></i>
+          <div>Modo Escuro</div>
+          <div class="smaller-switch">
+            <p-inputSwitch [(ngModel)]="checked" />
+          </div>
+        </div>
       </div>
     </nav>
+
     <div class="content">
       <div class="content-route">
         <router-outlet></router-outlet>
       </div>
-      <div class="footer">copyright &copy; 2024</div>
     </div>
   </div>
+
+
+  <div class="footer">copyright &copy; 2024</div>
+
 </div>

@@ -8,9 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { ChangeDetectorRef } from '@angular/core';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DoctorService } from '../../../services/doctor/doctor.service';
 import { PatientService } from '../../../services/patient/patient.service';
 import { MessageService } from 'primeng/api';
@@ -32,9 +30,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ProgressSpinnerModule,
     MatIconModule,
-    MatButtonModule,
     ToastModule,
     DropdownModule,
     InputMaskModule,
@@ -72,6 +68,11 @@ export class DoctorPatientFormComponent {
     private messageService: MessageService
   ) { }
 
+
+  clearForm() {
+    this.authForm.reset();
+  }
+  
   async onSubmit() {
 
     if (this.authForm.invalid) {

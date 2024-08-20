@@ -1,0 +1,45 @@
+.dashboad-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 30px;
+  overflow-y: auto;
+  background-color: #ffffff;
+
+  .dashboard-title {
+    width: 100%;
+    padding: 20px;
+    font-weight: 500;
+    color: #3949ab;
+    font-size: 2rem;
+    box-sizing: border-box;
+  }
+
+
+  .chart-container-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .chart-container {
+      width: 50%;
+    }
+
+    .chart-container-pizza {
+      width: 24%;
+    }
+  }
+
+  .chart-line-container-container {
+    margin-bottom: 30px;
+
+  }
+
+
+
+}

@@ -113,4 +113,22 @@ export class AppointmentRepository {
         return result;
     }
 
+    async getAllMonthAppointments() {
+        const result = await this.prismaService.$queryRaw<any[]>`
+        SELECT date_trunc('month', "appointmentdate") AS month, 
+               COUNT(*) AS appointment_count
+        FROM "Appointment"
+        WHERE "appointmentdate" >= date_trunc('year', CURRENT_DATE)
+        GROUP BY month 
+        ORDER BY month
+        `;
+
+        const flattenedArray = result.flatMap(item => [item.appointment_count.toString()]);
+
+        return flattenedArray;
+    }
+
+
+
+
 }

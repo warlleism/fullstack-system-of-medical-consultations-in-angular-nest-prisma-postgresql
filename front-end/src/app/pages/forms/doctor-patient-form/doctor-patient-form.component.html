@@ -2,7 +2,7 @@
 
     <div class="form-create-doctor-title">
         <div class="form-create-doctor-title-container">
-            {{ userType === 'doctor' ? 'Cadastrar doutor(a)' : 'Cadastrar paciente' }}
+            {{ userType === 'doctor' ? 'Cadastrar doutor (a)' : 'Cadastrar paciente' }}
         </div>
     </div>
 
@@ -19,7 +19,7 @@
             <div style="width: 100%; height: 55px;">
                 <p-dropdown class="custom-input"
                     [style]="{'width': '100%','height': '100%', 'display': 'flex', 'align-items': 'center' }"
-                     formControlName="gender" [options]="[
+                    formControlName="gender" [options]="[
                               { label: 'Masculino', value: 'masculino' },
                               { label: 'Feminino', value: 'feminino' },
                               { label: 'Outro', value: 'outro' }
@@ -42,13 +42,17 @@
                     [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
             </div>
         </div>
-        <button type="submit" class="default-button" mat-fab extended [disabled]="authForm.invalid || isLoading">
-            <p-progressSpinner *ngIf="isLoading" [style]="{ 'width': '30px', 'height': '30px'}"
-                styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
-                ariaLabel="loading"></p-progressSpinner>
-            <mat-icon *ngIf="!isLoading">send</mat-icon>
-            <div *ngIf="!isLoading">Enviar</div>
-        </button>
+        <div class="form-doctor-container-button">
+            <button type="submit" class="default-button" style="background-color: #3F51B5;"  [disabled]="authForm.invalid || isLoading">
+                <i class="pi pi-spin pi-spinner" style="font-size: 2rem" *ngIf="isLoading"></i>
+                <i class="pi pi-send" style="font-size: 1.3rem" *ngIf="!isLoading"></i>
+                <div *ngIf="!isLoading">Enviar</div>
+            </button>
+            <button  class="default-button" type="reset" (click)="clearForm()"  style="background-color: #ff004c;">
+                <i class="pi pi-times" style="font-size: 1.3rem"></i>
+                <div>Cancelar</div>
+            </button>
+        </div>
     </form>
 </div>
 

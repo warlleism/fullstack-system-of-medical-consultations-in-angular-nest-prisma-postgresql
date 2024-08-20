@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { createAppointment, deleteAppointment, getAllAppointments, updateAppointment } from '../../store/actions/counter.actions';
+import { createAppointment, deleteAppointment, getAllAppointments, getMouthDashboardAppointment, updateAppointment } from '../../store/actions/counter.actions';
 import { Appointment } from '../../interfaces/IAppointment';
 
 @Injectable({
@@ -32,6 +32,21 @@ export class AppointmentService {
     );
   }
 
+  getAllMonthAppointments(): Observable<any> {
+    const url = `http://localhost:3000/appointment/getAllMonthAppointments`;
+    return this.http.get<any>(url).pipe(
+      tap({
+        next: (res: any) => {
+          this.store.dispatch(getMouthDashboardAppointment({ appointment: res.data }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
+          this.router.navigateByUrl("login")
+        }
+      })
+    );
+  }
+
   createAppointment(appointment: any): Observable<any> {
     const url = 'http://localhost:3000/appointment/create';
     return this.http.post<any>(url, appointment).pipe(
@@ -41,7 +56,6 @@ export class AppointmentService {
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
-          alert(errorMessage)
         }
       })
     );
@@ -52,7 +66,6 @@ export class AppointmentService {
     return this.http.patch<any>(url, appointment).pipe(
       tap({
         next: (res: any) => {
-          console.log(res.data)
           this.store.dispatch(updateAppointment({ appointment: res.data[0] }))
         },
         error: (err: any) => {
@@ -71,7 +84,6 @@ export class AppointmentService {
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
-          alert(errorMessage)
         }
       })
     );

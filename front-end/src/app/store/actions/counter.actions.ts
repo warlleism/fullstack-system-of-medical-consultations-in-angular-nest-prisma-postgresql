@@ -17,3 +17,4 @@ export const getAllAppointments = createAction('[Appointment] Get All Appointmen
 export const createAppointment = createAction('[Appointment] Create Appointment', props<{ appointment: Appointment }>());
 export const updateAppointment = createAction('[Appointment] Update Appointment', props<{ appointment: Appointment }>());
 export const deleteAppointment = createAction('[Appointment] Delete Doctor', props<{ id: number | string }>());
+export const getMouthDashboardAppointment = createAction('[Appointment] Update Appointment', props<{ appointment: number[] }>());

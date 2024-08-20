@@ -10,7 +10,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ChangeDetectorRef } from '@angular/core';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DoctorService } from '../../../services/doctor/doctor.service';
 import { PatientService } from '../../../services/patient/patient.service';
 import { AppointmentService } from '../../../services/appointment/appointment.service';
@@ -19,7 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollerModule } from 'primeng/scroller';
 
 @Component({
   selector: 'app-form-appointment',
@@ -29,18 +28,17 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatFormFieldModule,
     FormsModule,
     DropdownModule,
+    ScrollerModule,
     MatSelectModule,
     CommonModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
     ToastModule,
     InputMaskModule,
     InputTextareaModule,
-    ScrollingModule
   ],
   providers: [MessageService],
   templateUrl: './form-appointment.component.html',
@@ -88,7 +86,9 @@ export class FormAppointmentComponent {
     private messageService: MessageService
   ) { }
 
-
+  clearForm() {
+    this.authForm.reset();
+  }
   async loadSpecialities(): Promise<void> {
     try {
       const patients = await this.patientService.getPatients().toPromise();

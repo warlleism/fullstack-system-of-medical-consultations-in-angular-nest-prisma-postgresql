@@ -7,7 +7,7 @@
                 <div class="auth-second-title">
                     Conecte-se com o <div>Consultify</div>
                 </div>
-                
+
                 <div style="width: 80%; height: 100px;">
                     <div class="auth-input-full-width">
                         <input formControlName="email" type="email" class="form-control"
@@ -16,8 +16,10 @@
                     </div>
                     <div *ngIf="authForm.get('email')?.invalid && (authForm.get('email')?.touched || authForm.get('email')?.dirty)"
                         class="invalid-feedback">
-                        <div class="error-container" *ngIf="authForm.get('email')?.errors?.['required']">Email é obrigatório.</div>
-                        <div class="error-container" *ngIf="authForm.get('email')?.errors?.['email']">Por favor, insira um email válido.</div>
+                        <div class="error-container" *ngIf="authForm.get('email')?.errors?.['required']">Email é
+                            obrigatório.</div>
+                        <div class="error-container" *ngIf="authForm.get('email')?.errors?.['email']">Por favor, insira
+                            um email válido.</div>
                     </div>
                 </div>
 
@@ -29,8 +31,10 @@
                     </div>
                     <div *ngIf="authForm.get('password')?.invalid && (authForm.get('password')?.touched || authForm.get('password')?.dirty)"
                         class="invalid-feedback">
-                        <div class="error-container" *ngIf="authForm.get('password')?.errors?.['required']">Senha é obrigatória.</div>
-                        <div class="error-container" *ngIf="authForm.get('password')?.errors?.['minlength']">A senha deve ter pelo menos 6
+                        <div class="error-container" *ngIf="authForm.get('password')?.errors?.['required']">Senha é
+                            obrigatória.</div>
+                        <div class="error-container" *ngIf="authForm.get('password')?.errors?.['minlength']">A senha
+                            deve ter pelo menos 6
                             caracteres.</div>
                     </div>
                 </div>
@@ -40,9 +44,7 @@
                 <button type="submit" class="auth-btn-login" [disabled]="authForm.invalid || isLoading" mat-fab
                     extended>
                     <mat-icon *ngIf="!isLoading">login</mat-icon>
-                    <p-progressSpinner *ngIf="isLoading" [style]="{ 'width': '30px', 'height': '30px'}"
-                        styleClass="w-4rem h-4rem" strokeWidth="5" animationDuration="2s"
-                        ariaLabel="loading"></p-progressSpinner>
+                    <i class="pi pi-spin pi-spinner" style="font-size: 2rem" *ngIf="isLoading"></i>
                     <div *ngIf="!isLoading">Entrar</div>
                 </button>
             </div>

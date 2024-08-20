@@ -135,4 +135,22 @@ export class AppointmentController {
         }
     }
 
+    @Get('getAllMonthAppointments')
+    async getAllMonthAppointments() {
+        try {
+            const result = await this.repo.getAllMonthAppointments();
+            return {
+                statusCode: HttpStatus.CREATED,
+                message: 'Get All appointment successfully',
+                data: result,
+            };
+        } catch (error) {
+            throw new HttpException({
+                statusCode: HttpStatus.BAD_REQUEST,
+                message: 'Get All appointment failed',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

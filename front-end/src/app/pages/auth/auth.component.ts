@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../../services/user/user.service';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +14,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    ProgressSpinnerModule
   ],
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']

@@ -10,9 +10,7 @@
     .form-view-all-appointment-title {
         height: 10%;
         display: flex;
-        margin-top: 20px;
         flex-direction: column;
-
 
         .form-view-all-appointment-title-container {
             height: 100%;
@@ -20,10 +18,10 @@
             color: #ffffff;
             padding-left: 10px;
             font-weight: 400;
-            font-size: 2.3rem;
+            font-size: 1.8rem;
             align-items: center;
             letter-spacing: -1px;
-            background: #478e8d;
+            background: #3F51B5;
             box-sizing: border-box;
             justify-content: flex-start;
             border-top-left-radius: 5px;
@@ -34,7 +32,7 @@
     }
 
     .search-container {
-        height: 7%;
+        height: 10%;
         display: flex;
         padding: 0 10px;
         align-items: center;
@@ -43,7 +41,7 @@
         justify-content: space-between;
 
         input {
-            height: 70%;
+            height: 60%;
             border-radius: 5px;
         }
 
@@ -76,7 +74,7 @@
 
     .appointment-container {
         width: 100%;
-        height: 78%;
+        height: 80%;
         display: flex;
         flex-direction: column;
 
@@ -127,7 +125,6 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-
     }
 }
 
@@ -136,4 +133,30 @@
     align-items: center;
     height: 10%;
     gap: 10px;
+}
+
+.input-file {
+
+    width: 100%;
+    height: 500px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: rgb(242, 247, 255);
+    border: dashed 1px rgb(212, 225, 255);
+
+    input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    i{
+        font-size: 4.5rem;
+    }
 }

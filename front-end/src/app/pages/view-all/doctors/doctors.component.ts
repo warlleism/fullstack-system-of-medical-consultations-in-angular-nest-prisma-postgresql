@@ -154,7 +154,6 @@ export class DoctorsComponent implements OnInit {
   
   async onSubmit() {
     try {
-      console.log(this.authForm.value)
       const doctors = await this.doctorService.updateDoctor(this.authForm.value).toPromise();
       this.visibleEdit = false;
       this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Editado com sucesso!' });

@@ -46,46 +46,66 @@ body {
 .p-dropdown:not(.p-disabled):hover {
   outline: none !important;
   box-shadow: none !important;
-  border-color: #3333333f !important;
+  border-color: #f500003f !important;
 }
 
 
-.cdk-virtual-scroll-viewport::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 5px;
   height: 5px;
   background-color: transparent;
 }
 
-.cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: #88888873;
   border-radius: 10px;
   transition: .5s ease-in-out;
   cursor: grab;
 }
 
-.cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background-color: #000000b7;
 }
 
-.cdk-virtual-scroll-viewport::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
-
 .p-datatable .p-datatable-tbody>tr>td {
-  background: #02020209;
+  background: #f9fafb;
   text-align: left;
-  border: 1px solid #f9fafb;
   border-width: 0 0 1px 0;
   padding: 1rem 1rem;
 }
 
+.tooltip-appointment {
+  .p-tooltip-text {
+    width: 80vh;
 
-
-
-.p-tooltip .p-tooltip-text {
-  width: 80vh;
-
-  @media (max-width: 1000px) {
-    width: 60vh;
+    @media (max-width: 1000px) {
+      width: 60vh;
+    }
   }
+}
+
+.mat-focus-indicator {
+  border-radius: 0 !important;
+}
+
+.mat-focus-indicator:hover {
+  background-color: transparent !important;
+}
+
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: #3F51B5;
+}
+
+.mat-expansion-panel-body {
+  padding: 0 !important;
+  margin-top: -30px !important;
+}
+
+
+.smaller-switch {
+  transform: scale(0.7);
 }

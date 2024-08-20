@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { Store } from '@ngrx/store';
@@ -20,12 +19,14 @@ import { AppointmentService } from '../../../services/appointment/appointment.se
 import { TooltipModule } from 'primeng/tooltip';
 import { PatientService } from '../../../services/patient/patient.service';
 import { DoctorService } from '../../../services/doctor/doctor.service';
+import { Patient } from '../../../interfaces/IPatient';
+import { Doctor } from '../../../interfaces/IDoctos';
+import { PipesModule } from '../../../pipes.module';
 
 @Component({
   selector: 'app-appointments',
   standalone: true,
   imports: [
-    MatIconModule,
     CommonModule,
     MatTableModule,
     DialogModule,
@@ -40,6 +41,7 @@ import { DoctorService } from '../../../services/doctor/doctor.service';
     DropdownModule,
     InputMaskModule,
     InputTextareaModule,
+    PipesModule
   ],
   providers: [MessageService],
   templateUrl: './appointments.component.html',
@@ -49,11 +51,13 @@ export class AppointmentsComponent implements OnInit {
 
   authForm!: FormGroup;
   searchValue: string = '';
-  visible: boolean = false;
-  patients: any[] = [];
+  visibleDelete: boolean = false;
+  visiblePdf: boolean = false;
+  base64Pdf: string | null = null;
+  patients: Patient[] = [];
   specialitys: any[] = [];
-  doctors: any[] = [];
-  fullDoctors: any[] = [];
+  doctors: Doctor[] = [];
+  fullDoctors: Doctor[] = [];
   hour_date: any = {};
   selectedAppointment: number = 0;
   visibleEdit: boolean = false;
@@ -74,11 +78,10 @@ export class AppointmentsComponent implements OnInit {
     private patientService: PatientService,
     private doctorService: DoctorService,
     private messageService: MessageService) {
+
     this.appointments$ = this.store.select(state => state.appointment.appointments);
+    this.store.subscribe(state => this.totalPages = state.appointment.pagination?.totalPages);
     this.filteredAppointments$ = this.appointments$;
-    this.store.subscribe(state => {
-      this.totalPages = state.appointment.pagination?.totalPages
-    });
 
   }
 
@@ -98,7 +101,7 @@ export class AppointmentsComponent implements OnInit {
       if (value) {
         this.loadDoctors();
         this.authForm.get('doctorid')?.setValue('');
-      } 
+      }
     });
 
     this.appointmentService.getAppointments(1, 20).subscribe();
@@ -156,7 +159,7 @@ export class AppointmentsComponent implements OnInit {
     this.searchValue = value;
     if (value) {
       this.filteredAppointments$ = this.appointments$.pipe(
-        map((appointments: any) => appointments.filter((appointment: any) => appointment.name.toLowerCase().includes(value.toLowerCase())))
+        map((appointments: any) => appointments.filter((appointment: any) => appointment.doctor.toLowerCase().includes(value.toLowerCase())))
       );
     } else {
       this.filteredAppointments$ = this.appointments$;
@@ -190,9 +193,13 @@ export class AppointmentsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  showDialog(appointmentId: number) {
+  showDialogDelete(appointmentId: number) {
     this.selectedAppointment = appointmentId;
-    this.visible = true;
+    this.visibleDelete = true;
+  }
+
+  showDialogPdf() {
+    this.visiblePdf = true;
   }
 
   async showDialogEdit(appointment: Appointment) {
@@ -217,7 +224,37 @@ export class AppointmentsComponent implements OnInit {
     this.loadSpecialities()
 
     this.visibleEdit = true;
+  }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.base64Pdf = reader.result as string;
+        console.log(this.base64Pdf);
+        this.cdr.detectChanges();
+
+      };
+
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  cancel() {
+    this.visiblePdf = false;
+    this.base64Pdf = '';
+
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 
   async onSubmit() {

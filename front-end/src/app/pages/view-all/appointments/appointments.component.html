@@ -12,7 +12,7 @@
                 <i class="icons-pagination pi pi-angle-left" (click)="previousPage()"></i>
                 <i class="icons-pagination pi pi-angle-double-left" (click)="firstPage()"></i>
                 <div
-                    style="border-radius: 100px; background-color: rgba(0, 82, 75, 0.24); color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
+                    style="border-radius: 100px; background-color: #3F51B5; color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
                     {{currentPage}}</div>
                 <i class="icons-pagination pi pi-angle-double-right" (click)="lastPage()"></i>
                 <i class="icons-pagination pi pi-angle-right" (click)="nextPage()"></i>
@@ -20,13 +20,13 @@
         </div>
 
         <input type="text" pInputText [(ngModel)]="searchValue" (ngModelChange)="onSearch($event)"
-            placeholder="Pesquisar pacientes..." />
+            placeholder="Pesquisar doutor..." />
     </div>
     <div class="appointment-container">
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
             <div class="no-appointments-container"
                 *ngIf="(filteredAppointments$ | async)?.length === 0; else hasAppointments">
-                <div class="no-appointments-text"> Nenhum paciente encontrado!</div>
+                <div class="no-appointments-text"> Nenhuma consulta encontrada!</div>
                 <div class="no-appointments"></div>
             </div>
             <ng-template #hasAppointments>
@@ -48,9 +48,10 @@
                     </ng-template>
 
                     <ng-template pTemplate="body" let-appointment>
-                        <tr>
+                        <tr class="table-row">
                             <td>{{ appointment.id }}</td>
-                            <td pTooltip={{appointment.description}} tooltipPosition="bottom">{{
+                            <td pTooltip={{appointment.description}} tooltipPosition="bottom"
+                                tooltipStyleClass="tooltip-appointment">{{
                                 appointment.description | slice:0:20 }}...</td>
                             <td>{{ appointment.doctor }}</td>
                             <td>{{ appointment.speciality }}</td>
@@ -59,8 +60,12 @@
                             <td>{{ appointment.patient}}</td>
                             <td>{{ appointment.gender }}</td>
                             <td>
-                                <i class="pi pi-pen-to-square icons-pi" (click)="showDialogEdit(appointment)"></i>
-                                <i class="pi pi-trash icons-pi" (click)="showDialog(appointment.id)"></i>
+                                <i class="pi pi-file-check icons-pi" pTooltip="resultado" tooltipPosition="bottom"
+                                    (click)="showDialogPdf()"></i>
+                                <i class="pi pi-pen-to-square icons-pi" tooltipPosition="bottom" pTooltip="editar"
+                                    (click)="showDialogEdit(appointment)"></i>
+                                <i class="pi pi-trash icons-pi" tooltipPosition="bottom" pTooltip="excluir"
+                                    (click)="showDialogDelete(appointment.id)"></i>
                             </td>
                         </tr>
                     </ng-template>
@@ -149,17 +154,40 @@
 </p-dialog>
 
 
-<p-dialog header="Excluir paciente" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog header="Excluir paciente" [dismissableMask]="true" [modal]="true" [(visible)]="visibleDelete"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <div style="margin-top: 10px; margin-bottom: 30px;">
         <div style="font-weight: 700;">Esta ação é irreversível.</div>
         <div>Tem certeza que deseja excluir este paciente?</div>
     </div>
 
     <div style="display: flex; gap: 10px;">
-        <p-button label="Confirmar" severity="danger" (click)="visible = false; deleteAppointment()" />
-        <p-button label="Cancelar" severity="secondary" (click)="visible = false" />
+        <p-button label="Confirmar" severity="danger" (click)="visibleDelete = false; deleteAppointment()" />
+        <p-button label="Cancelar" severity="secondary" (click)="visibleDelete = false" />
     </div>
+</p-dialog>
+
+<p-dialog header="Enviar Resultado" [dismissableMask]="true" [modal]="true" [(visible)]="visiblePdf"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+
+    <div class="input-file" *ngIf="!base64Pdf">
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" />
+        <i class="pi pi-file-pdf icons-pi"></i>
+        <div>Clique ou arraste o arquivo ( .pdf )</div>
+    </div>
+
+    <div *ngIf="base64Pdf" style="margin-bottom: 20px; text-align: center; height: 500px; width: 100%;">
+        <iframe [src]="base64Pdf | safe: 'resourceUrl'" style="width: 100%; height: 500px;" frameborder="0"></iframe>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <p-button label="Confirmar" severity="danger" (click)="visiblePdf = false; deleteAppointment()" />
+        <p-button label="Selecionar outro arquivo" *ngIf="base64Pdf"  severity="secondary" >
+            <input style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer;" type="file" id="fileInput" (change)="onFileSelected($event)" />
+        </p-button>
+        <p-button label="Cancelar" severity="secondary" (click)="cancel()" />
+    </div>
+
 </p-dialog>
 
 <div class="card flex justify-content-center">

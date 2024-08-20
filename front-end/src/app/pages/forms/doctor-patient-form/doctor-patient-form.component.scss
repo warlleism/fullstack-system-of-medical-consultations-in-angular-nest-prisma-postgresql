@@ -3,14 +3,12 @@
 .main-doctor-container {
     height: 100%;
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
 
     .form-create-doctor-title {
         height: 10%;
         display: flex;
-        margin-top: 20px;
         flex-direction: column;
 
         .form-create-doctor-title-container {
@@ -19,21 +17,20 @@
             color: #ffffff;
             padding-left: 10px;
             font-weight: 400;
-            font-size: 2.3rem;
+            font-size: 1.8rem;
             align-items: center;
             letter-spacing: -1px;
-            background: #478e8d;
+            background: #3F51B5;
             box-sizing: border-box;
             justify-content: flex-start;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
             font-family: "Zain", sans-serif;
         }
-
     }
 
     .auth-form-container {
-        height: 85%;
+        height: 90%;
         display: flex;
         border-radius: 5px;
         align-items: center;
@@ -41,26 +38,39 @@
         box-sizing: border-box;
         padding: 20px 20px;
         justify-content: space-between;
-        background-color: #f7f7f7;
+        background-color: #f9fafb;
 
-        .default-button {
-            height: 10%;
+        .form-doctor-container-button {
+
+            gap: 10px;
             width: 100%;
+            height: 10%;
             display: flex;
-            cursor: pointer;
-            font-size: 1.5rem;
-            margin-top: 20px;
-            color: #ffffff;
-            align-items: center;
-            border-radius: 5px;
-            justify-content: center;
-            background-image: linear-gradient(120deg,
-                    hsl(188deg 33% 42%) 0%,
-                    hsl(181deg 33% 42%) 8%,
-                    hsl(179deg 33% 42%) 23%,
-                    hsl(179deg 33% 42%) 95%,
-                    hsl(181deg 33% 42%) 100%,
-                    hsl(188deg 33% 42%) 100%);
+            margin-top: 10px;
+            align-items: end;
+
+            .default-button {
+                width: 140px;
+                height: 50px;
+                display: flex;
+                gap: 7px;
+                cursor: pointer;
+                font-size: 1rem;
+                outline: none;
+                border: none;
+                color: #ffffff;
+                cursor: pointer;
+                align-items: center;
+                border-radius: 5px;
+                justify-content: center;
+                transition: .5s ease-in-out;
+                box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.274);
+            }
+
+            .default-button:disabled{
+                opacity: 0.5;
+                cursor: default;
+            }
         }
 
         .form-doctor-container-input {
@@ -73,4 +83,3 @@
         }
     }
 }
-

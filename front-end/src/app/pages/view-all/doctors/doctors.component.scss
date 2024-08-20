@@ -10,9 +10,7 @@
     .form-view-all-doctor-title {
         height: 10%;
         display: flex;
-        margin-top: 20px;
         flex-direction: column;
-
 
         .form-view-all-doctor-title-container {
             height: 100%;
@@ -20,10 +18,10 @@
             color: #ffffff;
             padding-left: 10px;
             font-weight: 400;
-            font-size: 2.3rem;
+            font-size: 1.8rem;
             align-items: center;
             letter-spacing: -1px;
-            background: #478e8d;
+            background: #3F51B5;
             box-sizing: border-box;
             justify-content: flex-start;
             border-top-left-radius: 5px;
@@ -34,7 +32,7 @@
     }
 
     .search-container {
-        height: 7%;
+        height: 10%;
         display: flex;
         padding: 0 10px;
         align-items: center;
@@ -43,7 +41,7 @@
         justify-content: space-between;
 
         input {
-            height: 70%;
+            height: 60%;
             border-radius: 5px;
         }
 
@@ -76,11 +74,11 @@
 
     .doctor-container {
         width: 100%;
-        height: 78%;
+        height: 80%;
         display: flex;
         flex-direction: column;
 
-        .no-patients-container {
+        .no-doctors-container {
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -94,7 +92,7 @@
                 color: #333333;
             }
 
-            .no-patients {
+            .no-doctors {
                 width: 200px;
                 height: 200px;
                 background-image: url('../../../assets/images/not-found.png');

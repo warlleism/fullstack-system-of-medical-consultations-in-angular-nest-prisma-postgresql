@@ -2,6 +2,7 @@ import { Body, Controller, Delete, HttpException, HttpStatus, Param, Patch, Post
 import { ResultRepository } from './result.repository';
 import IResult from './Result.entity';
 import handleError from 'src/helpers/api-errors';
+import { savePdfToFile } from 'src/utils/localFIleUtil';
 
 @Controller('result')
 export class ResultController {
@@ -9,19 +10,22 @@ export class ResultController {
 
     @Post('create')
     async create(@Body() result: IResult) {
-
         try {
 
+            console.log(result)
+            
             if (Object.values(result).some(value =>
                 (typeof value === 'string' && value.trim().length === 0) || value === null || value === undefined
             )) {
                 throw new HttpException({
                     statusCode: HttpStatus.BAD_REQUEST,
-                    message: 'fields are required',
+                    message: 'Fields are required',
                 }, HttpStatus.BAD_REQUEST);
             }
 
-            const resultData = await this.repo.create(result);
+            const resultpath = await savePdfToFile(result.resultpath, result.appointmentid);
+            const formattedResult = { ...result, resultpath };
+            const resultData = await this.repo.create(formattedResult);
 
             return {
                 statusCode: HttpStatus.CREATED,
@@ -36,6 +40,7 @@ export class ResultController {
             }, HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @Patch('update')
     async update(@Body() result: IResult) {
