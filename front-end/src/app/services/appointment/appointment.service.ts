@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { createAppointment, deleteAppointment, getAllAppointments, getMouthDashboardAppointment, updateAppointment } from '../../store/actions/counter.actions';
+import { createAppointment, createResult, deleteAppointment, getAllAppointments, updateAppointment } from '../../store/actions/counter.actions';
 import { Appointment } from '../../interfaces/IAppointment';
 
 @Injectable({
@@ -23,21 +23,6 @@ export class AppointmentService {
       tap({
         next: (res: any) => {
           this.store.dispatch(getAllAppointments({ appointments: res.data.appointments, pagination: res.data.pagination }))
-        },
-        error: (err: any) => {
-          const errorMessage = err.error?.error || 'Usuário não autorizado!';
-          this.router.navigateByUrl("login")
-        }
-      })
-    );
-  }
-
-  getAllMonthAppointments(): Observable<any> {
-    const url = `http://localhost:3000/appointment/getAllMonthAppointments`;
-    return this.http.get<any>(url).pipe(
-      tap({
-        next: (res: any) => {
-          this.store.dispatch(getMouthDashboardAppointment({ appointment: res.data }))
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';
@@ -81,6 +66,22 @@ export class AppointmentService {
       tap({
         next: (res: any) => {
           this.store.dispatch(deleteAppointment({ id: id }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
+        }
+      })
+    );
+  }
+
+  createResult(result: any): Observable<any> {
+    const url = 'http://localhost:3000/result/create';
+
+    console.log(result)
+    return this.http.post<any>(url, result).pipe(
+      tap({
+        next: (res: any) => {
+          this.store.dispatch(createResult({ result: res.data }))
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';

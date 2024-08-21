@@ -1,10 +1,9 @@
 import { createReducer, on } from "@ngrx/store";
 import { AppointmentState } from "../../interfaces/IAppointment";
-import { createAppointment, deleteAppointment, getAllAppointments, getMouthDashboardAppointment, updateAppointment } from "../actions/counter.actions";
+import { createAppointment, createResult, deleteAppointment, getAllAppointments, updateAppointment } from "../actions/counter.actions";
 
 export const initialState: AppointmentState = {
     appointments: [],
-    appointmentsMonth: [],
     pagination: {
         total: 0,
         page: 1,
@@ -24,6 +23,14 @@ export const appointmentReducer = createReducer(
         ...state,
         appointments: [...state.appointments, appointment]
     })),
+    on(createResult, (state, { result }) => ({
+        ...state,
+        appointments: state.appointments.map(appointment =>
+            appointment.id === result.appointmentid
+                ? { ...appointment, ...result }
+                : appointment
+        )
+    })),
     on(updateAppointment, (state, { appointment }) => ({
         ...state,
         appointments: state.appointments.map(d => d.id === appointment.id ? appointment : d)
@@ -32,8 +39,4 @@ export const appointmentReducer = createReducer(
         ...state,
         appointments: state.appointments.filter(appointment => appointment.id !== id)
     })),
-    on(getMouthDashboardAppointment, (state, { appointment }) => ({
-        ...state,
-        appointmentsMonth: appointment
-    }))
 );

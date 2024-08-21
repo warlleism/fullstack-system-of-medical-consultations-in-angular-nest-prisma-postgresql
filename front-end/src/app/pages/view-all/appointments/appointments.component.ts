@@ -41,7 +41,7 @@ import { PipesModule } from '../../../pipes.module';
     DropdownModule,
     InputMaskModule,
     InputTextareaModule,
-    PipesModule
+    PipesModule,
   ],
   providers: [MessageService],
   templateUrl: './appointments.component.html',
@@ -198,7 +198,13 @@ export class AppointmentsComponent implements OnInit {
     this.visibleDelete = true;
   }
 
-  showDialogPdf() {
+  showDialogPdf(appointmentId: number, base64Pdf?: string) {
+
+    if (base64Pdf) {
+      this.base64Pdf = `data:application/pdf;base64,${base64Pdf}`;
+      this.visiblePdf = true;
+    }
+    this.selectedAppointment = appointmentId;
     this.visiblePdf = true;
   }
 
@@ -234,7 +240,7 @@ export class AppointmentsComponent implements OnInit {
 
       reader.onload = () => {
         this.base64Pdf = reader.result as string;
-        console.log(this.base64Pdf);
+        console.log(this.base64Pdf)
         this.cdr.detectChanges();
 
       };
@@ -259,21 +265,48 @@ export class AppointmentsComponent implements OnInit {
 
   async onSubmit() {
     try {
-
       const { speciality: _, ...dataForm } = this.authForm.value;
       const appointment = await this.appointmentService.updateAppointment(dataForm).toPromise();
       this.visibleEdit = false;
       this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Editado com sucesso!' });
+      this.cdr.detectChanges();
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao editar o médico.' });
+      this.visibleEdit = false;
+      console.error('Erro ao editar:', error);
+    }
+  }
+
+  async submitPdf() {
+
+    const formatedData = {
+      appointmentid: this.selectedAppointment,
+      resultpath: this.base64Pdf
+    }
+
+    try {
+      const result = await this.appointmentService.createResult(formatedData).toPromise();
+      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Resultado cadastrado com sucesso!' });
+      this.visiblePdf = false;
+      this.cdr.detectChanges();
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao cadastrar o resultado.' });
+      this.visiblePdf = false;
       console.error('Erro ao editar:', error);
     }
   }
 
   deleteAppointment() {
     if (this.selectedAppointment) {
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Excluído com sucesso!' });
-      this.appointmentService.deleteAppointment(this.selectedAppointment).subscribe();
+      try {
+        this.appointmentService.deleteAppointment(this.selectedAppointment).subscribe();
+        this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Excluído com sucesso!' });
+        this.cdr.detectChanges();
+      } catch (error) {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao excluir o agendamento.' });
+        console.error('Erro ao excluir:', error);
+      }
+
     }
   }
 }

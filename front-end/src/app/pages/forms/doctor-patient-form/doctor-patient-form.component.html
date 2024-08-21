@@ -2,7 +2,7 @@
 
     <div class="form-create-doctor-title">
         <div class="form-create-doctor-title-container">
-            {{ userType === 'doctor' ? 'Cadastrar doutor (a)' : 'Cadastrar paciente' }}
+            {{ userType === 'doctor' ? 'cadastrar doutor (a)' : 'cadastrar paciente' }}
         </div>
     </div>
 
@@ -48,7 +48,7 @@
                 <i class="pi pi-send" style="font-size: 1.3rem" *ngIf="!isLoading"></i>
                 <div *ngIf="!isLoading">Enviar</div>
             </button>
-            <button  class="default-button" type="reset" (click)="clearForm()"  style="background-color: #ff004c;">
+            <button  class="default-button" type="reset" (click)="clearForm()"  style="background-color: #3f51b5;">
                 <i class="pi pi-times" style="font-size: 1.3rem"></i>
                 <div>Cancelar</div>
             </button>

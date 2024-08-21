@@ -12,18 +12,13 @@ export async function savePdfToFile(base64Pdf: string, id: number): Promise<stri
         const base64Data = base64Pdf.replace(/^data:application\/pdf;base64,/, '');
 
         if (!isValidBase64(base64Data)) {
-            console.log('Invalid base64 string.');
             throw new Error('Invalid base64 string.');
         }
 
         const pdfBuffer = Buffer.from(base64Data, 'base64');
-
         const filePath = path.join(__dirname, '..', '..', 'src', 'pdfs', `${String(id)}.pdf`);
 
-        console.log(filePath)
-
         await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-
         await fs.promises.writeFile(filePath, pdfBuffer);
 
         return filePath;
@@ -35,15 +30,15 @@ export async function savePdfToFile(base64Pdf: string, id: number): Promise<stri
 
 
 
-export async function deletePdf(filename: string): Promise<void> {
-    filename = filename + '.pdf';
-    const filePath = path.join(__dirname, '..', '..', 'src', 'pdfs', filename);
-
+export async function deletePdf(id: number): Promise<void> {
+    const fileName = `${id}.pdf`;
+    const filePath = path.join(__dirname, '..', '..', 'src', 'pdfs', fileName);
 
     try {
         await fs.promises.access(filePath);
         await fs.promises.unlink(filePath);
     } catch (error) {
-        console.log('Error deleting PDF:', error);
+        console.error('Error deleting PDF:', error);
+        throw error;
     }
 }

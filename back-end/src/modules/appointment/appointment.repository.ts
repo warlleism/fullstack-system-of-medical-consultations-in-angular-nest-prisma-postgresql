@@ -1,9 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/db/prisma.service";
 import IAppointment from "./appointment.entity";
+import * as fs from 'fs/promises';
 
 @Injectable()
 export class AppointmentRepository {
+
     constructor(private prismaService: PrismaService) { }
 
     async create(appointment: IAppointment) {
@@ -12,6 +14,7 @@ export class AppointmentRepository {
         });
         return result;
     }
+
 
     async getAll(page: number, pageSize: number) {
         const skip = (page - 1) * pageSize;
@@ -29,17 +32,32 @@ export class AppointmentRepository {
             a.hour AS "hour", 
             p.name AS "patient", 
             p.gender AS "gender",
-            a.description AS "description"
+            a.description AS "description",
+            r.resultpath AS "resultpath"
         FROM "Appointment" a 
         INNER JOIN "Doctor" d ON a.doctorid = d.id 
         INNER JOIN "Patient" p ON a.patientid = p.id
+        LEFT JOIN "Result" r ON a.id = r.appointmentid
         LIMIT ${take} OFFSET ${skip}
         `;
+
+        const appointments = await Promise.all(result.map(async (appointment) => {
+            if (appointment.resultpath) {
+                try {
+                    const fileBuffer = await fs.readFile(appointment.resultpath);
+                    appointment.resultpath = fileBuffer.toString('base64');
+                } catch (error) {
+                    console.error(`Erro ao ler o arquivo em ${appointment.resultpath}:`, error);
+                    appointment.resultpath = null;
+                }
+            }
+            return appointment;
+        }));
 
         const total = await this.prismaService.appointment.count();
 
         return {
-            appointments: result,
+            appointments,
             pagination: {
                 total,
                 page,
@@ -61,19 +79,22 @@ export class AppointmentRepository {
             a.description AS "Appointment_Description"
         FROM "Appointment" a 
         INNER JOIN "Doctor" d ON a.doctorid = d.id 
-        INNER JOIN "Patient" p ON a.patientid = p.id where p.id = ${id};
+        INNER JOIN "Patient" p ON a.patientid = p.id 
+        INNER JOIN "Result" r ON a.id = r.appointmentid
+        where p.id = ${id};
     `;
+
         return result;
     }
 
     async update(appointment: IAppointment) {
         const { id } = appointment;
-        const result = await this.prismaService.appointment.update({
-            where: {
-                id
-            },
-            data: appointment
+
+        await this.prismaService.appointment.update({
+            where: { id },
+            data: appointment,
         });
+
         const resultData = await this.prismaService.$queryRaw<IAppointment[]>`
         SELECT 
             a.id as id, 
@@ -84,48 +105,107 @@ export class AppointmentRepository {
             d.speciality AS "speciality", 
             a.appointmentdate AS "appointmentdate", 
             a.hour AS "hour", 
-            p.name AS "patient", 
             p.gender AS "gender",
-            a.description AS "description"
+            a.description AS "description",
+            r.resultpath AS "resultpath"
         FROM "Appointment" a 
         INNER JOIN "Doctor" d ON a.doctorid = d.id 
         INNER JOIN "Patient" p ON a.patientid = p.id
+        LEFT JOIN "Result" r ON a.id = r.appointmentid
+        WHERE a.id = ${id};
         `;
 
-        return resultData;
+        const updatedAppointments = await Promise.all(resultData.map(async (appointment) => {
+            if (appointment.resultpath) {
+                try {
+                    const fileBuffer = await fs.readFile(appointment.resultpath);
+                    appointment.resultpath = fileBuffer.toString('base64');
+                } catch (error) {
+                    console.error(`Erro ao ler o arquivo em ${appointment.resultpath}:`, error);
+                    appointment.resultpath = null;
+                }
+            }
+            return appointment;
+        }));
+
+        return updatedAppointments;
     }
 
+
     async delete(id: number) {
+
+        const resultItem = await this.prismaService.result.delete({
+            where: {
+                appointmentid: id
+            }
+        });
+
+        if (!resultItem) return
+
+
         const result = await this.prismaService.appointment.delete({
             where: {
                 id
             }
         });
+
+
         return result;
     }
 
     async deleteDoctorAppointments(id: number) {
+
         const result = await this.prismaService.appointment.deleteMany({
             where: {
                 doctorid: id
             }
         });
+
         return result;
     }
-
     async getAllMonthAppointments() {
         const result = await this.prismaService.$queryRaw<any[]>`
-        SELECT date_trunc('month', "appointmentdate") AS month, 
-               COUNT(*) AS appointment_count
-        FROM "Appointment"
-        WHERE "appointmentdate" >= date_trunc('year', CURRENT_DATE)
-        GROUP BY month 
-        ORDER BY month
+            WITH months AS (
+            SELECT
+                generate_series(
+                    date_trunc('year', CURRENT_DATE), 
+                    date_trunc('year', CURRENT_DATE) + INTERVAL '1 year' - INTERVAL '1 month', 
+                    '1 month'
+                ) AS month
+        ),
+        appointments AS (
+            SELECT 
+                date_trunc('month', "appointmentdate") AS month, 
+                COUNT(*) AS appointment_count
+            FROM "Appointment"
+            WHERE "appointmentdate" >= date_trunc('year', CURRENT_DATE)
+            AND "appointmentdate" < date_trunc('year', CURRENT_DATE) + INTERVAL '1 year'
+            GROUP BY month
+        )
+        SELECT 
+            m.month,
+            COALESCE(a.appointment_count, 0) AS appointment_count,
+            (SELECT COUNT(*) FROM "Patient") AS total_patients,
+            (SELECT COUNT(*) FROM "Doctor") AS total_doctors,
+            (SELECT COUNT(*) FROM "Appointment") AS total_appointments
+        FROM months m
+        LEFT JOIN appointments a
+        ON m.month = a.month
+        ORDER BY m.month
         `;
 
         const flattenedArray = result.flatMap(item => [item.appointment_count.toString()]);
 
-        return flattenedArray;
+        const values = result.map(item => [
+            item.total_patients.toString(),
+            item.total_doctors.toString(),
+            item.total_appointments.toString()
+        ]);
+
+        return {
+            appointmentsPerMonth: flattenedArray,
+            result: values[0]
+        };
     }
 
 

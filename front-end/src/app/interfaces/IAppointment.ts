@@ -10,11 +10,11 @@ export interface Appointment {
   appointmentdate: string;
   gender: string;
   description: string
+  resultpath: string
 }
 
 export interface AppointmentState {
   appointments: Appointment[];
-  appointmentsMonth?: number[];
   pagination: {
     total: number;
     page: number;

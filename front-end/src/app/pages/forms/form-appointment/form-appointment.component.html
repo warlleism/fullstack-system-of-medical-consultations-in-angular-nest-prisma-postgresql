@@ -2,24 +2,36 @@
 
     <div class="form-create-doctor-title">
         <div class="form-create-doctor-title-container">
-            Cadastro de consulta
+            cadastro de consulta
         </div>
     </div>
 
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
         <div class="form-doctor-container-input">
-            
+
             <div style="width: 100%; height: 55px;">
-                <p-dropdown [style]="{'width':'100%','height': '100%', 'display': 'flex', 'align-items': 'center'}"
-                    class="full-width" [options]="patients" formControlName="patientid" optionLabel="name"
-                    optionValue="id" [filter]="true" filterBy="name" [showClear]="true" placeholder="Paciente: ">
-                    <ng-template pTemplate="selectedItem" let-selectedOption>
-                        <div class="flex align-items-center gap-2">
-                            <div>{{ selectedOption.name }}</div>
-                        </div>
-                    </ng-template>
+                <p-dropdown
+                  [style]="{'width':'100%', 'height': '100%', 'display': 'flex', 'align-items': 'center'}"
+                  (onFilter)="onFilter($event)"
+                  class="full-width"
+                  [options]="patients"
+                  formControlName="patientid"
+                  optionLabel="name"
+                  optionValue="id"
+                  [filter]="true"
+                  filterBy="name"
+                  [showClear]="true"
+                  placeholder="Paciente:"
+                  [emptyMessage]="'Nenhum paciente encontrado'"
+                >
+                  <ng-template pTemplate="selectedItem" let-selectedOption>
+                    <div class="flex align-items-center gap-2">
+                      <div>{{ selectedOption.name }}</div>
+                    </div>
+                  </ng-template>
                 </p-dropdown>
-            </div>
+              </div>
+
 
             <div style="width: 100%; height: 55px;">
                 <p-dropdown (onChange)="loadDoctors()"
@@ -82,7 +94,7 @@
                 <i class="pi pi-send" style="font-size: 1.3rem" *ngIf="!isLoading"></i>
                 <div *ngIf="!isLoading">Enviar</div>
             </button>
-            <button class="default-button" type="reset" (click)="clearForm()" style="background-color: #ff004c;">
+            <button class="default-button" type="reset" (click)="clearForm()" style="background-color: #3f51b5;">
                 <i class="pi pi-times" style="font-size: 1.3rem"></i>
                 <div>Cancelar</div>
             </button>

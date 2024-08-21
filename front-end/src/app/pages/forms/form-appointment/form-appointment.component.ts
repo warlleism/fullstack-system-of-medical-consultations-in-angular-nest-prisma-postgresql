@@ -19,7 +19,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ScrollerModule } from 'primeng/scroller';
-
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-form-appointment',
   standalone: true,
@@ -54,7 +55,8 @@ export class FormAppointmentComponent {
   doctors: any[] = [];
   fullDoctors: any[] = [];
   hour_date: any = {};
-
+  private filterSubject = new Subject<string>();
+  
   ngOnInit(): void {
     this.authForm = new FormGroup({
       patientid: new FormControl('', [Validators.required]),
@@ -76,6 +78,13 @@ export class FormAppointmentComponent {
     });
 
     this.loadSpecialities();
+
+    this.filterSubject.pipe(
+      debounceTime(200), 
+      switchMap(filter => this.patientService.getSearchPatient(filter).toPromise())
+    ).subscribe(patients => {
+      this.patients = patients.data;
+    });
   }
 
   constructor(
@@ -86,14 +95,20 @@ export class FormAppointmentComponent {
     private messageService: MessageService
   ) { }
 
-  clearForm() {
-    this.authForm.reset();
+  onFilter(event: any): void {
+    const filterValue = event.filter?.trim(); 
+  
+    if (filterValue) {
+      this.filterSubject.next(filterValue);
+    } else {
+      this.patients = []; 
+    }
   }
+
+
   async loadSpecialities(): Promise<void> {
     try {
-      const patients = await this.patientService.getPatients().toPromise();
       const speciality = await this.doctorService.getSpeciality().toPromise();
-      this.patients = patients.data.patients;
       this.specialitys = speciality.data;
     } catch (error) {
       console.error('Error loading specialities:', error);
@@ -108,6 +123,7 @@ export class FormAppointmentComponent {
 
     if (this.authForm.value.speciality) {
       this.isLoadingGetDoctors = true;
+
       setTimeout(async () => {
         const specialitySearch = await this.doctorService.getSearchSpeciality(this.authForm.value.speciality).toPromise();
         this.fullDoctors = specialitySearch.data.doctors;
@@ -142,6 +158,12 @@ export class FormAppointmentComponent {
     }
   }
 
+
+  clearForm() {
+    this.patients = []
+    this.authForm.reset();
+  }
+
   async onSubmit() {
 
     if (this.authForm.invalid) {
@@ -173,4 +195,5 @@ export class FormAppointmentComponent {
       this.authForm.reset();
     }
   }
+
 }

@@ -116,7 +116,6 @@ export class AppointmentController {
     }
 
 
-
     @Delete('delete/:id')
     async delete(@Param('id') id: number) {
         try {

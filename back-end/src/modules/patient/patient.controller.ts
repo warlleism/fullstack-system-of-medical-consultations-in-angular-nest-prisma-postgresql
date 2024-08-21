@@ -133,4 +133,27 @@ export class PatientController {
             }, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Get('search/:search')
+    async getSearch(@Param('search') search: string) {
+        try {
+            if (search.length <= 2) {
+                return
+            }
+
+            const patient = await this.repo.search(search);
+            return {
+                statusCode: HttpStatus.CREATED,
+                message: patient == null ? 'Patient not found' : 'Get One Patient successfully',
+                data: patient == null ? [] : patient,
+            };
+        } catch (error) {
+            throw new HttpException({
+                statusCode: HttpStatus.BAD_REQUEST,
+                message: 'Get One Patient failed',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

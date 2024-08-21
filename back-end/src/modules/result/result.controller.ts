@@ -2,7 +2,7 @@ import { Body, Controller, Delete, HttpException, HttpStatus, Param, Patch, Post
 import { ResultRepository } from './result.repository';
 import IResult from './Result.entity';
 import handleError from 'src/helpers/api-errors';
-import { savePdfToFile } from 'src/utils/localFIleUtil';
+import { deletePdf, savePdfToFile } from 'src/utils/localFIleUtil';
 
 @Controller('result')
 export class ResultController {
@@ -12,8 +12,7 @@ export class ResultController {
     async create(@Body() result: IResult) {
         try {
 
-            console.log(result)
-            
+
             if (Object.values(result).some(value =>
                 (typeof value === 'string' && value.trim().length === 0) || value === null || value === undefined
             )) {
@@ -55,7 +54,10 @@ export class ResultController {
                 }, HttpStatus.BAD_REQUEST);
             }
 
-            const resultData = await this.repo.update(result);
+            const deleteFile = await deletePdf(result.appointmentid);
+            const resultpath = await savePdfToFile(result.resultpath, result.appointmentid);
+            const formattedResult = { ...result, resultpath };
+            const resultData = await this.repo.update(formattedResult);
 
             return {
                 statusCode: HttpStatus.CREATED,
@@ -74,6 +76,7 @@ export class ResultController {
     @Delete('delete/:id')
     async delete(@Param('id') id: number) {
         try {
+            const deleteFile = await deletePdf(id);
             const result = await this.repo.delete(+id);
             return {
                 statusCode: HttpStatus.CREATED,

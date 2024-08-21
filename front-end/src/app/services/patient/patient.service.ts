@@ -74,4 +74,9 @@ export class PatientService {
       })
     );
   }
+
+  getSearchPatient(search: string): Observable<any> {
+    const url = `http://localhost:3000/patient/search/${search}`;
+    return this.http.get<any>(url)
+  }
 }

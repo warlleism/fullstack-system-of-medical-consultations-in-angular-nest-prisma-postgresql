@@ -1,7 +1,7 @@
 <div class="main-appointment-view-all-container">
     <div class="form-view-all-appointment-title">
         <div class="form-view-all-appointment-title-container">
-            Visualizar todas as consultas
+            visualizar todas as consultas
         </div>
     </div>
     <div class="search-container">
@@ -60,8 +60,11 @@
                             <td>{{ appointment.patient}}</td>
                             <td>{{ appointment.gender }}</td>
                             <td>
-                                <i class="pi pi-file-check icons-pi" pTooltip="resultado" tooltipPosition="bottom"
-                                    (click)="showDialogPdf()"></i>
+                                <i class="pi pi-file-pdf icons-pi" pTooltip="vizualizar resultado" tooltipPosition="bottom" *ngIf="appointment.resultpath"
+                                    (click)="showDialogPdf(appointment.id, appointment.resultpath)"
+                                   ></i>
+                                <i class="pi pi-file-check icons-pi" pTooltip="cadastrar resultado" tooltipPosition="bottom"
+                                    (click)="showDialogPdf(appointment.id)"></i>
                                 <i class="pi pi-pen-to-square icons-pi" tooltipPosition="bottom" pTooltip="editar"
                                     (click)="showDialogEdit(appointment)"></i>
                                 <i class="pi pi-trash icons-pi" tooltipPosition="bottom" pTooltip="excluir"
@@ -167,7 +170,7 @@
     </div>
 </p-dialog>
 
-<p-dialog header="Enviar Resultado" [dismissableMask]="true" [modal]="true" [(visible)]="visiblePdf"
+<p-dialog header="Enviar Resultado" [dismissableMask]="true" [modal]="true"  [(visible)]="visiblePdf"  (onHide)="cancel()"
     [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
 
     <div class="input-file" *ngIf="!base64Pdf">
@@ -181,13 +184,13 @@
     </div>
 
     <div style="display: flex; gap: 10px;">
-        <p-button label="Confirmar" severity="danger" (click)="visiblePdf = false; deleteAppointment()" />
-        <p-button label="Selecionar outro arquivo" *ngIf="base64Pdf"  severity="secondary" >
-            <input style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer;" type="file" id="fileInput" (change)="onFileSelected($event)" />
+        <p-button label="Confirmar" severity="danger" (click)="submitPdf()" />
+        <p-button label="Selecionar outro arquivo" *ngIf="base64Pdf" severity="secondary">
+            <input style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer;" type="file"
+                id="fileInput" (change)="onFileSelected($event)" />
         </p-button>
         <p-button label="Cancelar" severity="secondary" (click)="cancel()" />
     </div>
-
 </p-dialog>
 
 <div class="card flex justify-content-center">
