@@ -137,6 +137,7 @@ export class PatientController {
     @Get('search/:search')
     async getSearch(@Param('search') search: string) {
         try {
+            
             if (search.length <= 2) {
                 return
             }

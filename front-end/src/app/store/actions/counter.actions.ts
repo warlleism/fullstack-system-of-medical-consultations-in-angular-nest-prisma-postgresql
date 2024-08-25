@@ -18,3 +18,5 @@ export const createAppointment = createAction('[Appointment] Create Appointment'
 export const updateAppointment = createAction('[Appointment] Update Appointment', props<{ appointment: Appointment }>());
 export const deleteAppointment = createAction('[Appointment] Delete Doctor', props<{ id: number | string }>());
 export const createResult = createAction('[Result] Create Result', props<{ result: any }>());
+export const updateResult = createAction('[Result] Update Result', props<{ result: any }>());
+export const deleteResult = createAction('[Result] Delete Result', props<{ result: any }>());

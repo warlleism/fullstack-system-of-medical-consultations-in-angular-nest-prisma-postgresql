@@ -17,7 +17,8 @@ export class UserService {
         localStorage.setItem('token', res.token)
 
         setTimeout(()=>{
-          this.router.navigateByUrl("home")
+          localStorage.setItem('link', "/home/dashboard");
+          this.router.navigateByUrl("/home/dashboard")
         },1000)
       },
       error: (err: any) => {

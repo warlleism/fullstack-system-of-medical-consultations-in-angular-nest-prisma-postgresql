@@ -12,7 +12,6 @@ export class ResultController {
     async create(@Body() result: IResult) {
         try {
 
-
             if (Object.values(result).some(value =>
                 (typeof value === 'string' && value.trim().length === 0) || value === null || value === undefined
             )) {
@@ -54,7 +53,6 @@ export class ResultController {
                 }, HttpStatus.BAD_REQUEST);
             }
 
-            const deleteFile = await deletePdf(result.appointmentid);
             const resultpath = await savePdfToFile(result.resultpath, result.appointmentid);
             const formattedResult = { ...result, resultpath };
             const resultData = await this.repo.update(formattedResult);
@@ -73,10 +71,10 @@ export class ResultController {
         }
     }
 
-    @Delete('delete/:id')
-    async delete(@Param('id') id: number) {
+    @Delete('delete/:id/:appointmentid')
+    async delete(@Param('id') id: number, @Param('appointmentid') appointmentid: number) {
         try {
-            const deleteFile = await deletePdf(id);
+            const deleteFile = await deletePdf(appointmentid);
             const result = await this.repo.delete(+id);
             return {
                 statusCode: HttpStatus.CREATED,

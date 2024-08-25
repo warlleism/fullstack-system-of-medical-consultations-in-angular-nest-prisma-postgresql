@@ -12,7 +12,7 @@
                 <i class="icons-pagination pi pi-angle-left" (click)="previousPage()"></i>
                 <i class="icons-pagination pi pi-angle-double-left" (click)="firstPage()"></i>
                 <div
-                    style="border-radius: 100px; background-color: #3F51B5; color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
+                    style="border-radius: 5px; background-color: #3F51B5; color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
                     {{currentPage}}</div>
                 <i class="icons-pagination pi pi-angle-double-right" (click)="lastPage()"></i>
                 <i class="icons-pagination pi pi-angle-right" (click)="nextPage()"></i>
@@ -69,7 +69,7 @@
     [style]="{ width: '50vw', height: '80vh' }">
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="dialog-form-container">
         <div style="width: 100%; height: 55px;">
-            <input class="custom-input" formControlName="name" type="text" pInputText placeholder="Nome Completo:"
+            <input class="custom-input" formControlName="name" type="text" pInputText placeholder="Nome completo:"
                 [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
         </div>
         <div style="width: 100%; height: 55px;">

@@ -9,8 +9,9 @@ export interface Appointment {
   hour: string;
   appointmentdate: string;
   gender: string;
-  description: string
-  resultpath: string
+  description: string;
+  resultpath: string | null;
+  resultid: string | number;
 }
 
 export interface AppointmentState {

@@ -54,6 +54,8 @@ export class AppointmentsComponent implements OnInit {
   visibleDelete: boolean = false;
   visiblePdf: boolean = false;
   base64Pdf: string | null = null;
+  isEdit: boolean = false;
+  resultId: number = 0;
   patients: Patient[] = [];
   specialitys: any[] = [];
   doctors: Doctor[] = [];
@@ -193,12 +195,22 @@ export class AppointmentsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  showDialogDelete(appointmentId: number) {
+  showDialogDelete(appointmentId: number, resultId: number) {
     this.selectedAppointment = appointmentId;
     this.visibleDelete = true;
+
+    if (resultId) {
+      this.resultId = resultId
+    }
+
   }
 
-  showDialogPdf(appointmentId: number, base64Pdf?: string) {
+  showDialogPdf(appointmentId: number, base64Pdf?: string, isEdit?: boolean, resultId?: number) {
+
+    if (isEdit && resultId) {
+      this.resultId = resultId
+      this.isEdit = isEdit;
+    }
 
     if (base64Pdf) {
       this.base64Pdf = `data:application/pdf;base64,${base64Pdf}`;
@@ -240,7 +252,6 @@ export class AppointmentsComponent implements OnInit {
 
       reader.onload = () => {
         this.base64Pdf = reader.result as string;
-        console.log(this.base64Pdf)
         this.cdr.detectChanges();
 
       };
@@ -256,6 +267,8 @@ export class AppointmentsComponent implements OnInit {
   cancel() {
     this.visiblePdf = false;
     this.base64Pdf = '';
+    this.isEdit = false;
+    this.resultId = 0
 
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     if (fileInput) {
@@ -278,14 +291,10 @@ export class AppointmentsComponent implements OnInit {
   }
 
   async submitPdf() {
-
-    const formatedData = {
-      appointmentid: this.selectedAppointment,
-      resultpath: this.base64Pdf
-    }
-
+    const formatedData = { appointmentid: this.selectedAppointment, resultpath: this.base64Pdf }
+    const editData = { id: this.resultId, appointmentid: this.selectedAppointment, resultpath: this.base64Pdf }
     try {
-      const result = await this.appointmentService.createResult(formatedData).toPromise();
+      const result = this.isEdit ? await this.appointmentService.updateResult(editData).toPromise() : await this.appointmentService.createResult(formatedData).toPromise()
       this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Resultado cadastrado com sucesso!' });
       this.visiblePdf = false;
       this.cdr.detectChanges();
@@ -296,17 +305,29 @@ export class AppointmentsComponent implements OnInit {
     }
   }
 
+  async deleteResult() {
+    try {
+      await this.appointmentService.deleteResult(this.resultId, this.selectedAppointment).toPromise();
+      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Excluído com sucesso!' });
+      this.visiblePdf = false;
+      this.cancel()
+      this.cdr.detectChanges();
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao excluir o resultado.' });
+      console.error('Erro ao excluir:', error);
+    }
+  }
+
   deleteAppointment() {
     if (this.selectedAppointment) {
       try {
-        this.appointmentService.deleteAppointment(this.selectedAppointment).subscribe();
+        this.appointmentService.deleteAppointment(this.selectedAppointment, this.resultId).subscribe();
         this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Excluído com sucesso!' });
         this.cdr.detectChanges();
       } catch (error) {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao excluir o agendamento.' });
         console.error('Erro ao excluir:', error);
       }
-
     }
   }
 }

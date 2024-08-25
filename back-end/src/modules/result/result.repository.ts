@@ -31,12 +31,29 @@ export class ResultRepository {
     }
 
     async update(result: IResult) {
-        return this.prismaService.result.update({
+
+        const updateResult = await this.prismaService.result.update({
             where: {
                 id: result.id
             },
             data: result
         })
+
+        const filePath = path.resolve(result.resultpath);
+
+        try {
+
+            const fileBuffer = await fs.promises.readFile(filePath);
+            const base64Pdf = fileBuffer.toString('base64');
+
+            return {
+                appointmentid: updateResult.appointmentid,
+                resultid: updateResult.id,
+                resultpath: base64Pdf,
+            };
+        } catch (error) {
+            throw new Error(`Erro ao ler o arquivo PDF: ${error.message}`);
+        }
     }
 
     async delete(id: number) {

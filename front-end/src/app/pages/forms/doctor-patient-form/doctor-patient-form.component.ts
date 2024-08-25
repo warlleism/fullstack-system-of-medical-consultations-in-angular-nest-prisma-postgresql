@@ -72,7 +72,7 @@ export class DoctorPatientFormComponent {
   clearForm() {
     this.authForm.reset();
   }
-  
+
   async onSubmit() {
 
     if (this.authForm.invalid) {
@@ -86,7 +86,7 @@ export class DoctorPatientFormComponent {
 
       const data = {
         ...this.authForm.value,
-        name: this.authForm.value.gender === 'masculino' ? `Dr. ${this.authForm.value.name}` : `Dra. ${this.authForm.value.name}`,
+        name: this.authForm.value.gender === 'masculino' ? ` ${this.userType === 'doctor' ? 'Dr.' : ''} ${this.authForm.value.name}` : ` ${this.userType === 'doctor' ? 'Dra.' : ''} ${this.authForm.value.name}`,
       };
 
       if (this.userType === 'doctor') {

@@ -54,27 +54,31 @@
 
             .container-dates-hour {
                 width: 100%;
-                padding: 10px 15px;
+                height: 134px;
+                display: flex;
+                overflow-y: auto;
+                padding: 0 15px;
                 border-radius: 5px;
+                justify-content: center;
+                flex-direction: column;
                 box-sizing: border-box;
-                background-color: #3F51B5;
+                background-color: #fff;
+                border: solid 1px #495dd1;
 
                 .list-dates-hour {
-                    flex-wrap: wrap;
-                    margin-top: 6px;
-                    gap: 20px;
-                    border-top: solid 1px #ffffff;
-                    color: #fff;
-                    display: flex;
+                    gap: 9px;
                     width: 100%;
+                    display: flex;
+                    margin-top: 6px;
+                    color: #495dd1;
                     box-sizing: border-box;
+                    border-top: solid 1px #495dd1;
 
                     .item-dates-hour {
+                        gap: 9px;
+                        display: flex;
                         margin-top: 10px;
-                        border: solid 1px #ffffff;
                         border-radius: 2px;
-                        padding: 3px 4px;
-                        box-sizing: border-box;
                         font-size: .8rem;
                     }
 
@@ -107,18 +111,17 @@
                 color: #ffffff;
                 align-items: center;
                 border-radius: 5px;
-                justify-content: center;
-                transition: 0.2s ease-in-out;
-                background-color: #007bff;
-                outline: 2px solid #c7cdf500;
                 outline-offset: 2px;
+                justify-content: center;
+                background-color: #007bff;
+                transition: 0.2s ease-in-out;
+                outline: 2px solid #c7cdf500;
                 box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.274);
             }
 
             .default-button:active {
                 outline: 2px solid #c7cdf5;
             }
-
 
 
             .default-button:disabled {

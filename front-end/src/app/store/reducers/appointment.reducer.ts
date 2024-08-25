@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { AppointmentState } from "../../interfaces/IAppointment";
-import { createAppointment, createResult, deleteAppointment, getAllAppointments, updateAppointment } from "../actions/counter.actions";
+import { createAppointment, createResult, deleteAppointment, deleteResult, getAllAppointments, updateAppointment, updateResult } from "../actions/counter.actions";
 
 export const initialState: AppointmentState = {
     appointments: [],
@@ -25,9 +25,26 @@ export const appointmentReducer = createReducer(
     })),
     on(createResult, (state, { result }) => ({
         ...state,
+        appointments: state.appointments.map(appointment => {
+            return appointment.id === result.appointmentid
+                ? { ...appointment, resultid: result.id, resultpath: result.resultpath }
+                : appointment;
+        })
+    })),
+
+    on(updateResult, (state, { result }) => ({
+        ...state,
         appointments: state.appointments.map(appointment =>
-            appointment.id === result.appointmentid
-                ? { ...appointment, ...result }
+            appointment.resultid === result.resultid
+                ? { ...appointment, resultpath: result.resultpath }
+                : appointment
+        )
+    })),
+    on(deleteResult, (state, { result }) => ({
+        ...state,
+        appointments: state.appointments.map(appointment =>
+            appointment.resultid === result.id
+                ? { ...appointment, resultpath: null, resultid: 0 }
                 : appointment
         )
     })),

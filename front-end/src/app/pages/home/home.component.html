@@ -1,34 +1,37 @@
 <div class="main-content">
 
   <div class="sidebar-content-container">
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
       <div class="profile-container">
-        <div class="profile-icon-container">
+        <div class="profile-icon-container" id="hidden-itens">
           <i class="pi pi-user icons-pi"></i>
           <div class="online"></div>
         </div>
-        <div class="profile-list-itens">
+        <div class="profile-list-itens" id="hidden-itens">
           <div class="name">
             Warllei Martins
           </div>
           <div class="email">warllei.s.martins&#64;hotmail.com</div>
         </div>
+        <div class="menu" (click)="reduxMenu()">
+          <i class="pi pi-align-center icons-pi"></i>
+        </div>
       </div>
       <div class="list-links-container">
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
           <mat-accordion>
-            <mat-expansion-panel class="custom-list">
+            <mat-expansion-panel class="custom-list" [expanded]="link === '/home/dashboard'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
                   <i class="pi pi-home icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;">Início</div>
+                  <div style="font-weight: 500;" id="nav-itens-name">Início</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/dashboard'}">
                   <a [routerLink]="['/home/dashboard']" (click)="setLink('/home/dashboard')">
                     <i class="pi pi-chart-bar icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;">
+                    <div style="font-weight: 500;" id="nav-itens-name">
                       Dashboard
                     </div>
                   </a>
@@ -37,18 +40,18 @@
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list">
+            <mat-expansion-panel class="custom-list" [expanded]="link === '/home/doctor' || link === '/home/view/all/doctors'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
                   <i class="pi pi-users icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;">Doutores (a)</div>
+                  <div style="font-weight: 500;" id="nav-itens-name">Doutores(a)</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/doctor'}">
                   <a [routerLink]="['/home/doctor']" (click)="setLink('/home/doctor')">
                     <i class="pi pi-user-plus icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;">
+                    <div style="font-weight: 500;" id="nav-itens-name">
                       Cadastro de doutores (a)
                     </div>
                   </a>
@@ -56,7 +59,7 @@
                 <li [ngClass]="{'active': link === '/home/view/all/doctors'}">
                   <a [routerLink]="['/home/view/all/doctors']" (click)="setLink('/home/view/all/doctors')">
                     <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;">
+                    <div style="font-weight: 500;" id="nav-itens-name">
                       Visualizar doutores (a)
                     </div>
                   </a>
@@ -65,18 +68,18 @@
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list">
+            <mat-expansion-panel class="custom-list" [expanded]="link === '/home/patient' || link === '/home/view/all/patients'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
                   <i class="pi pi-users icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;">Pacientes</div>
+                  <div style="font-weight: 500;" id="nav-itens-name">Pacientes</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/patient'}">
                   <a [routerLink]="['/home/patient']" (click)="setLink('/home/patient')">
                     <i class="pi pi-user-plus icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;">
+                    <div style="font-weight: 500;" id="nav-itens-name">
                       Cadastro de paciente
                     </div>
                   </a>
@@ -84,7 +87,7 @@
                 <li [ngClass]="{'active': link === '/home/view/all/patients'}">
                   <a [routerLink]="['/home/view/all/patients']" (click)="setLink('/home/view/all/patients')">
                     <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;">
+                    <div style="font-weight: 500;" id="nav-itens-name">
                       Visualizar pacientes
                     </div>
                   </a>
@@ -93,18 +96,18 @@
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list">
+            <mat-expansion-panel class="custom-list" [expanded]="link === '/home/appointment' || link === '/home/view/all/appointment'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
                   <i class="pi pi-calendar-plus icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;">Consultas</div>
+                  <div style="font-weight: 500;" id="nav-itens-name">Consultas</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/appointment'}">
                   <a [routerLink]="['/home/appointment']" (click)="setLink('/home/appointment')">
                     <i class="pi pi-calendar-clock icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;">
+                    <div style="font-weight: 500;" id="nav-itens-name">
                       Cadastro de consultas
                     </div>
                   </a>
@@ -112,7 +115,7 @@
                 <li [ngClass]="{'active': link === '/home/view/all/appointment'}">
                   <a [routerLink]="['/home/view/all/appointment']" (click)="setLink('/home/view/all/appointment')">
                     <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;">
+                    <div style="font-weight: 500;" id="nav-itens-name">
                       Visualizar consultas
                     </div>
                   </a>
@@ -125,24 +128,23 @@
       <div class="logout">
         <div class="profile-icons-sistem">
           <i class="pi pi-user icons-pi"></i>
-          <div style="font-size: 1rem; font-weight: 500;">Perfil</div>
+          <div style="font-size: 1rem; font-weight: 500;" class="profile-logout-fields">Perfil</div>
         </div>
         <div class="profile-icons-sistem" (click)="logout()">
           <i class="pi pi-sign-out icons-pi"></i>
-          <div style="font-size: 1rem; font-weight: 500;">Logout</div>
+          <div style="font-size: 1rem; font-weight: 500;" class="profile-logout-fields">Logout</div>
         </div>
         <div class="line"></div>
         <div class="profile-icons-sistem" style="gap: 0; justify-content: space-between;">
           <i class="pi pi-moon icons-pi" style="font-size: 1.5rem;"></i>
-          <div>Modo Escuro</div>
+          <div class="dark-mode">Modo Escuro</div>
           <div class="smaller-switch">
             <p-inputSwitch [(ngModel)]="checked" />
           </div>
         </div>
       </div>
     </nav>
-
-    <div class="content">
+    <div class="content" id="content">
       <div class="content-route">
         <router-outlet></router-outlet>
       </div>

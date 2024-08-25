@@ -1,16 +1,29 @@
 .main-content {
-  height: 100vh;
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #E8EAF6;
   justify-content: space-around;
 
+  @media(max-width: 1354px) {
+    width: 100vw;
+  }
+
+
   .sidebar-content-container {
     display: flex;
     width: 100%;
     height: 93%;
+    position: relative;
     align-items: flex-end;
+
+    @media(max-width: 1354px) {
+      height: 100%;
+      align-items: center;
+      justify-content: space-between;
+    }
+
 
     .sidebar {
       width: 15%;
@@ -21,7 +34,34 @@
       position: relative;
       flex-direction: column;
       background-color: #ffffff;
+      transition: .2s ease-in-out;
       justify-content: space-between;
+
+      @media(max-width: 1354px) {
+        margin: 0;
+        width: 24%;
+        height: 100%;
+        box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.082);
+      }
+
+      .menu {
+        width: 35px;
+        height: 35px;
+        display: none;
+        color: #ffffff;
+
+        i {
+          font-size: 1.2rem;
+        }
+
+        @media(max-width: 1354px) {
+          display: flex;
+          align-items: center;
+          border-radius: 5px;
+          justify-content: center;
+          background-color: #3f51b521;
+        }
+      }
 
       .profile-container {
         gap: 10px;
@@ -34,6 +74,11 @@
         justify-content: center;
         border-bottom: 2px solid #F6F7FB;
 
+        @media(max-width: 1354px) {
+          gap: 30px;
+          justify-content: center;
+        }
+
         .profile-icon-container {
           width: 45px;
           height: 45px;
@@ -45,6 +90,11 @@
           justify-content: center;
           position: relative;
           background-color: #3f51b521;
+
+          @media(max-width: 1354px) {
+            width: 40px;
+            height: 40px;
+          }
 
           .online {
             border: 2px #fff solid;
@@ -76,7 +126,7 @@
             @media(max-width: 1562px) {
               font-size: .7rem;
             }
-            
+
           }
 
           .email {
@@ -88,7 +138,7 @@
             @media(max-width: 1562px) {
               font-size: .6rem;
             }
-            
+
           }
 
         }
@@ -118,7 +168,7 @@
       }
 
       .custom-list {
-        width: 95%;
+        width: 100%;
         margin: 0 auto;
         box-shadow: none;
         background-color: transparent;
@@ -126,18 +176,31 @@
         border: solid 1px transparent;
 
         .title-container {
-          display: flex;
           gap: 13px;
+          display: flex;
           color: #3949AB;
           font-size: .9rem;
           align-items: center;
-          i{
+
+          i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #1e2d81;
+
+            @media(max-width: 1354px) {
+              width: 50px;
+              height: 50px;
+              justify-content: center;
+              align-items: center;
+            }
           }
+
         }
       }
 
       ul {
+        display: none;
         gap: 10px;
         display: flex;
         padding: 10px 0;
@@ -199,6 +262,11 @@
         justify-content: center;
         background-color: #fff;
 
+        @media(max-width: 1132px) {
+         
+          padding: 0 0 10px 0;
+        }
+
         .line {
           height: 2px;
           width: 100%;
@@ -235,9 +303,9 @@
       flex-direction: column;
       justify-content: space-between;
 
-      @media(max-width: 1562px) {
-        width:78%;
-
+      @media(max-width: 1354px) {
+        height: 100%;
+        width: 75%;
       }
 
       .content-route {
@@ -257,5 +325,41 @@
     font-size: 1.5rem;
     align-items: center;
     justify-content: center;
+
+    @media(max-width: 1354px) {
+      display: none;
+    }
   }
+}
+
+.active-menu {
+  width: 10% !important;
+
+  .profile-icons-sistem {
+    align-items: center;
+    width: 100%;
+    justify-content: center !important;
+    background-color: #3949ab;
+    border-radius: 5px;
+
+    i {
+      color: #fff !important;
+    }
+
+    .dark-mode {
+      display: none;
+    }
+  }
+
+  .profile-logout-fields {
+    display: none;
+  }
+}
+
+.active-content {
+  width: 88% !important;
+}
+
+.hidden-itens {
+  display: none !important;
 }

@@ -9,7 +9,7 @@
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form-container">
         <div class="form-doctor-container-input">
             <div style="width: 100%; height: 55px;">
-                <input class="custom-input" formControlName="name" type="text" pInputText placeholder="Nome Completo:"
+                <input class="custom-input" formControlName="name" type="text" pInputText placeholder="Nome completo:"
                     [style]="{'width':'100%','height': '100%','display': 'flex', 'align-items': 'center'}" />
             </div>
             <div style="width: 100%; height: 55px;">
@@ -43,12 +43,12 @@
             </div>
         </div>
         <div class="form-doctor-container-button">
-            <button type="submit" class="default-button" style="background-color: #3F51B5;"  [disabled]="authForm.invalid || isLoading">
+            <button type="submit" class="default-button" style="background-color: #3949AB;"  [disabled]="authForm.invalid || isLoading">
                 <i class="pi pi-spin pi-spinner" style="font-size: 2rem" *ngIf="isLoading"></i>
                 <i class="pi pi-send" style="font-size: 1.3rem" *ngIf="!isLoading"></i>
                 <div *ngIf="!isLoading">Enviar</div>
             </button>
-            <button  class="default-button" type="reset" (click)="clearForm()"  style="background-color: #3f51b5;">
+            <button  class="default-button" type="reset" (click)="clearForm()"  style="background-color: #ef4444;">
                 <i class="pi pi-times" style="font-size: 1.3rem"></i>
                 <div>Cancelar</div>
             </button>

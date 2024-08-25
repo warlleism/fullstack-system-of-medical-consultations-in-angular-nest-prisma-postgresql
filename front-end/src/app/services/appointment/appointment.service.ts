@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { createAppointment, createResult, deleteAppointment, getAllAppointments, updateAppointment } from '../../store/actions/counter.actions';
+import { createAppointment, createResult, deleteAppointment, deleteResult, getAllAppointments, updateAppointment, updateResult } from '../../store/actions/counter.actions';
 import { Appointment } from '../../interfaces/IAppointment';
 
 @Injectable({
@@ -60,8 +60,8 @@ export class AppointmentService {
     );
   }
 
-  deleteAppointment(id: number) {
-    const url = `http://localhost:3000/appointment/delete/${id}`;
+  deleteAppointment(id: number, resultId: number) {
+    const url = `http://localhost:3000/appointment/delete/${id}/${resultId}`;
     return this.http.delete<any>(url).pipe(
       tap({
         next: (res: any) => {
@@ -77,11 +77,38 @@ export class AppointmentService {
   createResult(result: any): Observable<any> {
     const url = 'http://localhost:3000/result/create';
 
-    console.log(result)
     return this.http.post<any>(url, result).pipe(
       tap({
         next: (res: any) => {
           this.store.dispatch(createResult({ result: res.data }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
+        }
+      })
+    );
+  }
+
+  updateResult(result: any): Observable<any> {
+    const url = 'http://localhost:3000/result/update';
+    return this.http.patch<any>(url, result).pipe(
+      tap({
+        next: (res: any) => {
+          this.store.dispatch(updateResult({ result: res.data }))
+        },
+        error: (err: any) => {
+          const errorMessage = err.error?.error || 'Usuário não autorizado!';
+        }
+      })
+    );
+  }
+
+  deleteResult(resultid: any, appointmentid: number): Observable<any> {
+    const url = `http://localhost:3000/result/delete/${resultid}/${appointmentid}`;
+    return this.http.delete<any>(url, resultid).pipe(
+      tap({
+        next: (res: any) => {
+          this.store.dispatch(deleteResult({ result: res.data }))
         },
         error: (err: any) => {
           const errorMessage = err.error?.error || 'Usuário não autorizado!';

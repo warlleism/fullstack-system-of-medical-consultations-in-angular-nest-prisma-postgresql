@@ -38,6 +38,23 @@ export class HomeComponent implements OnInit {
 
   }
 
+  reduxMenu() {
+    const toggleClasses = (selectors: any, className: any) => {
+      document.querySelectorAll(selectors).forEach(item => {
+        item.classList.toggle(className);
+      });
+    };
+
+    toggleClasses('#sidebar', 'active-menu');
+    toggleClasses('#content', 'active-content');
+    toggleClasses('#hidden-itens', 'hidden-itens');
+    toggleClasses('#nav-itens-name', 'hidden-itens');
+    toggleClasses('.mat-expansion-indicator svg', 'hidden-svg');
+    toggleClasses('.mat-expansion-panel-header', 'padding-panel');
+    toggleClasses('.mat-expansion-panel-header-description', 'mat_expansion-panel');
+  }
+
+
 
   setLink(panel: string) {
     localStorage.setItem('link', panel);

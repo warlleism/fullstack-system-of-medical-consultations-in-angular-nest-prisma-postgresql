@@ -12,7 +12,7 @@
                 <i class="icons-pagination pi pi-angle-left" (click)="previousPage()"></i>
                 <i class="icons-pagination pi pi-angle-double-left" (click)="firstPage()"></i>
                 <div
-                    style="border-radius: 100px; background-color: #3F51B5; color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
+                    style="border-radius: 5px; background-color: #3F51B5; color: #fff; font-weight: 600; border: solid 1px rgba(0, 128, 117, 0.192); display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
                     {{currentPage}}</div>
                 <i class="icons-pagination pi pi-angle-double-right" (click)="lastPage()"></i>
                 <i class="icons-pagination pi pi-angle-right" (click)="nextPage()"></i>
@@ -60,15 +60,16 @@
                             <td>{{ appointment.patient}}</td>
                             <td>{{ appointment.gender }}</td>
                             <td>
-                                <i class="pi pi-file-pdf icons-pi" pTooltip="vizualizar resultado" tooltipPosition="bottom" *ngIf="appointment.resultpath"
-                                    (click)="showDialogPdf(appointment.id, appointment.resultpath)"
-                                   ></i>
-                                <i class="pi pi-file-check icons-pi" pTooltip="cadastrar resultado" tooltipPosition="bottom"
-                                    (click)="showDialogPdf(appointment.id)"></i>
+                                <i class="pi pi-file-check icons-pi" pTooltip="vizualizar resultado"
+                                    tooltipPosition="bottom" *ngIf="appointment.resultpath"
+                                    (click)="showDialogPdf(appointment.id, appointment.resultpath, true, appointment.resultid)"></i>
+                                <i class="pi pi-file-arrow-up icons-pi" pTooltip="cadastrar resultado"
+                                    tooltipPosition="bottom" *ngIf="!appointment.resultpath"
+                                    (click)="showDialogPdf(appointment.id, appointment.resultpath, false)"></i>
                                 <i class="pi pi-pen-to-square icons-pi" tooltipPosition="bottom" pTooltip="editar"
                                     (click)="showDialogEdit(appointment)"></i>
                                 <i class="pi pi-trash icons-pi" tooltipPosition="bottom" pTooltip="excluir"
-                                    (click)="showDialogDelete(appointment.id)"></i>
+                                    (click)="showDialogDelete(appointment.id, appointment.resultid)"></i>
                             </td>
                         </tr>
                     </ng-template>
@@ -78,7 +79,7 @@
     </div>
 </div>
 
-<p-dialog [dismissableMask]="true" header="Editar Paciente" [modal]="true" [(visible)]="visibleEdit"
+<p-dialog [dismissableMask]="true" header="Editar Paciente" [modal]="true" [(visible)]="visibleEdit" (onHide)="cancel()"
     [style]="{ width: '50vw', height: '80vh' }">
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="dialog-form-container">
         <div class="form-appointment-container-input">
@@ -158,7 +159,7 @@
 
 
 <p-dialog header="Excluir paciente" [dismissableMask]="true" [modal]="true" [(visible)]="visibleDelete"
-    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+    (onHide)="cancel()" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
     <div style="margin-top: 10px; margin-bottom: 30px;">
         <div style="font-weight: 700;">Esta ação é irreversível.</div>
         <div>Tem certeza que deseja excluir este paciente?</div>
@@ -170,8 +171,9 @@
     </div>
 </p-dialog>
 
-<p-dialog header="Enviar Resultado" [dismissableMask]="true" [modal]="true"  [(visible)]="visiblePdf"  (onHide)="cancel()"
-    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog [header]="isEdit ? 'Editar Resultado' : 'Enviar Resultado'" [dismissableMask]="true" [modal]="true"
+    [(visible)]="visiblePdf" (onHide)="cancel()" [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
 
     <div class="input-file" *ngIf="!base64Pdf">
         <input type="file" id="fileInput" (change)="onFileSelected($event)" />
@@ -184,11 +186,13 @@
     </div>
 
     <div style="display: flex; gap: 10px;">
-        <p-button label="Confirmar" severity="danger" (click)="submitPdf()" />
-        <p-button label="Selecionar outro arquivo" *ngIf="base64Pdf" severity="secondary">
+        <p-button label="Confirmar" severity="danger" (click)="submitPdf()" *ngIf="base64Pdf && !isEdit" />
+        <p-button label="Confirmar" severity="danger" (click)="submitPdf()" *ngIf="base64Pdf && isEdit" />
+        <p-button label="Alterar arquivo" *ngIf="base64Pdf" severity="secondary">
             <input style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer;" type="file"
                 id="fileInput" (change)="onFileSelected($event)" />
         </p-button>
+        <p-button label="Excluir" severity="secondary" (click)="deleteResult()" *ngIf="base64Pdf" />
         <p-button label="Cancelar" severity="secondary" (click)="cancel()" />
     </div>
 </p-dialog>

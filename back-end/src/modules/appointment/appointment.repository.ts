@@ -33,6 +33,7 @@ export class AppointmentRepository {
             p.name AS "patient", 
             p.gender AS "gender",
             a.description AS "description",
+            r.id AS "resultid",
             r.resultpath AS "resultpath"
         FROM "Appointment" a 
         INNER JOIN "Doctor" d ON a.doctorid = d.id 
@@ -107,6 +108,7 @@ export class AppointmentRepository {
             a.hour AS "hour", 
             p.gender AS "gender",
             a.description AS "description",
+            r.id AS "resultid",
             r.resultpath AS "resultpath"
         FROM "Appointment" a 
         INNER JOIN "Doctor" d ON a.doctorid = d.id 
@@ -132,26 +134,29 @@ export class AppointmentRepository {
     }
 
 
-    async delete(id: number) {
-
-        const resultItem = await this.prismaService.result.delete({
-            where: {
-                appointmentid: id
+    async delete(id: number, appointmentId?: number) {
+        try {
+            if (appointmentId !== 0) {
+                const resultResult = await this.prismaService.result.delete({
+                    where: {
+                        id: appointmentId
+                    }
+                });
             }
-        });
 
-        if (!resultItem) return
-
-
-        const result = await this.prismaService.appointment.delete({
-            where: {
-                id
-            }
-        });
+            const result = await this.prismaService.appointment.delete({
+                where: {
+                    id
+                }
+            });
 
 
-        return result;
+            return result;
+        } catch (error) {
+            throw new Error('Erro ao deletar appointment ou result.');
+        }
     }
+
 
     async deleteDoctorAppointments(id: number) {
 

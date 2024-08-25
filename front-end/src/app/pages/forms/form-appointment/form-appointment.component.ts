@@ -21,6 +21,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ScrollerModule } from 'primeng/scroller';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+
 @Component({
   selector: 'app-form-appointment',
   standalone: true,
@@ -49,14 +50,15 @@ export class FormAppointmentComponent {
 
   authForm!: FormGroup;
   isLoading: boolean = false;
+  patientIsLoading: boolean = false;
   isLoadingGetDoctors: boolean = false;
   patients: any[] = [];
   specialitys: any[] = [];
   doctors: any[] = [];
   fullDoctors: any[] = [];
   hour_date: any = {};
-  private filterSubject = new Subject<string>();
-  
+  filterSubject = new Subject<string>();
+
   ngOnInit(): void {
     this.authForm = new FormGroup({
       patientid: new FormControl('', [Validators.required]),
@@ -80,10 +82,17 @@ export class FormAppointmentComponent {
     this.loadSpecialities();
 
     this.filterSubject.pipe(
-      debounceTime(200), 
+      debounceTime(500),
       switchMap(filter => this.patientService.getSearchPatient(filter).toPromise())
     ).subscribe(patients => {
-      this.patients = patients.data;
+      if (patients == null) {
+        this.patientIsLoading = false
+        this.cdr.detectChanges();
+      } else {
+        this.patients = patients.data;
+        this.patientIsLoading = false
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -96,15 +105,16 @@ export class FormAppointmentComponent {
   ) { }
 
   onFilter(event: any): void {
-    const filterValue = event.filter?.trim(); 
-  
+    const filterValue = event.filter?.trim();
+    const firstWordUppercase = filterValue?.charAt(0).toUpperCase() + filterValue?.slice(1).toLowerCase();
     if (filterValue) {
-      this.filterSubject.next(filterValue);
+      this.patientIsLoading = true;
+      this.filterSubject.next(firstWordUppercase);
     } else {
-      this.patients = []; 
+      this.patientIsLoading = false;
+      this.patients = [];
     }
   }
-
 
   async loadSpecialities(): Promise<void> {
     try {

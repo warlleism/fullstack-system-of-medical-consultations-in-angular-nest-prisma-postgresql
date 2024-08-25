@@ -32,11 +32,6 @@ body {
   border-color: #3333333f !important;
 }
 
-// .p-inputtext:focus {
-//   border-color: #00000079 !important;
-// }
-
-
 .p-dropdown:not(.p-disabled) {
   outline: none !important;
   box-shadow: none !important;
@@ -70,6 +65,7 @@ body {
 ::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+
 .p-datatable .p-datatable-tbody>tr>td {
   background: #f9fafb;
   text-align: left;
@@ -108,4 +104,21 @@ body {
 
 .smaller-switch {
   transform: scale(0.7);
+}
+
+.hidden-svg {
+  display: none !important;
+}
+
+.padding-panel {
+  padding: 0 !important;
+}
+
+.mat_expansion-panel {
+  justify-content: center !important;
+  margin-right: 0 !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: rgb(205 205 205) !important;
 }

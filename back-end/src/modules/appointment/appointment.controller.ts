@@ -116,10 +116,11 @@ export class AppointmentController {
     }
 
 
-    @Delete('delete/:id')
-    async delete(@Param('id') id: number) {
+    @Delete('delete/:id/:appointmentid')
+    async delete(@Param('id') id: number, @Param('appointmentid') appointmentid: number) {
         try {
-            const result = await this.repo.delete(+id);
+            console.log(+id, +appointmentid)
+            const result = await this.repo.delete(+id, +appointmentid);
             return {
                 statusCode: HttpStatus.CREATED,
                 message: 'Delete appointment successfully',
