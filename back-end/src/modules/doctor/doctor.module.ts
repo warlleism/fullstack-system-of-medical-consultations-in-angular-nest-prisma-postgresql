@@ -9,7 +9,7 @@ import { UserRepository } from '../user/user.repository';
 @Module({
   imports: [DbModule],
   controllers: [DoctorController],
-  providers: [DoctorRepository, AppointmentRepository, UserRepository]
+  providers: [DoctorRepository, AppointmentRepository, UserRepository],
 })
 export class DoctorModule {
   configure(consumer: MiddlewareConsumer) {

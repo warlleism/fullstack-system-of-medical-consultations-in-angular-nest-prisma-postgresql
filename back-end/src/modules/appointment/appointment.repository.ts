@@ -1,26 +1,24 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/db/prisma.service";
-import IAppointment from "./appointment.entity";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/db/prisma.service';
+import IAppointment from './appointment.entity';
 import * as fs from 'fs/promises';
 
 @Injectable()
 export class AppointmentRepository {
+  constructor(private prismaService: PrismaService) {}
 
-    constructor(private prismaService: PrismaService) { }
+  async create(appointment: IAppointment) {
+    const result = await this.prismaService.appointment.create({
+      data: appointment,
+    });
+    return result;
+  }
 
-    async create(appointment: IAppointment) {
-        const result = await this.prismaService.appointment.create({
-            data: appointment
-        });
-        return result;
-    }
+  async getAll(page: number, pageSize: number) {
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
 
-
-    async getAll(page: number, pageSize: number) {
-        const skip = (page - 1) * pageSize;
-        const take = pageSize;
-
-        const result = await this.prismaService.$queryRaw<IAppointment[]>`
+    const result = await this.prismaService.$queryRaw<IAppointment[]>`
         SELECT 
             a.id as id, 
             d.name AS "doctor", 
@@ -42,34 +40,39 @@ export class AppointmentRepository {
         LIMIT ${take} OFFSET ${skip}
         `;
 
-        const appointments = await Promise.all(result.map(async (appointment) => {
-            if (appointment.resultpath) {
-                try {
-                    const fileBuffer = await fs.readFile(appointment.resultpath);
-                    appointment.resultpath = fileBuffer.toString('base64');
-                } catch (error) {
-                    console.error(`Erro ao ler o arquivo em ${appointment.resultpath}:`, error);
-                    appointment.resultpath = null;
-                }
-            }
-            return appointment;
-        }));
+    const appointments = await Promise.all(
+      result.map(async (appointment) => {
+        if (appointment.resultpath) {
+          try {
+            const fileBuffer = await fs.readFile(appointment.resultpath);
+            appointment.resultpath = fileBuffer.toString('base64');
+          } catch (error) {
+            console.error(
+              `Erro ao ler o arquivo em ${appointment.resultpath}:`,
+              error,
+            );
+            appointment.resultpath = null;
+          }
+        }
+        return appointment;
+      }),
+    );
 
-        const total = await this.prismaService.appointment.count();
+    const total = await this.prismaService.appointment.count();
 
-        return {
-            appointments,
-            pagination: {
-                total,
-                page,
-                pageSize,
-                totalPages: Math.ceil(total / pageSize),
-            }
-        };
-    }
+    return {
+      appointments,
+      pagination: {
+        total,
+        page,
+        pageSize,
+        totalPages: Math.ceil(total / pageSize),
+      },
+    };
+  }
 
-    async getOne(id: number) {
-        const result = await this.prismaService.$queryRaw<IAppointment[]>`
+  async getOne(id: number) {
+    const result = await this.prismaService.$queryRaw<IAppointment[]>`
         SELECT 
             a.id AS id, 
             d.name AS "Doctor", 
@@ -85,18 +88,18 @@ export class AppointmentRepository {
         where p.id = ${id};
     `;
 
-        return result;
-    }
+    return result;
+  }
 
-    async update(appointment: IAppointment) {
-        const { id } = appointment;
+  async update(appointment: IAppointment) {
+    const { id } = appointment;
 
-        await this.prismaService.appointment.update({
-            where: { id },
-            data: appointment,
-        });
+    await this.prismaService.appointment.update({
+      where: { id },
+      data: appointment,
+    });
 
-        const resultData = await this.prismaService.$queryRaw<IAppointment[]>`
+    const resultData = await this.prismaService.$queryRaw<IAppointment[]>`
         SELECT 
             a.id as id, 
             d.name AS "doctor", 
@@ -117,59 +120,60 @@ export class AppointmentRepository {
         WHERE a.id = ${id};
         `;
 
-        const updatedAppointments = await Promise.all(resultData.map(async (appointment) => {
-            if (appointment.resultpath) {
-                try {
-                    const fileBuffer = await fs.readFile(appointment.resultpath);
-                    appointment.resultpath = fileBuffer.toString('base64');
-                } catch (error) {
-                    console.error(`Erro ao ler o arquivo em ${appointment.resultpath}:`, error);
-                    appointment.resultpath = null;
-                }
-            }
-            return appointment;
-        }));
-
-        return updatedAppointments;
-    }
-
-
-    async delete(id: number, appointmentId?: number) {
-        try {
-            if (appointmentId !== 0) {
-                const resultResult = await this.prismaService.result.delete({
-                    where: {
-                        id: appointmentId
-                    }
-                });
-            }
-
-            const result = await this.prismaService.appointment.delete({
-                where: {
-                    id
-                }
-            });
-
-
-            return result;
-        } catch (error) {
-            throw new Error('Erro ao deletar appointment ou result.');
+    const updatedAppointments = await Promise.all(
+      resultData.map(async (appointment) => {
+        if (appointment.resultpath) {
+          try {
+            const fileBuffer = await fs.readFile(appointment.resultpath);
+            appointment.resultpath = fileBuffer.toString('base64');
+          } catch (error) {
+            console.error(
+              `Erro ao ler o arquivo em ${appointment.resultpath}:`,
+              error,
+            );
+            appointment.resultpath = null;
+          }
         }
-    }
+        return appointment;
+      }),
+    );
 
+    return updatedAppointments;
+  }
 
-    async deleteDoctorAppointments(id: number) {
-
-        const result = await this.prismaService.appointment.deleteMany({
-            where: {
-                doctorid: id
-            }
+  async delete(id: number, appointmentId?: number) {
+    try {
+      if (appointmentId !== 0) {
+        const resultResult = await this.prismaService.result.delete({
+          where: {
+            id: appointmentId,
+          },
         });
+      }
 
-        return result;
+      const result = await this.prismaService.appointment.delete({
+        where: {
+          id,
+        },
+      });
+
+      return result;
+    } catch (error) {
+      throw new Error('Erro ao deletar appointment ou result.');
     }
-    async getAllMonthAppointments() {
-        const result = await this.prismaService.$queryRaw<any[]>`
+  }
+
+  async deleteDoctorAppointments(id: number) {
+    const result = await this.prismaService.appointment.deleteMany({
+      where: {
+        doctorid: id,
+      },
+    });
+
+    return result;
+  }
+  async getAllMonthAppointments() {
+    const result = await this.prismaService.$queryRaw<any[]>`
             WITH months AS (
             SELECT
                 generate_series(
@@ -199,21 +203,19 @@ export class AppointmentRepository {
         ORDER BY m.month
         `;
 
-        const flattenedArray = result.flatMap(item => [item.appointment_count.toString()]);
+    const flattenedArray = result.flatMap((item) => [
+      item.appointment_count.toString(),
+    ]);
 
-        const values = result.map(item => [
-            item.total_patients.toString(),
-            item.total_doctors.toString(),
-            item.total_appointments.toString()
-        ]);
+    const values = result.map((item) => [
+      item.total_patients.toString(),
+      item.total_doctors.toString(),
+      item.total_appointments.toString(),
+    ]);
 
-        return {
-            appointmentsPerMonth: flattenedArray,
-            result: values[0]
-        };
-    }
-
-
-
-
+    return {
+      appointmentsPerMonth: flattenedArray,
+      result: values[0],
+    };
+  }
 }

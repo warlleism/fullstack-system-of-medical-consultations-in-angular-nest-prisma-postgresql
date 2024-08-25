@@ -1,2 +1,12 @@
-DATABASE_URL="postgresql://postgres:root@localhost:5432/drs_consultas"
+# Configurações do banco de dados
+DB_NAME=medical
+DB_USER=admin
+DB_PASSWORD=admin
+DB_HOST=postgres
+DB_PORT=5432
+
+# Configuração JWT
 JWT_PASS=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+# URL do banco de dados
+DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}

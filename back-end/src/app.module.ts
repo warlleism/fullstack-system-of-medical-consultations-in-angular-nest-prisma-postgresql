@@ -17,4 +17,4 @@ import { ResultModule } from './modules/result/result.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

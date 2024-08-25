@@ -4,9 +4,7 @@ import IUser from './user.entity';
 
 @Injectable()
 export class UserRepository {
-  constructor(private prismaService: PrismaService) { }
-
-  //CRUD
+  constructor(private prismaService: PrismaService) {}
 
   async getAll(page: number, pageSize: number) {
     const skip = (page - 1) * pageSize;
@@ -62,8 +60,6 @@ export class UserRepository {
       },
     });
   }
-
-  //Authentication
 
   async login(user: IUser) {
     return this.prismaService.user.findUnique({
