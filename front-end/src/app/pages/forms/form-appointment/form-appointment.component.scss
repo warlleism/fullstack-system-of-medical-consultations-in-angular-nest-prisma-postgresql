@@ -21,7 +21,7 @@
             font-size: 1.8rem;
             align-items: center;
             letter-spacing: -1px;
-            background: #3F51B5;
+            background: #495dd1;
             box-sizing: border-box;
             justify-content: flex-start;
             border-top-left-radius: 5px;
@@ -39,7 +39,7 @@
         padding: 20px 20px;
         flex-direction: column;
         box-sizing: border-box;
-        background-color: #f9fafb;
+        background-color: #ffffff;
         justify-content: space-between;
         overflow-y: auto;
 
@@ -114,9 +114,7 @@
                 outline-offset: 2px;
                 justify-content: center;
                 background-color: #007bff;
-                transition: 0.2s ease-in-out;
                 outline: 2px solid #c7cdf500;
-                box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.274);
             }
 
             .default-button:active {

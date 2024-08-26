@@ -156,7 +156,7 @@ export class DoctorsComponent implements OnInit {
     try {
       const doctors = await this.doctorService.updateDoctor(this.authForm.value).toPromise();
       this.visibleEdit = false;
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Editado com sucesso!' });
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Editado com sucesso!' });
       this.cdr.detectChanges();
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao editar o médico.' });
@@ -167,7 +167,7 @@ export class DoctorsComponent implements OnInit {
 
   deleteDoctor() {
     if (this.selectedDoctor) {
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Excluído com sucesso!' });
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Excluído com sucesso!' });
       this.doctorService.deleteDoctor(this.selectedDoctor).subscribe();
       this.cdr.detectChanges();
 

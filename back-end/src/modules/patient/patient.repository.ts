@@ -68,15 +68,17 @@ export class PatientRepository {
         })
     }
 
-    async search(search: string) {
+    async search(query: string) {
         return this.prismaService.patient.findMany({
             where: {
                 name: {
-                    contains: search
+                    contains: query,
+                    mode: 'insensitive'  
                 }
             }
-        })
+        });
     }
+
 
 
 }  

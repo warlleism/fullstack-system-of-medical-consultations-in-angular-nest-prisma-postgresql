@@ -246,23 +246,27 @@ export class AppointmentsComponent implements OnInit {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-
     if (file) {
+      if (file.type !== 'application/pdf') {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Aviso',
+          detail: 'O arquivo selecionado não é um PDF.'
+        });
+        return;
+      }
       const reader = new FileReader();
-
       reader.onload = () => {
         this.base64Pdf = reader.result as string;
         this.cdr.detectChanges();
-
       };
-
       reader.onerror = (error) => {
-        console.error('Error reading file:', error);
+        console.error('Erro ao ler o arquivo:', error);
       };
-
       reader.readAsDataURL(file);
     }
   }
+
 
   cancel() {
     this.visiblePdf = false;
@@ -281,7 +285,7 @@ export class AppointmentsComponent implements OnInit {
       const { speciality: _, ...dataForm } = this.authForm.value;
       const appointment = await this.appointmentService.updateAppointment(dataForm).toPromise();
       this.visibleEdit = false;
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Editado com sucesso!' });
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Editado com sucesso!' });
       this.cdr.detectChanges();
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao editar o médico.' });
@@ -295,7 +299,7 @@ export class AppointmentsComponent implements OnInit {
     const editData = { id: this.resultId, appointmentid: this.selectedAppointment, resultpath: this.base64Pdf }
     try {
       const result = this.isEdit ? await this.appointmentService.updateResult(editData).toPromise() : await this.appointmentService.createResult(formatedData).toPromise()
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Resultado cadastrado com sucesso!' });
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Resultado cadastrado com sucesso!' });
       this.visiblePdf = false;
       this.cdr.detectChanges();
     } catch (error) {
@@ -308,7 +312,7 @@ export class AppointmentsComponent implements OnInit {
   async deleteResult() {
     try {
       await this.appointmentService.deleteResult(this.resultId, this.selectedAppointment).toPromise();
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Excluído com sucesso!' });
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Excluído com sucesso!' });
       this.visiblePdf = false;
       this.cancel()
       this.cdr.detectChanges();
@@ -322,7 +326,7 @@ export class AppointmentsComponent implements OnInit {
     if (this.selectedAppointment) {
       try {
         this.appointmentService.deleteAppointment(this.selectedAppointment, this.resultId).subscribe();
-        this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Excluído com sucesso!' });
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Excluído com sucesso!' });
         this.cdr.detectChanges();
       } catch (error) {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao excluir o agendamento.' });
