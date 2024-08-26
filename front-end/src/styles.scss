@@ -127,4 +127,12 @@ body {
   border-color: rgb(205 205 205) !important;
 }
 
+.chart {
 
+  @media(max-width: 740px) {
+    canvas {
+      height: 300px !important;
+    }
+  }
+
+}
