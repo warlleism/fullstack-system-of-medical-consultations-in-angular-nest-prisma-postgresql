@@ -43,9 +43,9 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getAllMonthAppointments().subscribe((data: any) => {
 
       this.basicData = {
-        labels: ['Pacientes', 'Doutores (a)', 'Consultas'],
+        labels: ['Pacientes', 'Doutores(as)', 'Consultas'],
         datasets: [{
-          label: 'Conjunto de Dados',
+          label: 'Quantidade de Cadastros Atuais',
           data: data.data.result || [],
           backgroundColor: ['#4df7cf', '#3949ab', '#9966ff'],
           borderColor: ['#4df7cf', '#3949ab', '#9966ff'],

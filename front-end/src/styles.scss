@@ -67,10 +67,15 @@ body {
 }
 
 .p-datatable .p-datatable-tbody>tr>td {
-  background: #f9fafb;
+  background: #fff;
   text-align: left;
   border-width: 0 0 1px 0;
   padding: 1rem 1rem;
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+  background-color: #fff !important;
+  border-top: 1px solid #e5e7eb;
 }
 
 .tooltip-appointment {
@@ -90,7 +95,6 @@ body {
 .mat-focus-indicator:hover {
   background-color: transparent !important;
 }
-
 
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
   background: #3F51B5;
@@ -121,4 +125,14 @@ body {
 
 .p-dropdown:not(.p-disabled):hover {
   border-color: rgb(205 205 205) !important;
+}
+
+.chart {
+
+  @media(max-width: 740px) {
+    canvas {
+      height: 300px !important;
+    }
+  }
+
 }

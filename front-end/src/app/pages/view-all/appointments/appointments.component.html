@@ -1,7 +1,7 @@
 <div class="main-appointment-view-all-container">
     <div class="form-view-all-appointment-title">
         <div class="form-view-all-appointment-title-container">
-            visualizar todas as consultas
+            Visualizar todas as consultas
         </div>
     </div>
     <div class="search-container">
@@ -60,7 +60,7 @@
                             <td>{{ appointment.patient}}</td>
                             <td>{{ appointment.gender }}</td>
                             <td>
-                                <i class="pi pi-file-check icons-pi" pTooltip="vizualizar resultado"
+                                <i class="pi pi-file-check icons-pi is-result" pTooltip="vizualizar resultado"
                                     tooltipPosition="bottom" *ngIf="appointment.resultpath"
                                     (click)="showDialogPdf(appointment.id, appointment.resultpath, true, appointment.resultid)"></i>
                                 <i class="pi pi-file-arrow-up icons-pi" pTooltip="cadastrar resultado"
@@ -176,7 +176,7 @@
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
 
     <div class="input-file" *ngIf="!base64Pdf">
-        <input type="file" id="fileInput" (change)="onFileSelected($event)" />
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="application/pdf" />
         <i class="pi pi-file-pdf icons-pi"></i>
         <div>Clique ou arraste o arquivo ( .pdf )</div>
     </div>
@@ -190,7 +190,8 @@
         <p-button label="Confirmar" severity="danger" (click)="submitPdf()" *ngIf="base64Pdf && isEdit" />
         <p-button label="Alterar arquivo" *ngIf="base64Pdf" severity="secondary">
             <input style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer;" type="file"
-                id="fileInput" (change)="onFileSelected($event)" />
+                id="fileInput" (change)="onFileSelected($event)" accept="application/pdf" />
+
         </p-button>
         <p-button label="Excluir" severity="secondary" (click)="deleteResult()" *ngIf="base64Pdf" />
         <p-button label="Cancelar" severity="secondary" (click)="cancel()" />

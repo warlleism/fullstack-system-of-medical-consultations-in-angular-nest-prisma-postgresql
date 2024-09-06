@@ -63,6 +63,25 @@ export class PatientRepository {
     });
   }
 
+    async delete(id: number) {
+        return this.prismaService.patient.delete({
+            where: {
+                id
+            }
+        })
+    }
+
+    async search(query: string) {
+        return this.prismaService.patient.findMany({
+            where: {
+                name: {
+                    contains: query,
+                    mode: 'insensitive'  
+                }
+            }
+        });
+    }
+
   async delete(id: number) {
     return this.prismaService.patient.delete({
       where: {
@@ -81,3 +100,4 @@ export class PatientRepository {
     });
   }
 }
+}  

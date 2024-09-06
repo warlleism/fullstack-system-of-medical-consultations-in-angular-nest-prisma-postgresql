@@ -20,7 +20,7 @@
             font-size: 1.8rem;
             align-items: center;
             letter-spacing: -1px;
-            background: #3F51B5;
+            background: #495dd1;
             box-sizing: border-box;
             justify-content: flex-start;
             border-top-left-radius: 5px;
@@ -38,7 +38,7 @@
         box-sizing: border-box;
         padding: 20px 20px;
         justify-content: space-between;
-        background-color: #f9fafb;
+        background-color: #ffffff;
 
         .form-doctor-container-button {
             gap: 15px;
@@ -57,14 +57,12 @@
                 font-size: 1rem;
                 border: none;
                 color: #ffffff;
-                align-items: center;
                 border-radius: 5px;
+                outline-offset: 2px;
+                align-items: center;
                 justify-content: center;
-                transition: 0.2s ease-in-out;
                 background-color: #007bff;
                 outline: 2px solid #c7cdf500;
-                outline-offset: 2px;
-                box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.274);
             }
 
             .default-button:active {

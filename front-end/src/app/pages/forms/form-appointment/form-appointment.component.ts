@@ -106,10 +106,9 @@ export class FormAppointmentComponent {
 
   onFilter(event: any): void {
     const filterValue = event.filter?.trim();
-    const firstWordUppercase = filterValue?.charAt(0).toUpperCase() + filterValue?.slice(1).toLowerCase();
     if (filterValue) {
       this.patientIsLoading = true;
-      this.filterSubject.next(firstWordUppercase);
+      this.filterSubject.next(filterValue);
     } else {
       this.patientIsLoading = false;
       this.patients = [];
@@ -130,6 +129,7 @@ export class FormAppointmentComponent {
 
   async loadDoctors(): Promise<void> {
     this.hour_date = [];
+    this.doctors = [];
 
     if (this.authForm.value.speciality) {
       this.isLoadingGetDoctors = true;
@@ -195,7 +195,7 @@ export class FormAppointmentComponent {
       const spliceDate = dataForm.appointmentdate.split('/');
       dataForm.appointmentdate = `${spliceDate[0]}-${spliceDate[1]}-${spliceDate[2]}`;
       const appointments = await this.appointment.createAppointment(dataForm).toPromise();
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Cadastro feito com sucesso!' });
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro feito com sucesso!' });
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu algum erro!' });
     } finally {

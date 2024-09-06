@@ -3,7 +3,7 @@
   <div class="sidebar-content-container">
     <nav class="sidebar" id="sidebar">
       <div class="profile-container">
-        <div class="profile-icon-container" id="hidden-itens">
+        <div class="profile-icon-container">
           <i class="pi pi-user icons-pi"></i>
           <div class="online"></div>
         </div>
@@ -13,9 +13,6 @@
           </div>
           <div class="email">warllei.s.martins&#64;hotmail.com</div>
         </div>
-        <div class="menu" (click)="reduxMenu()">
-          <i class="pi pi-align-center icons-pi"></i>
-        </div>
       </div>
       <div class="list-links-container">
         <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%;">
@@ -23,15 +20,15 @@
             <mat-expansion-panel class="custom-list" [expanded]="link === '/home/dashboard'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
-                  <i class="pi pi-home icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;" id="nav-itens-name">Início</div>
+                  <i class="pi pi-home icons-pi"></i>
+                  <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">Início</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/dashboard'}">
                   <a [routerLink]="['/home/dashboard']" (click)="setLink('/home/dashboard')">
-                    <i class="pi pi-chart-bar icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;" id="nav-itens-name">
+                    <i class="pi pi-chart-bar icons-pi"></i>
+                    <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">
                       Dashboard
                     </div>
                   </a>
@@ -40,27 +37,28 @@
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list" [expanded]="link === '/home/doctor' || link === '/home/view/all/doctors'">
+            <mat-expansion-panel class="custom-list"
+              [expanded]="link === '/home/doctor' || link === '/home/view/all/doctors'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
-                  <i class="pi pi-users icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;" id="nav-itens-name">Doutores(a)</div>
+                  <i class="pi pi-users icons-pi"></i>
+                  <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">Doutores(as)</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/doctor'}">
                   <a [routerLink]="['/home/doctor']" (click)="setLink('/home/doctor')">
-                    <i class="pi pi-user-plus icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;" id="nav-itens-name">
-                      Cadastro de doutores (a)
+                    <i class="pi pi-user-plus icons-pi"></i>
+                    <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">
+                      Cadastro de doutores (as)
                     </div>
                   </a>
                 </li>
                 <li [ngClass]="{'active': link === '/home/view/all/doctors'}">
                   <a [routerLink]="['/home/view/all/doctors']" (click)="setLink('/home/view/all/doctors')">
-                    <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;" id="nav-itens-name">
-                      Visualizar doutores (a)
+                    <i class="pi pi-list icons-pi"></i>
+                    <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">
+                      Visualizar doutores (as)
                     </div>
                   </a>
                 </li>
@@ -68,26 +66,27 @@
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list" [expanded]="link === '/home/patient' || link === '/home/view/all/patients'">
+            <mat-expansion-panel class="custom-list"
+              [expanded]="link === '/home/patient' || link === '/home/view/all/patients'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
-                  <i class="pi pi-users icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;" id="nav-itens-name">Pacientes</div>
+                  <i class="pi pi-users icons-pi"></i>
+                  <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">Pacientes</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/patient'}">
                   <a [routerLink]="['/home/patient']" (click)="setLink('/home/patient')">
-                    <i class="pi pi-user-plus icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;" id="nav-itens-name">
+                    <i class="pi pi-user-plus icons-pi"></i>
+                    <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">
                       Cadastro de paciente
                     </div>
                   </a>
                 </li>
                 <li [ngClass]="{'active': link === '/home/view/all/patients'}">
                   <a [routerLink]="['/home/view/all/patients']" (click)="setLink('/home/view/all/patients')">
-                    <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;" id="nav-itens-name">
+                    <i class="pi pi-list icons-pi"></i>
+                    <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">
                       Visualizar pacientes
                     </div>
                   </a>
@@ -96,26 +95,27 @@
             </mat-expansion-panel>
           </mat-accordion>
           <mat-accordion>
-            <mat-expansion-panel class="custom-list" [expanded]="link === '/home/appointment' || link === '/home/view/all/appointment'">
+            <mat-expansion-panel class="custom-list"
+              [expanded]="link === '/home/appointment' || link === '/home/view/all/appointment'">
               <mat-expansion-panel-header>
                 <mat-panel-description class="title-container">
-                  <i class="pi pi-calendar-plus icons-pi" style="font-size: 1.6rem;"></i>
-                  <div style="font-weight: 500;" id="nav-itens-name">Consultas</div>
+                  <i class="pi pi-calendar-plus icons-pi"></i>
+                  <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">Consultas</div>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ul>
                 <li [ngClass]="{'active': link === '/home/appointment'}">
                   <a [routerLink]="['/home/appointment']" (click)="setLink('/home/appointment')">
-                    <i class="pi pi-calendar-clock icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;" id="nav-itens-name">
+                    <i class="pi pi-calendar-clock icons-pi"></i>
+                    <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">
                       Cadastro de consultas
                     </div>
                   </a>
                 </li>
                 <li [ngClass]="{'active': link === '/home/view/all/appointment'}">
                   <a [routerLink]="['/home/view/all/appointment']" (click)="setLink('/home/view/all/appointment')">
-                    <i class="pi pi-list icons-pi" style="font-size: 1rem;"></i>
-                    <div style="font-weight: 500;" id="nav-itens-name">
+                    <i class="pi pi-list icons-pi"></i>
+                    <div style="font-weight: 500;" id="nav-itens-name" class="nav-title">
                       Visualizar consultas
                     </div>
                   </a>
@@ -152,6 +152,6 @@
   </div>
 
 
-  <div class="footer">copyright &copy; 2024</div>
+  <div class="footer">Consultify &copy; 2024</div>
 
 </div>

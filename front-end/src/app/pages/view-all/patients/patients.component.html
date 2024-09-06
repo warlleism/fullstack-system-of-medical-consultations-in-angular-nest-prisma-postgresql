@@ -1,7 +1,7 @@
 <div class="main-patient-view-all-container">
     <div class="form-view-all-patient-title">
         <div class="form-view-all-patient-title-container">
-            visualizar todos os pacientes
+            Visualizar todos os pacientes
         </div>
     </div>
     <div class="search-container">
@@ -51,7 +51,7 @@
                             <td>{{ patient.birthdate | date }}</td>
                             <td>{{ patient.phone }}</td>
                             <td>
-                                <i class="pi pi-pen-to-square icons-pi" (click)="showDialogEdit(patient)"></i>
+                                <i class="pi pi-user-edit icons-pi" style="font-size: 1.4rem;" (click)="showDialogEdit(patient)"></i>
                                 <i class="pi pi-trash icons-pi" (click)="showDialog(patient.id)"></i>
                             </td>
                         </tr>

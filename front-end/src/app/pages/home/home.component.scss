@@ -44,23 +44,8 @@
         box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.082);
       }
 
-      .menu {
-        width: 35px;
-        height: 35px;
-        display: none;
-        color: #ffffff;
-
-        i {
-          font-size: 1.2rem;
-        }
-
-        @media(max-width: 1354px) {
-          display: flex;
-          align-items: center;
-          border-radius: 5px;
-          justify-content: center;
-          background-color: #3f51b521;
-        }
+      @media(max-width: 740px) {
+        width: 20% !important;
       }
 
       .profile-container {
@@ -114,6 +99,7 @@
         }
 
         .profile-list-itens {
+
           .name {
             display: flex;
             gap: 2px;
@@ -156,6 +142,11 @@
       ::ng-deep .mat-expansion-indicator svg {
         fill: #3F51B5ad;
         border-radius: 100px;
+
+        @media(max-width: 1100px) {
+          display: none;
+
+        }
       }
 
       .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header {
@@ -178,15 +169,17 @@
         .title-container {
           gap: 13px;
           display: flex;
-          color: #3949AB;
+          color: #485599;
           font-size: .9rem;
           align-items: center;
 
           i {
             display: flex;
+            color: #485599;
             align-items: center;
             justify-content: center;
-            color: #1e2d81;
+            transition: .4s ease-in-out;
+            font-size: 1.6rem;
 
             @media(max-width: 1354px) {
               width: 50px;
@@ -196,6 +189,9 @@
             }
           }
 
+          .nav-title {
+            font-size: 1rem;
+          }
         }
       }
 
@@ -210,7 +206,9 @@
         flex-direction: column;
 
         li {
-          width: 100%;
+          padding: 5px;
+          width: 95%;
+          margin: 0 auto;
           border-radius: 3px;
           transition: .2s ease-in-out;
 
@@ -263,7 +261,7 @@
         background-color: #fff;
 
         @media(max-width: 1132px) {
-         
+
           padding: 0 0 10px 0;
         }
 
@@ -280,16 +278,31 @@
           height: 33%;
           display: flex;
           font-size: 0.9rem;
-          font-weight: 600;
+          font-weight: 500;
           cursor: pointer;
-          color: #3949AB;
+          color: #485599;
           align-items: center;
           box-sizing: border-box;
 
+          @media(max-width: 375px) {
+            align-self: center;
+            flex-direction: column;
+            justify-content: center;
+
+            .pi-moon {
+              display: none;
+            }
+
+            .smaller-switch {
+             margin-top: 5px;
+            }
+          }
+
           i {
             cursor: pointer;
-            color: #1e2d81;
+            color: #485599;
             font-size: 1.1rem;
+
           }
         }
       }
@@ -306,6 +319,10 @@
       @media(max-width: 1354px) {
         height: 100%;
         width: 75%;
+      }
+
+      @media(max-width: 375px) {
+        width: 78% !important;
       }
 
       .content-route {

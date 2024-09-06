@@ -96,7 +96,7 @@ export class DoctorPatientFormComponent {
         const patient = await this.patientService.createPatient(dataForm).toPromise();
       }
 
-      this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Cadastro feito com sucesso!' });
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro feito com sucesso!' });
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu algum erro!' });
     } finally {

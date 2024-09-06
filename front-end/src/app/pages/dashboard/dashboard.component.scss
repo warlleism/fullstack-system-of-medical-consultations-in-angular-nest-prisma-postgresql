@@ -8,6 +8,7 @@
   border-radius: 5px;
   box-sizing: border-box;
   flex-direction: column;
+  overflow-x: auto;
   background-color: #ffffff;
 
   .dashboard-title {
@@ -17,6 +18,10 @@
     color: #495dd1;
     font-size: 2rem;
     box-sizing: border-box;
+
+    @media(max-width: 740px) {
+      font-size: 1.4rem;
+    }
   }
 
 
@@ -26,17 +31,33 @@
     align-items: center;
     justify-content: space-around;
 
+    @media(max-width: 740px) {
+      flex-direction: column;
+    }
+
     .chart-container {
       width: 50%;
+
+      @media(max-width: 740px) {
+        width: 100%;
+      }
     }
 
     .chart-container-pizza {
       width: 24%;
+
+      @media(max-width: 740px) {
+        width: 100%;
+      }
     }
   }
 
   .chart-line-container-container {
     margin-bottom: 30px;
+
+    @media(max-width: 740px) {
+      width: 300px;
+    }
   }
 
 

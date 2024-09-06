@@ -21,7 +21,7 @@
             font-size: 1.8rem;
             align-items: center;
             letter-spacing: -1px;
-            background: #3F51B5;
+            background: #495dd1;
             box-sizing: border-box;
             justify-content: flex-start;
             border-top-left-radius: 5px;
@@ -102,6 +102,7 @@
             }
         }
 
+
         .icons-pi {
             padding: 8px;
             cursor: pointer;
@@ -109,14 +110,29 @@
             text-align: center;
             border-radius: 100px;
             color: rgb(46, 46, 46);
-            transition: .5s ease-in-out;
+            transition: .2s ease-in-out;
         }
 
         .icons-pi:hover {
             background-color: rgba(0, 0, 0, 0.068);
         }
+
+        .is-result {
+            padding: 5px !important;
+            border: solid 2px #00000023;
+            border-radius: 5px !important;
+        }
+
+        .is-result:hover {
+            color: #fff !important;
+            border: solid 2px #bfc7f5;
+            background-color: #495dd1 !important;
+        }
+
     }
 }
+
+
 
 .dialog-form-container {
     height: 90%;
@@ -136,15 +152,16 @@
 }
 
 .input-file {
-
     width: 100%;
     height: 500px;
+    display: flex;
     border-radius: 5px;
     margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    justify-content: center;
     background-color: #e5e5e74a;
     border: dashed 1px rgba(1, 21, 66, 0.425);
 
@@ -156,7 +173,7 @@
         cursor: pointer;
     }
 
-    i{
+    i {
         font-size: 4.5rem;
     }
 }
