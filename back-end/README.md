@@ -45,6 +45,13 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Fix-env
+
+```bash
+# fix-getting-environment-variable-not-found
+$ npx prisma db push
+
+```
 ## Test
 
 ```bash

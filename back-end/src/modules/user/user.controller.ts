@@ -21,7 +21,6 @@ export class UserController {
 
     @Post('create')
     async create(@Body() user: IUser) {
-
         try {
             if (Object.values(user).some(value =>
                 (typeof value === 'string' && value.trim().length === 0) || value === null || value === undefined
